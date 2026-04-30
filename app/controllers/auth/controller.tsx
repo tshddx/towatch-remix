@@ -1,25 +1,21 @@
 import type { Controller } from 'remix/fetch-router'
+import { redirect } from 'remix/response/redirect'
+import { Session } from 'remix/session'
 
 import type { AppContext } from '../../router.ts'
-import type { routes } from '../../routes.ts'
-import { Layout } from '../../ui/layout.tsx'
-import { render } from '../../utils/render.tsx'
+import { routes } from '../../routes.ts'
+import { login } from './login/controller.tsx'
 import { signup } from './signup/controller.tsx'
 
 export const auth = {
   actions: {
-    index({ request }) {
-      return render(<AuthPage />, request)
-    },
+    login,
     signup,
+    signout({ get }) {
+      let session = get(Session)
+      session.unset('userId')
+      session.regenerateId(true)
+      return redirect(routes.home.href(), 303)
+    },
   },
 } satisfies Controller<typeof routes.auth, AppContext>
-
-function AuthPage() {
-  return () => (
-    <Layout title="Auth">
-      <h1>Auth</h1>
-      <p>Use this route to start building sign-in, sign-up, and session flows.</p>
-    </Layout>
-  )
-}

@@ -11,6 +11,7 @@ import { users } from '../../../data/schema.ts'
 import type { AppContext } from '../../../router.ts'
 import { routes } from '../../../routes.ts'
 import { Layout } from '../../../ui/layout.tsx'
+import { loadCurrentUser, type CurrentUser } from '../../../utils/current-user.ts'
 import { render } from '../../../utils/render.tsx'
 
 const USERNAME_PATTERN = /^[A-Za-z0-9](?:-?[A-Za-z0-9])*$/
@@ -36,23 +37,27 @@ type SignupFieldErrors = Partial<
 >
 
 interface SignupPageProps {
+  currentUser: CurrentUser | null
   values?: { username?: string }
   errors?: SignupFieldErrors
 }
 
 export const signup = {
   actions: {
-    index({ request }) {
-      return render(<SignupPage />, request)
+    async index({ get, request }) {
+      let currentUser = await loadCurrentUser(get(Database), get(Session))
+      return render(<SignupPage currentUser={currentUser} />, request)
     },
 
     async action({ get, request }) {
+      let currentUser = await loadCurrentUser(get(Database), get(Session))
       let formData = get(FormData)
       let parsed = s.parseSafe(signupSchema, formData)
 
       if (!parsed.success) {
         return render(
           <SignupPage
+            currentUser={currentUser}
             values={readSignupValues(formData)}
             errors={collectFieldErrors(parsed.issues)}
           />,
@@ -64,6 +69,7 @@ export const signup = {
       if (parsed.value.password !== parsed.value.password_confirm) {
         return render(
           <SignupPage
+            currentUser={currentUser}
             values={readSignupValues(formData)}
             errors={{ password_confirm: 'Passwords do not match.' }}
           />,
@@ -79,6 +85,7 @@ export const signup = {
       if (existing) {
         return render(
           <SignupPage
+            currentUser={currentUser}
             values={readSignupValues(formData)}
             errors={{ username: 'That username is already taken.' }}
           />,
@@ -132,8 +139,8 @@ function collectFieldErrors(issues: ReadonlyArray<s.Issue>): SignupFieldErrors {
 }
 
 function SignupPage() {
-  return ({ values = {}, errors = {} }: SignupPageProps) => (
-    <Layout title="Sign up">
+  return ({ currentUser, values = {}, errors = {} }: SignupPageProps) => (
+    <Layout title="Sign up" currentUser={currentUser}>
       <h1>Create your account</h1>
       {errors.form ? <p role="alert">{errors.form}</p> : null}
       <form method="post" action={routes.auth.signup.action.href()}>

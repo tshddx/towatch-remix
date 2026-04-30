@@ -1,17 +1,19 @@
 import { css, type RemixNode } from 'remix/ui'
 
 import { routes } from '../routes.ts'
+import type { CurrentUser } from '../utils/current-user.ts'
 import { Document } from './document.tsx'
 
 export interface LayoutProps {
   children?: RemixNode
   title?: string
+  currentUser?: CurrentUser | null
 }
 
 const NARROW = '@media (max-width: 720px)'
 
 export function Layout() {
-  return ({ title, children }: LayoutProps) => (
+  return ({ title, children, currentUser = null }: LayoutProps) => (
     <Document title={title}>
       <div
         mix={css({
@@ -20,7 +22,7 @@ export function Layout() {
           [NARROW]: { flexDirection: 'column' },
         })}
       >
-        <Sidebar />
+        <Sidebar currentUser={currentUser} />
         <main
           mix={css({
             flex: 1,
@@ -35,7 +37,7 @@ export function Layout() {
 }
 
 function Sidebar() {
-  return () => (
+  return ({ currentUser }: { currentUser: CurrentUser | null }) => (
     <aside
       mix={css({
         flex: '0 0 240px',
@@ -76,12 +78,20 @@ function Sidebar() {
           <li>
             <NavLink href={routes.home.href()}>Home</NavLink>
           </li>
-          <li>
-            <NavLink href={routes.auth.index.href()}>Auth</NavLink>
-          </li>
-          <li>
-            <NavLink href={routes.auth.signup.index.href()}>Sign up</NavLink>
-          </li>
+          {currentUser ? (
+            <li>
+              <SignOutButton />
+            </li>
+          ) : (
+            <>
+              <li>
+                <NavLink href={routes.auth.login.index.href()}>Log in</NavLink>
+              </li>
+              <li>
+                <NavLink href={routes.auth.signup.index.href()}>Sign up</NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </aside>
@@ -108,5 +118,35 @@ function NavLink() {
     >
       {children}
     </a>
+  )
+}
+
+function SignOutButton() {
+  return () => (
+    <form method="post" action={routes.auth.signout.href()} mix={css({ margin: 0 })}>
+      <button
+        type="submit"
+        mix={css({
+          display: 'block',
+          width: '100%',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          border: 'none',
+          background: 'transparent',
+          color: 'var(--text-primary)',
+          textAlign: 'left',
+          cursor: 'pointer',
+          font: 'inherit',
+          transition: 'background-color 150ms ease, color 150ms ease',
+          '&:hover, &:focus-visible': {
+            background: 'var(--surface-4)',
+            color: 'var(--brand-blue)',
+            outline: 'none',
+          },
+        })}
+      >
+        Sign out
+      </button>
+    </form>
   )
 }

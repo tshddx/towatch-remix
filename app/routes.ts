@@ -1,10 +1,11 @@
-import { form, get, route } from 'remix/fetch-router/routes'
+import { form, get, post, route } from 'remix/fetch-router/routes'
 
 export const routes = route({
   assets: get('/assets/*path'),
   home: '/',
   auth: route('auth', {
-    index: get('/'),
+    login: form('login'),
     signup: form('signup'),
+    signout: post('signout'),
   }),
 })
