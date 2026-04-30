@@ -3,3 +3,6 @@ node_modules
 .env
 .env.local
 .claude/settings.local.json
+db/*.db
+db/*.db-*
+tmp/

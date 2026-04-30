@@ -1,6 +1,9 @@
 import { serve } from 'remix/node-serve'
 
+import { migrate } from './app/data/migrate.ts'
 import { router } from './app/router.ts'
+
+await migrate()
 
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 44100
 
