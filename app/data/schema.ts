@@ -7,7 +7,6 @@ export const users = table({
     id: c.integer().primaryKey().autoIncrement(),
     username: c.text().notNull(),
     username_lower: c.text().notNull().unique(),
-    name: c.text().notNull(),
     password_hash: c.text().notNull(),
     created_at: c.integer().notNull(),
   },

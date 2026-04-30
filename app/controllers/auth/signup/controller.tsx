@@ -17,8 +17,9 @@ const USERNAME_PATTERN = /^[A-Za-z0-9](?:-?[A-Za-z0-9])*$/
 const USERNAME_FORMAT_MESSAGE =
   'Username may only contain ASCII letters, numbers, and single dashes, and must start and end with a letter or number.'
 
+const passwordSchema = s.string().pipe(minLength(8)).pipe(maxLength(200))
+
 const signupSchema = f.object({
-  name: f.field(s.string().pipe(minLength(1)).pipe(maxLength(100))),
   username: f.field(
     s
       .string()
@@ -26,13 +27,16 @@ const signupSchema = f.object({
       .pipe(maxLength(20))
       .refine((value) => USERNAME_PATTERN.test(value), USERNAME_FORMAT_MESSAGE),
   ),
-  password: f.field(s.string().pipe(minLength(8)).pipe(maxLength(200))),
+  password: f.field(passwordSchema),
+  password_confirm: f.field(passwordSchema),
 })
 
-type SignupFieldErrors = Partial<Record<'name' | 'username' | 'password' | 'form', string>>
+type SignupFieldErrors = Partial<
+  Record<'username' | 'password' | 'password_confirm' | 'form', string>
+>
 
 interface SignupPageProps {
-  values?: { name?: string; username?: string }
+  values?: { username?: string }
   errors?: SignupFieldErrors
 }
 
@@ -57,6 +61,17 @@ export const signup = {
         )
       }
 
+      if (parsed.value.password !== parsed.value.password_confirm) {
+        return render(
+          <SignupPage
+            values={readSignupValues(formData)}
+            errors={{ password_confirm: 'Passwords do not match.' }}
+          />,
+          request,
+          { status: 400 },
+        )
+      }
+
       let usernameLower = parsed.value.username.toLowerCase()
 
       let db = get(Database)
@@ -75,7 +90,6 @@ export const signup = {
       let user = await db.create(
         users,
         {
-          name: parsed.value.name.trim(),
           username: parsed.value.username,
           username_lower: usernameLower,
           password_hash: await hashPassword(parsed.value.password),
@@ -96,7 +110,6 @@ export const signup = {
 
 function readSignupValues(formData: FormData): SignupPageProps['values'] {
   return {
-    name: stringOrUndefined(formData.get('name')),
     username: stringOrUndefined(formData.get('username')),
   }
 }
@@ -109,7 +122,7 @@ function collectFieldErrors(issues: ReadonlyArray<s.Issue>): SignupFieldErrors {
   let errors: SignupFieldErrors = {}
   for (let issue of issues) {
     let key = issue.path?.[0]
-    if (key === 'name' || key === 'username' || key === 'password') {
+    if (key === 'username' || key === 'password' || key === 'password_confirm') {
       errors[key] ??= issue.message
     } else {
       errors.form ??= issue.message
@@ -124,19 +137,6 @@ function SignupPage() {
       <h1>Create your account</h1>
       {errors.form ? <p role="alert">{errors.form}</p> : null}
       <form method="post" action={routes.auth.signup.action.href()}>
-        <p>
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              value={values.name ?? ''}
-              required
-              autoComplete="name"
-            />
-          </label>
-          {errors.name ? <small role="alert">{errors.name}</small> : null}
-        </p>
         <p>
           <label>
             Username
@@ -168,6 +168,19 @@ function SignupPage() {
             />
           </label>
           {errors.password ? <small role="alert">{errors.password}</small> : null}
+        </p>
+        <p>
+          <label>
+            Confirm password
+            <input
+              type="password"
+              name="password_confirm"
+              required
+              minLength={8}
+              autoComplete="new-password"
+            />
+          </label>
+          {errors.password_confirm ? <small role="alert">{errors.password_confirm}</small> : null}
         </p>
         <button type="submit">Sign up</button>
       </form>
