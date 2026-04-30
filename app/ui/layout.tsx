@@ -14,8 +14,8 @@ export function Layout() {
       <header>
         <nav>
           <a href={routes.home.href()}>Home</a>{' '}
-          <a href={routes.signup.index.href()}>Sign up</a>{' '}
-          <a href={routes.auth.href()}>Auth</a>
+          <a href={routes.auth.signup.index.href()}>Sign up</a>{' '}
+          <a href={routes.auth.index.href()}>Auth</a>
         </nav>
       </header>
       <main>{children}</main>

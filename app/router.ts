@@ -8,9 +8,8 @@ import { formData } from 'remix/form-data-middleware'
 import { session } from 'remix/session-middleware'
 
 import { assets } from './assets.ts'
-import { auth } from './controllers/auth.tsx'
+import { auth } from './controllers/auth/controller.tsx'
 import { home } from './controllers/home.tsx'
-import { signup } from './controllers/signup.tsx'
 import { loadDatabase } from './middleware/load-database.ts'
 import { sessionCookie, sessionStorage } from './middleware/session.ts'
 import { routes } from './routes.ts'
@@ -41,4 +40,3 @@ router.get(routes.assets, async ({ request }) => {
 
 router.map(routes.home, home)
 router.map(routes.auth, auth)
-router.map(routes.signup, signup)
