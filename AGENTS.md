@@ -37,3 +37,9 @@ Refer to ./agents/skills/remix/SKILL.md
 - This starter intentionally begins small; add directories like `app/data/`, `app/middleware/`, `public/`, and `test/` only when you need them.
 - Prefer putting code in the narrowest owner before introducing shared modules.
 - Avoid generic dumping-ground directories like `app/lib/` or `app/components/`.
+
+## Verifying Changes
+
+- Don't manually start the dev server (`npm run dev` / `npm run start`) to verify changes — the user may already have one running, and it pollutes local state.
+- Use `npm run typecheck` and `npm test` for fast, deterministic feedback.
+- If runtime verification is essential, ask the user to exercise the change and report back rather than booting the server yourself.
