@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch server.ts",
+    "predev": "node scripts/ensure-dev-env.mjs",
+    "dev": "tsx watch --env-file=.env.development.local server.ts",
     "start": "tsx server.ts",
     "test": "tsx --test",
     "typecheck": "tsc --noEmit"
