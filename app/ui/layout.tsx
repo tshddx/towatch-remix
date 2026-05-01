@@ -1,26 +1,26 @@
-import { css, type RemixNode } from 'remix/ui'
+import { css, type RemixNode } from "remix/ui";
 
-import { routes } from '../routes.ts'
-import type { CurrentUser } from '../utils/current-user.ts'
-import { Document } from './document.tsx'
-import { theme } from './theme.ts'
+import { routes } from "../routes.ts";
+import type { CurrentUser } from "../utils/current-user.ts";
+import { Document } from "./document.tsx";
+import { theme } from "./theme.ts";
 
 export interface LayoutProps {
-  children?: RemixNode
-  title?: string
-  currentUser?: CurrentUser | null
+  children?: RemixNode;
+  title?: string;
+  currentUser?: CurrentUser | null;
 }
 
-const NARROW = '@media (max-width: 720px)'
+const NARROW = "@media (max-width: 720px)";
 
 export function Layout() {
   return ({ title, children, currentUser = null }: LayoutProps) => (
     <Document title={title}>
       <div
         mix={css({
-          display: 'flex',
-          minHeight: '100vh',
-          [NARROW]: { flexDirection: 'column' },
+          display: "flex",
+          minHeight: "100vh",
+          [NARROW]: { flexDirection: "column" },
         })}
       >
         <Sidebar currentUser={currentUser} />
@@ -34,21 +34,21 @@ export function Layout() {
         </main>
       </div>
     </Document>
-  )
+  );
 }
 
 function Sidebar() {
   return ({ currentUser }: { currentUser: CurrentUser | null }) => (
     <aside
       mix={css({
-        flex: '0 0 240px',
-        width: '240px',
+        flex: "0 0 240px",
+        width: "240px",
         padding: `${theme.space.xxl} ${theme.space.lg}`,
         background: theme.surface.lvl3,
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: theme.space.xxl,
-        [NARROW]: { flex: '0 0 auto', width: '100%' },
+        [NARROW]: { flex: "0 0 auto", width: "100%" },
       })}
     >
       <p
@@ -57,7 +57,7 @@ function Sidebar() {
           padding: `0 ${theme.space.md}`,
           fontWeight: theme.fontWeight.bold,
           lineHeight: theme.lineHeight.normal,
-          textTransform: 'uppercase',
+          textTransform: "uppercase",
           letterSpacing: theme.letterSpacing.wide,
           color: theme.colors.text.primary,
         })}
@@ -67,11 +67,11 @@ function Sidebar() {
       <nav>
         <ul
           mix={css({
-            listStyle: 'none',
+            listStyle: "none",
             margin: 0,
             padding: 0,
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
             gap: theme.space.xs,
           })}
         >
@@ -95,7 +95,7 @@ function Sidebar() {
         </ul>
       </nav>
     </aside>
-  )
+  );
 }
 
 function NavLink() {
@@ -103,22 +103,22 @@ function NavLink() {
     <a
       href={href}
       mix={css({
-        display: 'block',
+        display: "block",
         padding: `${theme.space.sm} ${theme.space.md}`,
         borderRadius: theme.radius.md,
         color: theme.colors.text.primary,
-        textDecoration: 'none',
-        transition: 'background-color 150ms ease, color 150ms ease',
-        '&:hover, &:focus-visible': {
+        textDecoration: "none",
+        transition: "background-color 150ms ease, color 150ms ease",
+        "&:hover, &:focus-visible": {
           background: theme.surface.lvl4,
           color: theme.colors.text.link,
-          outline: 'none',
+          outline: "none",
         },
       })}
     >
       {children}
     </a>
-  )
+  );
 }
 
 function SignOutButton() {
@@ -127,26 +127,26 @@ function SignOutButton() {
       <button
         type="submit"
         mix={css({
-          display: 'block',
-          width: '100%',
+          display: "block",
+          width: "100%",
           padding: `${theme.space.sm} ${theme.space.md}`,
           borderRadius: theme.radius.md,
-          border: 'none',
-          background: 'transparent',
+          border: "none",
+          background: "transparent",
           color: theme.colors.text.primary,
-          textAlign: 'left',
-          cursor: 'pointer',
-          font: 'inherit',
-          transition: 'background-color 150ms ease, color 150ms ease',
-          '&:hover, &:focus-visible': {
+          textAlign: "left",
+          cursor: "pointer",
+          font: "inherit",
+          transition: "background-color 150ms ease, color 150ms ease",
+          "&:hover, &:focus-visible": {
             background: theme.surface.lvl4,
             color: theme.colors.text.link,
-            outline: 'none',
+            outline: "none",
           },
         })}
       >
         Sign out
       </button>
     </form>
-  )
+  );
 }

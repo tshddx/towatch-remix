@@ -1,9 +1,9 @@
-import { css, type RemixNode } from 'remix/ui'
+import { css, type RemixNode } from "remix/ui";
 
-import { routes } from '../routes.ts'
-import { AppTheme, theme } from './theme.ts'
+import { routes } from "../routes.ts";
+import { AppTheme, theme } from "./theme.ts";
 
-const APP_DISPLAY_NAME = decodeURIComponent('Towatch%20Remix')
+const APP_DISPLAY_NAME = decodeURIComponent("Towatch%20Remix");
 
 const COMMIT_MONO_FACES = `
 @font-face {
@@ -21,11 +21,11 @@ const COMMIT_MONO_FACES = `
   src: url('/fonts/CommitMono-VF.woff2') format('woff2');
   font-variation-settings: 'ital' 1;
 }
-`
+`;
 
 export interface DocumentProps {
-  children?: RemixNode
-  title?: string
+  children?: RemixNode;
+  title?: string;
 }
 
 export function Document() {
@@ -40,9 +40,9 @@ export function Document() {
       </head>
       <body
         mix={css({
-          '& *, & *::before, & *::after': { boxSizing: 'border-box' },
+          "& *, & *::before, & *::after": { boxSizing: "border-box" },
           margin: 0,
-          minHeight: '100vh',
+          minHeight: "100vh",
           background: theme.surface.lvl0,
           color: theme.colors.text.primary,
           fontFamily: theme.fontFamily.mono,
@@ -50,13 +50,13 @@ export function Document() {
           fontFeatureSettings:
             "'ss04' on, 'ss05' on, 'cv02' on, 'cv03' on, 'cv04' on, 'cv05' on, 'cv06' on",
           lineHeight: theme.lineHeight.normal,
-          WebkitFontSmoothing: 'antialiased',
-          MozOsxFontSmoothing: 'grayscale',
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale",
         })}
       >
         {children}
-        <script type="module" src={routes.assets.href({ path: 'app/assets/entry.ts' })}></script>
+        <script type="module" src={routes.assets.href({ path: "app/assets/entry.ts" })}></script>
       </body>
     </html>
-  )
+  );
 }

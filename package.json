@@ -13,9 +13,6 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
   },
-  "engines": {
-    "node": ">=24.3.0"
-  },
   "dependencies": {
     "remix": "^3.0.0-beta.0",
     "tsx": "latest"
@@ -25,5 +22,8 @@
     "oxfmt": "^0.47.0",
     "oxlint": "^1.62.0",
     "typescript": "latest"
+  },
+  "engines": {
+    "node": ">=24.3.0"
   }
 }
