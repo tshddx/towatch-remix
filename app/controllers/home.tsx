@@ -25,11 +25,11 @@ function HomePage() {
   return ({ currentUser }: HomePageProps) => (
     <Layout title="Home" currentUser={currentUser}>
       {currentUser ? (
-        <p mix={css({ margin: 0, fontSize: theme.fontSize.lg })}>
+        <p mix={css({ margin: 0 })}>
           Signed in as <strong>{currentUser.username}</strong>.
         </p>
       ) : (
-        <p mix={css({ margin: 0, fontSize: theme.fontSize.lg })}>
+        <p mix={css({ margin: 0 })}>
           Not signed in.{' '}
           <a
             href={routes.auth.signup.index.href()}

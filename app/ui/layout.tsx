@@ -56,7 +56,6 @@ function Sidebar() {
           margin: 0,
           padding: `0 ${theme.space.md}`,
           fontWeight: theme.fontWeight.bold,
-          fontSize: theme.fontSize.md,
           lineHeight: theme.lineHeight.normal,
           textTransform: 'uppercase',
           letterSpacing: theme.letterSpacing.wide,
