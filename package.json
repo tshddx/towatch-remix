@@ -7,7 +7,6 @@
     "dev": "tsx watch --env-file=.env.development.local server.ts",
     "start": "tsx server.ts",
     "test": "tsx --test",
-    "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
@@ -21,7 +20,7 @@
     "@types/node": "latest",
     "oxfmt": "^0.47.0",
     "oxlint": "^1.62.0",
-    "typescript": "latest"
+    "oxlint-tsgolint": "^0.22.1"
   },
   "engines": {
     "node": ">=24.3.0"

@@ -8,12 +8,13 @@ This app was scaffolded with `remix new`. Use these conventions when continuing 
 npm i
 npm run start
 npm test
-npm run typecheck
 npm run lint:fix
 npm run fmt
 ```
 
 Prefer `npm run lint:fix` over `npm run lint` so any auto-fixable issues are repaired in the same step instead of leaving them for a follow-up. `npm run fmt` already writes fixes; `fmt:check` is the CI-only verify variant.
+
+`oxlint` runs with `typeAware: true` and `typeCheck: true` (see `.oxlintrc.json`), so it reports TypeScript type errors alongside lint findings — there's no separate `tsc --noEmit` step.
 
 ## Building Features
 
@@ -45,11 +46,11 @@ Refer to ./agents/skills/remix/SKILL.md
 ## Verifying Changes
 
 - Don't manually start the dev server (`npm run dev` / `npm run start`) to verify changes — the user may already have one running, and it pollutes local state.
-- Use `npm run typecheck`, `npm test`, and `npm run lint:fix` for fast, deterministic feedback.
+- Use `npm test` and `npm run lint:fix` for fast, deterministic feedback. `lint:fix` includes type checking via oxlint's type-aware mode.
 - If runtime verification is essential, ask the user to exercise the change and report back rather than booting the server yourself.
 
 ## Linting and Formatting
 
-- [`oxlint`](https://oxc.rs) handles linting; [`oxfmt`](https://oxc.rs) handles formatting. Both run with default configuration — no config files checked in.
+- [`oxlint`](https://oxc.rs) handles linting (configured in `.oxlintrc.json` with type-aware mode); [`oxfmt`](https://oxc.rs) handles formatting with default configuration.
 - `npm run lint` to check, `npm run lint:fix` to apply safe fixes. Prefer `lint:fix` while iterating so auto-fixable issues are resolved in one shot.
 - `npm run fmt` to format, `npm run fmt:check` to verify formatting in CI / pre-commit.
