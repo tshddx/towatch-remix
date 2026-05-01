@@ -9,7 +9,11 @@ npm i
 npm run start
 npm test
 npm run typecheck
+npm run lint:fix
+npm run fmt
 ```
+
+Prefer `npm run lint:fix` over `npm run lint` so any auto-fixable issues are repaired in the same step instead of leaving them for a follow-up. `npm run fmt` already writes fixes; `fmt:check` is the CI-only verify variant.
 
 ## Building Features
 
@@ -41,5 +45,11 @@ Refer to ./agents/skills/remix/SKILL.md
 ## Verifying Changes
 
 - Don't manually start the dev server (`npm run dev` / `npm run start`) to verify changes — the user may already have one running, and it pollutes local state.
-- Use `npm run typecheck` and `npm test` for fast, deterministic feedback.
+- Use `npm run typecheck`, `npm test`, and `npm run lint:fix` for fast, deterministic feedback.
 - If runtime verification is essential, ask the user to exercise the change and report back rather than booting the server yourself.
+
+## Linting and Formatting
+
+- [`oxlint`](https://oxc.rs) handles linting; [`oxfmt`](https://oxc.rs) handles formatting. Both run with default configuration — no config files checked in.
+- `npm run lint` to check, `npm run lint:fix` to apply safe fixes. Prefer `lint:fix` while iterating so auto-fixable issues are resolved in one shot.
+- `npm run fmt` to format, `npm run fmt:check` to verify formatting in CI / pre-commit.
