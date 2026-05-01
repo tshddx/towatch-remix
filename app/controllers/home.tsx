@@ -6,6 +6,7 @@ import { css } from 'remix/ui'
 import type { AppContext } from '../router.ts'
 import { routes } from '../routes.ts'
 import { Layout } from '../ui/layout.tsx'
+import { theme } from '../ui/theme.ts'
 import { loadCurrentUser, type CurrentUser } from '../utils/current-user.ts'
 import { render } from '../utils/render.tsx'
 
@@ -24,16 +25,16 @@ function HomePage() {
   return ({ currentUser }: HomePageProps) => (
     <Layout title="Home" currentUser={currentUser}>
       {currentUser ? (
-        <p mix={css({ margin: 0, fontSize: '16px', lineHeight: 1.5 })}>
+        <p mix={css({ margin: 0, fontSize: theme.fontSize.lg })}>
           Signed in as <strong>{currentUser.username}</strong>.
         </p>
       ) : (
-        <p mix={css({ margin: 0, fontSize: '16px', lineHeight: 1.5 })}>
+        <p mix={css({ margin: 0, fontSize: theme.fontSize.lg })}>
           Not signed in.{' '}
           <a
             href={routes.auth.signup.index.href()}
             mix={css({
-              color: 'var(--brand-blue)',
+              color: theme.colors.text.link,
               textDecoration: 'none',
               '&:hover, &:focus-visible': { textDecoration: 'underline', outline: 'none' },
             })}

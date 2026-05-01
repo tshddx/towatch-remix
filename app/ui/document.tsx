@@ -1,11 +1,27 @@
 import { css, type RemixNode } from 'remix/ui'
 
 import { routes } from '../routes.ts'
+import { AppTheme, theme } from './theme.ts'
 
 const APP_DISPLAY_NAME = decodeURIComponent('Towatch%20Remix')
 
-const FONT_STACK =
-  "'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace"
+const COMMIT_MONO_FACES = `
+@font-face {
+  font-family: 'CommitMono';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/CommitMono-VF.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'CommitMono';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/CommitMono-VF.woff2') format('woff2');
+  font-variation-settings: 'ital' 1;
+}
+`
 
 export interface DocumentProps {
   children?: RemixNode
@@ -18,38 +34,22 @@ export function Document() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="color-scheme" content="light dark" />
         <title>{title ? `${title} · ${APP_DISPLAY_NAME}` : APP_DISPLAY_NAME}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
-        />
+        <style>{COMMIT_MONO_FACES}</style>
+        <AppTheme.Style />
       </head>
       <body
         mix={css({
-          '--surface-0': '#dee2e6',
-          '--surface-3': '#f0f4f7',
-          '--surface-4': '#f7fbff',
-          '--text-primary': '#313539',
-          '--text-tertiary': '#94989c',
-          '--brand-blue': '#2dacf9',
-          '@media (prefers-color-scheme: dark)': {
-            '--surface-0': '#1e2226',
-            '--surface-3': '#313539',
-            '--surface-4': '#363a3e',
-            '--text-primary': '#dee2e6',
-            '--text-tertiary': '#94989c',
-          },
           '& *, & *::before, & *::after': { boxSizing: 'border-box' },
           margin: 0,
           minHeight: '100vh',
-          background: 'var(--surface-0)',
-          color: 'var(--text-primary)',
-          fontFamily: FONT_STACK,
-          fontSize: '14px',
-          lineHeight: 1.5,
+          background: theme.surface.lvl0,
+          color: theme.colors.text.primary,
+          fontFamily: theme.fontFamily.mono,
+          fontSize: theme.fontSize.md,
+          fontFeatureSettings:
+            "'ss04' on, 'ss05' on, 'cv02' on, 'cv03' on, 'cv04' on, 'cv05' on, 'cv06' on",
+          lineHeight: theme.lineHeight.normal,
           WebkitFontSmoothing: 'antialiased',
           MozOsxFontSmoothing: 'grayscale',
         })}

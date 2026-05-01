@@ -3,6 +3,7 @@ import { css, type RemixNode } from 'remix/ui'
 import { routes } from '../routes.ts'
 import type { CurrentUser } from '../utils/current-user.ts'
 import { Document } from './document.tsx'
+import { theme } from './theme.ts'
 
 export interface LayoutProps {
   children?: RemixNode
@@ -26,7 +27,7 @@ export function Layout() {
         <main
           mix={css({
             flex: 1,
-            padding: '32px 16px',
+            padding: `${theme.space.xxl} ${theme.space.lg}`,
           })}
         >
           {children}
@@ -42,24 +43,24 @@ function Sidebar() {
       mix={css({
         flex: '0 0 240px',
         width: '240px',
-        padding: '32px 16px',
-        background: 'var(--surface-3)',
+        padding: `${theme.space.xxl} ${theme.space.lg}`,
+        background: theme.surface.lvl3,
         display: 'flex',
         flexDirection: 'column',
-        gap: '32px',
+        gap: theme.space.xxl,
         [NARROW]: { flex: '0 0 auto', width: '100%' },
       })}
     >
       <p
         mix={css({
           margin: 0,
-          padding: '0 12px',
-          fontWeight: 700,
-          fontSize: '14px',
-          lineHeight: 1.5,
+          padding: `0 ${theme.space.md}`,
+          fontWeight: theme.fontWeight.bold,
+          fontSize: theme.fontSize.md,
+          lineHeight: theme.lineHeight.normal,
           textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          color: 'var(--text-primary)',
+          letterSpacing: theme.letterSpacing.wide,
+          color: theme.colors.text.primary,
         })}
       >
         Towatch
@@ -72,7 +73,7 @@ function Sidebar() {
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px',
+            gap: theme.space.xs,
           })}
         >
           <li>
@@ -104,14 +105,14 @@ function NavLink() {
       href={href}
       mix={css({
         display: 'block',
-        padding: '8px 12px',
-        borderRadius: '8px',
-        color: 'var(--text-primary)',
+        padding: `${theme.space.sm} ${theme.space.md}`,
+        borderRadius: theme.radius.md,
+        color: theme.colors.text.primary,
         textDecoration: 'none',
         transition: 'background-color 150ms ease, color 150ms ease',
         '&:hover, &:focus-visible': {
-          background: 'var(--surface-4)',
-          color: 'var(--brand-blue)',
+          background: theme.surface.lvl4,
+          color: theme.colors.text.link,
           outline: 'none',
         },
       })}
@@ -129,18 +130,18 @@ function SignOutButton() {
         mix={css({
           display: 'block',
           width: '100%',
-          padding: '8px 12px',
-          borderRadius: '8px',
+          padding: `${theme.space.sm} ${theme.space.md}`,
+          borderRadius: theme.radius.md,
           border: 'none',
           background: 'transparent',
-          color: 'var(--text-primary)',
+          color: theme.colors.text.primary,
           textAlign: 'left',
           cursor: 'pointer',
           font: 'inherit',
           transition: 'background-color 150ms ease, color 150ms ease',
           '&:hover, &:focus-visible': {
-            background: 'var(--surface-4)',
-            color: 'var(--brand-blue)',
+            background: theme.surface.lvl4,
+            color: theme.colors.text.link,
             outline: 'none',
           },
         })}
