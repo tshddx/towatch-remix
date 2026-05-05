@@ -68,6 +68,9 @@ function Sidebar() {
           <li>
             <Link href={routes.home.href()}>Home</Link>
           </li>
+          <li>
+            <Link href={routes.designGuide.href()}>Design guide</Link>
+          </li>
           {currentUser ? (
             <li>
               <SignOutButton />

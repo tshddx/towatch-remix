@@ -10,6 +10,7 @@ import { staticFiles } from "remix/static-middleware";
 
 import { assets } from "./assets.ts";
 import { auth } from "./controllers/auth/controller.tsx";
+import { designGuide } from "./controllers/design-guide.tsx";
 import { home } from "./controllers/home.tsx";
 import { loadDatabase } from "./middleware/load-database.ts";
 import { sessionCookie, sessionStorage } from "./middleware/session.ts";
@@ -42,4 +43,5 @@ router.get(routes.assets, async ({ request }) => {
 });
 
 router.map(routes.home, home);
+router.map(routes.designGuide, designGuide);
 router.map(routes.auth, auth);

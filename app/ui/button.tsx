@@ -5,8 +5,11 @@ import { theme } from "./theme.ts";
 
 export type ButtonSize = "md" | "lg";
 
-export type ButtonProps = RemixButtonProps & {
+export type ButtonTone = "primary" | "secondary" | "danger";
+
+export type ButtonProps = Omit<RemixButtonProps, "tone"> & {
   size?: ButtonSize;
+  tone?: ButtonTone;
 };
 
 const baseStyle = css({
@@ -42,8 +45,26 @@ const sizeStyleBySize = {
   lg: lgStyle,
 };
 
+const primaryToneStyle = css({});
+
+const secondaryToneStyle = css({
+  border: `1px solid ${theme.colors.action.secondary.border}`,
+});
+
+const dangerToneStyle = css({});
+
+const toneStyleByTone = {
+  primary: primaryToneStyle,
+  secondary: secondaryToneStyle,
+  danger: dangerToneStyle,
+};
+
 export function Button() {
   return ({ size = "md", tone = "primary", mix, ...props }: ButtonProps) => (
-    <RemixButton {...props} tone={tone} mix={[baseStyle, sizeStyleBySize[size], mix]} />
+    <RemixButton
+      {...props}
+      tone={tone}
+      mix={[baseStyle, sizeStyleBySize[size], toneStyleByTone[tone], mix]}
+    />
   );
 }

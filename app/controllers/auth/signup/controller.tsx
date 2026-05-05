@@ -165,7 +165,7 @@ function SignupPage() {
                 spellcheck={false}
               />
             </label>
-            {errors.username ? <small role="alert">{errors.username}</small> : null}
+            {errors.username ? <p role="alert">{errors.username}</p> : null}
           </p>
           <p>
             <label>
@@ -178,7 +178,7 @@ function SignupPage() {
                 autoComplete="new-password"
               />
             </label>
-            {errors.password ? <small role="alert">{errors.password}</small> : null}
+            {errors.password ? <p role="alert">{errors.password}</p> : null}
           </p>
           <p>
             <label>
@@ -191,7 +191,7 @@ function SignupPage() {
                 autoComplete="new-password"
               />
             </label>
-            {errors.password_confirm ? <small role="alert">{errors.password_confirm}</small> : null}
+            {errors.password_confirm ? <p role="alert">{errors.password_confirm}</p> : null}
           </p>
           <Button type="submit" size="lg">
             Sign up
