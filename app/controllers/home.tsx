@@ -6,7 +6,7 @@ import { css } from "remix/ui";
 import type { AppContext } from "../router.ts";
 import { routes } from "../routes.ts";
 import { Layout } from "../ui/layout.tsx";
-import { theme } from "../ui/theme.ts";
+import { Link } from "../ui/link.tsx";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
 import { render } from "../utils/render.tsx";
 
@@ -24,26 +24,18 @@ export const home: BuildAction<"GET", typeof routes.home, AppContext> = {
 function HomePage() {
   return ({ currentUser }: HomePageProps) => (
     <Layout title="Home" currentUser={currentUser}>
-      {currentUser ? (
-        <p mix={css({ margin: 0 })}>
-          Signed in as <strong>{currentUser.username}</strong>.
-        </p>
-      ) : (
-        <p mix={css({ margin: 0 })}>
-          Not signed in.{" "}
-          <a
-            href={routes.auth.signup.index.href()}
-            mix={css({
-              color: theme.colors.text.link,
-              textDecoration: "none",
-              "&:hover, &:focus-visible": { textDecoration: "underline", outline: "none" },
-            })}
-          >
-            Sign up
-          </a>{" "}
-          to get started.
-        </p>
-      )}
+      <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+        {currentUser ? (
+          <p mix={css({ margin: 0 })}>
+            Signed in as <strong>{currentUser.username}</strong>.
+          </p>
+        ) : (
+          <p mix={css({ margin: 0 })}>
+            Not signed in. <Link href={routes.auth.signup.index.href()}>Sign up</Link> to get
+            started.
+          </p>
+        )}
+      </div>
     </Layout>
   );
 }

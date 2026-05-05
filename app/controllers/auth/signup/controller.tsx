@@ -5,11 +5,14 @@ import * as f from "remix/data-schema/form-data";
 import type { Controller } from "remix/fetch-router";
 import { redirect } from "remix/response/redirect";
 import { Session } from "remix/session";
+import { css } from "remix/ui";
 
 import { hashPassword } from "../../../data/passwords.ts";
 import { users } from "../../../data/schema.ts";
 import type { AppContext } from "../../../router.ts";
 import { routes } from "../../../routes.ts";
+import { Button } from "../../../ui/button.tsx";
+import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
@@ -141,56 +144,60 @@ function collectFieldErrors(issues: ReadonlyArray<s.Issue>): SignupFieldErrors {
 function SignupPage() {
   return ({ currentUser, values = {}, errors = {} }: SignupPageProps) => (
     <Layout title="Sign up" currentUser={currentUser}>
-      <h1>Create your account</h1>
-      {errors.form ? <p role="alert">{errors.form}</p> : null}
-      <form method="post" action={routes.auth.signup.action.href()}>
-        <p>
-          <label>
-            Username
-            <input
-              type="text"
-              name="username"
-              value={values.username ?? ""}
-              required
-              minLength={2}
-              maxLength={20}
-              pattern="[A-Za-z0-9]([A-Za-z0-9]|-(?!-))*[A-Za-z0-9]"
-              autoComplete="username"
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellcheck={false}
-            />
-          </label>
-          {errors.username ? <small role="alert">{errors.username}</small> : null}
-        </p>
-        <p>
-          <label>
-            Password
-            <input
-              type="password"
-              name="password"
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-          </label>
-          {errors.password ? <small role="alert">{errors.password}</small> : null}
-        </p>
-        <p>
-          <label>
-            Confirm password
-            <input
-              type="password"
-              name="password_confirm"
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-          </label>
-          {errors.password_confirm ? <small role="alert">{errors.password_confirm}</small> : null}
-        </p>
-        <button type="submit">Sign up</button>
-      </form>
+      <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+        <Heading>Create your account</Heading>
+        {errors.form ? <p role="alert">{errors.form}</p> : null}
+        <form method="post" action={routes.auth.signup.action.href()}>
+          <p>
+            <label>
+              Username
+              <input
+                type="text"
+                name="username"
+                value={values.username ?? ""}
+                required
+                minLength={2}
+                maxLength={20}
+                pattern="[A-Za-z0-9]([A-Za-z0-9]|-(?!-))*[A-Za-z0-9]"
+                autoComplete="username"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellcheck={false}
+              />
+            </label>
+            {errors.username ? <small role="alert">{errors.username}</small> : null}
+          </p>
+          <p>
+            <label>
+              Password
+              <input
+                type="password"
+                name="password"
+                required
+                minLength={8}
+                autoComplete="new-password"
+              />
+            </label>
+            {errors.password ? <small role="alert">{errors.password}</small> : null}
+          </p>
+          <p>
+            <label>
+              Confirm password
+              <input
+                type="password"
+                name="password_confirm"
+                required
+                minLength={8}
+                autoComplete="new-password"
+              />
+            </label>
+            {errors.password_confirm ? <small role="alert">{errors.password_confirm}</small> : null}
+          </p>
+          <Button type="submit" size="lg">
+            Sign up
+          </Button>
+        </form>
+      </div>
     </Layout>
   );
 }

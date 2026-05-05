@@ -49,8 +49,8 @@ export const AppTheme = createTheme({
   },
   fontWeight: {
     normal: "400",
-    medium: "500",
-    semibold: "600",
+    medium: "700",
+    semibold: "700",
     bold: "700",
   },
   control: {
@@ -64,7 +64,7 @@ export const AppTheme = createTheme({
     lvl0: "oklch(1 0 0)",
     lvl1: "oklch(0.97 0 0)",
     lvl2: "oklch(0.94 0 0)",
-    lvl3: "oklch(0.9 0 0)",
+    lvl3: "oklch(0.95 0 0)",
     lvl4: "oklch(0.86 0 0)",
   },
   shadow: {
@@ -79,7 +79,7 @@ export const AppTheme = createTheme({
       primary: "oklch(0.1 0 0)",
       secondary: "oklch(0.3 0 0)",
       muted: "oklch(0.5 0 0)",
-      link: "oklch(0.55 0.2 250)",
+      link: "oklch(0.65625 0.175 60)",
     },
     border: {
       subtle: "oklch(0.92 0 0)",
@@ -94,11 +94,11 @@ export const AppTheme = createTheme({
     },
     action: {
       primary: {
-        background: "oklch(0.55 0.2 250)",
-        backgroundHover: "oklch(0.5 0.2 250)",
-        backgroundActive: "oklch(0.45 0.2 250)",
-        foreground: "oklch(1 0 0 / 0.95)",
-        border: "oklch(0.55 0.2 250)",
+        background: "oklch(0.573242 0.153125 60)",
+        backgroundHover: "oklch(0.523242 0.153125 60)",
+        backgroundActive: "oklch(0.473242 0.153125 60)",
+        foreground: "oklch(1 0 0)",
+        border: "oklch(0.573242 0.153125 60)",
       },
       secondary: {
         background: "oklch(1 0 0)",
@@ -111,7 +111,7 @@ export const AppTheme = createTheme({
         background: "oklch(0.6 0.22 25)",
         backgroundHover: "oklch(0.55 0.22 25)",
         backgroundActive: "oklch(0.5 0.22 25)",
-        foreground: "oklch(1 0 0 / 0.95)",
+        foreground: "oklch(0.668945 0.275 25)",
         border: "oklch(0.6 0.22 25)",
       },
     },

@@ -41,6 +41,10 @@ export function Document() {
       <body
         mix={css({
           "& *, & *::before, & *::after": { boxSizing: "border-box" },
+          '& [role="alert"]': {
+            color: theme.colors.action.danger.foreground,
+            fontWeight: theme.fontWeight.bold,
+          },
           margin: 0,
           minHeight: "100vh",
           background: theme.surface.lvl0,

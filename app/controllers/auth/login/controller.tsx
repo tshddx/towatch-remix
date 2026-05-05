@@ -5,11 +5,14 @@ import * as f from "remix/data-schema/form-data";
 import type { Controller } from "remix/fetch-router";
 import { redirect } from "remix/response/redirect";
 import { Session } from "remix/session";
+import { css } from "remix/ui";
 
 import { verifyPassword } from "../../../data/passwords.ts";
 import { users } from "../../../data/schema.ts";
 import type { AppContext } from "../../../router.ts";
 import { routes } from "../../../routes.ts";
+import { Button } from "../../../ui/button.tsx";
+import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
@@ -87,32 +90,36 @@ function stringOrUndefined(value: FormDataEntryValue | null): string | undefined
 function LoginPage() {
   return ({ currentUser, values = {}, error }: LoginPageProps) => (
     <Layout title="Log in" currentUser={currentUser}>
-      <h1>Log in</h1>
-      {error ? <p role="alert">{error}</p> : null}
-      <form method="post" action={routes.auth.login.action.href()}>
-        <p>
-          <label>
-            Username
-            <input
-              type="text"
-              name="username"
-              value={values.username ?? ""}
-              required
-              autoComplete="username"
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellcheck={false}
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password
-            <input type="password" name="password" required autoComplete="current-password" />
-          </label>
-        </p>
-        <button type="submit">Log in</button>
-      </form>
+      <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+        <Heading>Log in</Heading>
+        {error ? <p role="alert">{error}</p> : null}
+        <form method="post" action={routes.auth.login.action.href()}>
+          <p>
+            <label>
+              Username
+              <input
+                type="text"
+                name="username"
+                value={values.username ?? ""}
+                required
+                autoComplete="username"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellcheck={false}
+              />
+            </label>
+          </p>
+          <p>
+            <label>
+              Password
+              <input type="password" name="password" required autoComplete="current-password" />
+            </label>
+          </p>
+          <Button type="submit" size="lg">
+            Log in
+          </Button>
+        </form>
+      </div>
     </Layout>
   );
 }
