@@ -79,7 +79,7 @@ export const AppTheme = createTheme({
       primary: "oklch(0.1 0 0)",
       secondary: "oklch(0.3 0 0)",
       muted: "oklch(0.5 0 0)",
-      link: "oklch(0.65625 0.175 60)",
+      link: "oklch(0.65625 0.175 50)",
     },
     border: {
       subtle: "oklch(0.92 0 0)",
@@ -94,11 +94,11 @@ export const AppTheme = createTheme({
     },
     action: {
       primary: {
-        background: "oklch(0.573242 0.153125 60)",
-        backgroundHover: "oklch(0.523242 0.153125 60)",
-        backgroundActive: "oklch(0.473242 0.153125 60)",
+        background: "oklch(0.573242 0.153125 50)",
+        backgroundHover: "oklch(0.523242 0.153125 50)",
+        backgroundActive: "oklch(0.473242 0.153125 50)",
         foreground: "oklch(1 0 0)",
-        border: "oklch(0.573242 0.153125 60)",
+        border: "oklch(0.573242 0.153125 50)",
       },
       secondary: {
         background: "oklch(1 0 0)",

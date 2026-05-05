@@ -23,7 +23,7 @@ const USERNAME_PATTERN = /^[A-Za-z0-9](?:-?[A-Za-z0-9])*$/;
 const USERNAME_FORMAT_MESSAGE =
   "Username may only contain ASCII letters, numbers, and single dashes, and must start and end with a letter or number.";
 
-const passwordSchema = s.string().pipe(minLength(8)).pipe(maxLength(200));
+const passwordSchema = s.string().pipe(minLength(5)).pipe(maxLength(200));
 
 const signupSchema = f.object({
   username: f.field(
@@ -170,7 +170,7 @@ function SignupPage() {
             type="password"
             name="password"
             required
-            minLength={8}
+            minLength={5}
             autoComplete="new-password"
             error={errors.password}
           />
@@ -179,7 +179,7 @@ function SignupPage() {
             type="password"
             name="password_confirm"
             required
-            minLength={8}
+            minLength={5}
             autoComplete="new-password"
             error={errors.password_confirm}
           />
