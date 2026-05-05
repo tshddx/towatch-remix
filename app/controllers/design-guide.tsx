@@ -6,9 +6,11 @@ import { css } from "remix/ui";
 import type { AppContext } from "../router.ts";
 import { routes } from "../routes.ts";
 import { Button, type ButtonTone } from "../ui/button.tsx";
+import { Form } from "../ui/form.tsx";
 import { Heading } from "../ui/heading.tsx";
 import { Layout } from "../ui/layout.tsx";
 import { Link } from "../ui/link.tsx";
+import { TextField } from "../ui/text-field.tsx";
 import { theme } from "../ui/theme.ts";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
 import { render } from "../utils/render.tsx";
@@ -172,7 +174,33 @@ function DesignGuidePage() {
         </section>
 
         <section mix={sectionStyle}>
+          <Heading level={2}>Form</Heading>
+          <p mix={css({ margin: 0 })}>
+            <code>Form</code> arranges its children in a flex column with a 1lh gap. Each{" "}
+            <code>TextField</code> reserves a 1lh row under the input for an error message, so
+            adding or removing an error doesn't shift the form's layout.
+          </p>
+          <Form>
+            <TextField label="Plain field" name="example_plain" type="text" />
+            <TextField
+              label="Field with error"
+              name="example_error"
+              type="text"
+              value="not-a-valid-value"
+              error="This is the error message."
+            />
+            <Button type="submit" size="lg">
+              Submit
+            </Button>
+          </Form>
+        </section>
+
+        <section mix={sectionStyle}>
           <Heading level={2}>Validation alert</Heading>
+          <p mix={css({ margin: 0 })}>
+            <code>TextField</code> uses this style for its inline errors. Form-level alerts (e.g. a
+            login that failed because of a bad password) use the same style.
+          </p>
           <p role="alert" mix={css({ margin: 0 })}>
             This is what a validation error looks like.
           </p>

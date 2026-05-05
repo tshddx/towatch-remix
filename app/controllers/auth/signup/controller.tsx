@@ -12,8 +12,10 @@ import { users } from "../../../data/schema.ts";
 import type { AppContext } from "../../../router.ts";
 import { routes } from "../../../routes.ts";
 import { Button } from "../../../ui/button.tsx";
+import { Form } from "../../../ui/form.tsx";
 import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
+import { TextField } from "../../../ui/text-field.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
 
@@ -147,56 +149,44 @@ function SignupPage() {
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading>Create your account</Heading>
         {errors.form ? <p role="alert">{errors.form}</p> : null}
-        <form method="post" action={routes.auth.signup.action.href()}>
-          <p>
-            <label>
-              Username
-              <input
-                type="text"
-                name="username"
-                value={values.username ?? ""}
-                required
-                minLength={2}
-                maxLength={20}
-                pattern="[A-Za-z0-9]([A-Za-z0-9]|-(?!-))*[A-Za-z0-9]"
-                autoComplete="username"
-                autoCapitalize="off"
-                autoCorrect="off"
-                spellcheck={false}
-              />
-            </label>
-            {errors.username ? <p role="alert">{errors.username}</p> : null}
-          </p>
-          <p>
-            <label>
-              Password
-              <input
-                type="password"
-                name="password"
-                required
-                minLength={8}
-                autoComplete="new-password"
-              />
-            </label>
-            {errors.password ? <p role="alert">{errors.password}</p> : null}
-          </p>
-          <p>
-            <label>
-              Confirm password
-              <input
-                type="password"
-                name="password_confirm"
-                required
-                minLength={8}
-                autoComplete="new-password"
-              />
-            </label>
-            {errors.password_confirm ? <p role="alert">{errors.password_confirm}</p> : null}
-          </p>
+        <Form method="post" action={routes.auth.signup.action.href()}>
+          <TextField
+            label="Username"
+            type="text"
+            name="username"
+            value={values.username ?? ""}
+            required
+            minLength={2}
+            maxLength={20}
+            pattern="[A-Za-z0-9]([A-Za-z0-9]|-(?!-))*[A-Za-z0-9]"
+            autoComplete="username"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellcheck={false}
+            error={errors.username}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            error={errors.password}
+          />
+          <TextField
+            label="Confirm password"
+            type="password"
+            name="password_confirm"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            error={errors.password_confirm}
+          />
           <Button type="submit" size="lg">
             Sign up
           </Button>
-        </form>
+        </Form>
       </div>
     </Layout>
   );

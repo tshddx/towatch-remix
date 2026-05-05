@@ -43,6 +43,13 @@ Refer to ./agents/skills/remix/SKILL.md
 - Prefer putting code in the narrowest owner before introducing shared modules.
 - Avoid generic dumping-ground directories like `app/lib/` or `app/components/`.
 
+## Spacing Units
+
+- Use `ch` for horizontal sizes (gaps, padding-inline, widths).
+- Use `lh` for vertical sizes (gaps, padding-block, heights).
+- Don't use `theme.space.*`. The contract requires those slots, but the codebase has settled on `ch`/`lh` as the unit system because they tie spacing to the monospace font's character grid and line height.
+- Hardcoded `px` values are fine for hairline borders (`1px solid …`).
+
 ## Verifying Changes
 
 - Don't manually start the dev server (`npm run dev` / `npm run start`) to verify changes — the user may already have one running, and it pollutes local state.

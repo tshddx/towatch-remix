@@ -43,13 +43,13 @@ function Sidebar() {
   return ({ currentUser }: { currentUser: CurrentUser | null }) => (
     <aside
       mix={css({
-        flex: "0 0 240px",
-        width: "240px",
+        flex: "0 0 25ch",
+        width: "25ch",
         padding: "1lh 1ch",
-        background: theme.surface.lvl3,
+        background: theme.surface.lvl1,
         display: "flex",
         flexDirection: "column",
-        gap: theme.space.xxl,
+        gap: "1lh",
         [NARROW]: { flex: "0 0 auto", width: "100%" },
       })}
     >

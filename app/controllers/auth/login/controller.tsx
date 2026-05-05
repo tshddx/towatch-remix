@@ -12,8 +12,10 @@ import { users } from "../../../data/schema.ts";
 import type { AppContext } from "../../../router.ts";
 import { routes } from "../../../routes.ts";
 import { Button } from "../../../ui/button.tsx";
+import { Form } from "../../../ui/form.tsx";
 import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
+import { TextField } from "../../../ui/text-field.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
 
@@ -93,32 +95,29 @@ function LoginPage() {
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading>Log in</Heading>
         {error ? <p role="alert">{error}</p> : null}
-        <form method="post" action={routes.auth.login.action.href()}>
-          <p>
-            <label>
-              Username
-              <input
-                type="text"
-                name="username"
-                value={values.username ?? ""}
-                required
-                autoComplete="username"
-                autoCapitalize="off"
-                autoCorrect="off"
-                spellcheck={false}
-              />
-            </label>
-          </p>
-          <p>
-            <label>
-              Password
-              <input type="password" name="password" required autoComplete="current-password" />
-            </label>
-          </p>
+        <Form method="post" action={routes.auth.login.action.href()}>
+          <TextField
+            label="Username"
+            type="text"
+            name="username"
+            value={values.username ?? ""}
+            required
+            autoComplete="username"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellcheck={false}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            required
+            autoComplete="current-password"
+          />
           <Button type="submit" size="lg">
             Log in
           </Button>
-        </form>
+        </Form>
       </div>
     </Layout>
   );

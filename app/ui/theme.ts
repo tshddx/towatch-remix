@@ -62,10 +62,10 @@ export const AppTheme = createTheme({
   },
   surface: {
     lvl0: "oklch(1 0 0)",
-    lvl1: "oklch(0.97 0 0)",
-    lvl2: "oklch(0.94 0 0)",
-    lvl3: "oklch(0.95 0 0)",
-    lvl4: "oklch(0.86 0 0)",
+    lvl1: "oklch(0.96 0 0)",
+    lvl2: "oklch(0.92 0 0)",
+    lvl3: "oklch(0.88 0 0)",
+    lvl4: "oklch(0.84 0 0)",
   },
   shadow: {
     xs: "0 1px 1px oklch(0 0 0 / 0.05)",
