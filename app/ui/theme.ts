@@ -82,9 +82,9 @@ export const AppTheme = createTheme({
       link: "oklch(0.65625 0.175 50)",
     },
     border: {
-      subtle: "oklch(0.92 0 0)",
-      default: "oklch(0.85 0 0)",
-      strong: "oklch(0.7 0 0)",
+      subtle: "oklch(0.9 0 0)",
+      default: "oklch(0.75 0 0)",
+      strong: "oklch(0.5 0 0)",
     },
     focus: {
       ring: "oklch(0.55 0.2 250)",
