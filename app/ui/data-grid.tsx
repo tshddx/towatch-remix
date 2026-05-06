@@ -6,6 +6,13 @@ const COLUMN_GAP = "1ch";
 const ROW_GAP = 0;
 const HEADER_BORDER = `1px solid ${theme.colors.border.strong}`;
 
+const TRUNCATE_CELL = {
+  maxWidth: "30ch",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+} as const;
+
 export interface DataGridProps {
   /**
    * Number of columns. Each column is sized to `auto` so cells size to
@@ -25,6 +32,9 @@ export function DataGrid() {
         justifyContent: "start",
         columnGap: COLUMN_GAP,
         rowGap: ROW_GAP,
+        // Truncate every direct-child cell with an ellipsis when its
+        // contents would exceed 30ch.
+        "& > div": TRUNCATE_CELL,
       })}
     >
       {children}
@@ -48,6 +58,14 @@ export function DataGridHeader() {
         display: "grid",
         gridTemplateColumns: "subgrid",
         borderBottom: HEADER_BORDER,
+        // The header wrapper itself is a layout container that spans the
+        // whole row, so undo the parent grid's per-cell truncation here
+        // and reapply it to the actual header cells nested inside.
+        maxWidth: "none",
+        overflow: "visible",
+        textOverflow: "clip",
+        whiteSpace: "normal",
+        "& > div": TRUNCATE_CELL,
       })}
     >
       {children}
