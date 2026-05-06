@@ -12,6 +12,8 @@ import { assets } from "./assets.ts";
 import { auth } from "./controllers/auth/controller.tsx";
 import { designGuide } from "./controllers/design-guide.tsx";
 import { home } from "./controllers/home.tsx";
+import { movieController } from "./controllers/movies/controller.tsx";
+import { personController } from "./controllers/people/controller.tsx";
 import { loadDatabase } from "./middleware/load-database.ts";
 import { sessionCookie, sessionStorage } from "./middleware/session.ts";
 import { routes } from "./routes.ts";
@@ -44,4 +46,6 @@ router.get(routes.assets, async ({ request }) => {
 
 router.map(routes.home, home);
 router.map(routes.designGuide, designGuide);
+router.map(routes.movies, movieController);
+router.map(routes.people, personController);
 router.map(routes.auth, auth);
