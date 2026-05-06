@@ -69,6 +69,12 @@ function Sidebar() {
             <Link href={routes.home.href()}>Home</Link>
           </li>
           <li>
+            <Link href={routes.movies.index.href()}>Movies</Link>
+          </li>
+          <li>
+            <Link href={routes.people.index.href()}>People</Link>
+          </li>
+          <li>
             <Link href={routes.designGuide.href()}>Design guide</Link>
           </li>
           {currentUser ? (

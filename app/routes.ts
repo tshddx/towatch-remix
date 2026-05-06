@@ -4,8 +4,8 @@ export const routes = route({
   assets: get("/assets/*path"),
   home: "/",
   designGuide: get("/design-guide"),
-  movies: resources("movies", { only: ["show"], param: "movieId" }),
-  people: resources("people", { only: ["show"], param: "personId" }),
+  movies: resources("movies", { only: ["index", "show"], param: "movieId" }),
+  people: resources("people", { only: ["index", "show"], param: "personId" }),
   auth: route("auth", {
     login: form("login"),
     signup: form("signup"),

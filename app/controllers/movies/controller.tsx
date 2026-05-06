@@ -1,6 +1,7 @@
 import { Database } from "remix/data-table";
 import { eq } from "remix/data-table/operators";
 import type { Controller } from "remix/fetch-router";
+import { redirect } from "remix/response/redirect";
 import { Session } from "remix/session";
 import { css, Fragment, type RemixNode } from "remix/ui";
 
@@ -11,9 +12,25 @@ import { DataGrid, DataGridHeader } from "../../ui/data-grid.tsx";
 import { Heading } from "../../ui/heading.tsx";
 import { InlineLink } from "../../ui/inline-link.tsx";
 import { Layout } from "../../ui/layout.tsx";
+import { PaginationControls } from "../../ui/pagination-controls.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../utils/current-user.ts";
 import { formatDate } from "../../utils/date.ts";
+import { parsePageParam, PAGE_SIZE } from "../../utils/pagination.ts";
 import { render } from "../../utils/render.tsx";
+
+interface MovieListRow {
+  id: number;
+  title: string;
+  director_id: number | null;
+  director_name: string | null;
+}
+
+interface MovieListPageProps {
+  currentUser: CurrentUser | null;
+  movies: MovieListRow[];
+  page: number;
+  hasNextPage: boolean;
+}
 
 interface MovieDetail {
   id: number;
@@ -43,6 +60,35 @@ interface MovieDetailPageProps {
 
 export const movieController = {
   actions: {
+    async index({ get, request }) {
+      let url = new URL(request.url);
+      let parsed = parsePageParam(url);
+      if (parsed.shouldStripPage) {
+        return redirect(routes.movies.index.href(), 303);
+      }
+
+      let db = get(Database);
+      let [currentUser, rows] = await Promise.all([
+        loadCurrentUser(db, get(Session)),
+        loadMovieList(db, parsed.page),
+      ]);
+
+      // We over-fetch by one to know if there's a next page without
+      // running a separate count query.
+      let hasNextPage = rows.length > PAGE_SIZE;
+      let pageRows = hasNextPage ? rows.slice(0, PAGE_SIZE) : rows;
+
+      return render(
+        <MovieListPage
+          currentUser={currentUser}
+          movies={pageRows}
+          page={parsed.page}
+          hasNextPage={hasNextPage}
+        />,
+        request,
+      );
+    },
+
     async show({ get, request, params }) {
       let movieId = Number(params.movieId);
       if (!Number.isInteger(movieId) || movieId <= 0) {
@@ -65,6 +111,23 @@ export const movieController = {
     },
   },
 } satisfies Controller<typeof routes.movies, AppContext>;
+
+async function loadMovieList(db: Database, page: number): Promise<MovieListRow[]> {
+  return await db
+    .query(movies)
+    .leftJoin(people, eq("movies.director_id", "people.id"))
+    .select({
+      id: "movies.id",
+      title: "movies.title",
+      director_id: "movies.director_id",
+      director_name: "people.name",
+    })
+    .orderBy("movies.title", "asc")
+    .orderBy("movies.id", "asc")
+    .limit(PAGE_SIZE + 1)
+    .offset((page - 1) * PAGE_SIZE)
+    .all();
+}
 
 async function loadMovie(db: Database, id: number): Promise<MovieDetail | null> {
   let row = await db
@@ -101,6 +164,55 @@ async function loadMovieViewings(db: Database, movieId: number): Promise<MovieVi
     .orderBy("viewings.date", "desc")
     .orderBy("viewings.id", "desc")
     .all();
+}
+
+function MovieListPage() {
+  return ({ currentUser, movies: rows, page, hasNextPage }: MovieListPageProps) => (
+    <Layout title="Movies" currentUser={currentUser}>
+      <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+        <Heading level={1}>Movies</Heading>
+        {rows.length === 0 ? (
+          <p mix={css({ margin: 0 })}>No movies on this page.</p>
+        ) : (
+          <DataGrid columns={2}>
+            <DataGridHeader>
+              <div>Movie</div>
+              <div>Director</div>
+            </DataGridHeader>
+            {rows.map((row) => (
+              <MovieListRow key={row.id} row={row} />
+            ))}
+          </DataGrid>
+        )}
+        <PaginationControls
+          basePath={routes.movies.index.href()}
+          page={page}
+          hasNextPage={hasNextPage}
+        />
+      </div>
+    </Layout>
+  );
+}
+
+function MovieListRow() {
+  return ({ row }: { row: MovieListRow }) => (
+    <>
+      <div>
+        <InlineLink href={routes.movies.show.href({ movieId: String(row.id) })}>
+          {row.title}
+        </InlineLink>
+      </div>
+      <div>
+        {row.director_id === null || row.director_name === null ? (
+          "\u2014"
+        ) : (
+          <InlineLink href={routes.people.show.href({ personId: String(row.director_id) })}>
+            {row.director_name}
+          </InlineLink>
+        )}
+      </div>
+    </>
+  );
 }
 
 function MovieDetailPage() {
