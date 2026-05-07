@@ -11,6 +11,7 @@ const TRUNCATE_CELL = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
+  width: "fit-content",
 } as const;
 
 export interface DataGridProps {

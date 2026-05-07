@@ -19,11 +19,11 @@ const baseStyle = css({
   fontWeight: theme.fontWeight.bold,
   textTransform: "uppercase",
   borderRadius: theme.radius.none,
-  border: "none",
+  border: "none !important",
   boxShadow: "none",
   backgroundImage: "none",
-  "&:hover": { backgroundImage: "none", boxShadow: "none" },
-  "&:active": { backgroundImage: "none", boxShadow: "none" },
+  "&:hover": { border: "none !important", backgroundImage: "none", boxShadow: "none" },
+  "&:active": { border: "none !important", backgroundImage: "none", boxShadow: "none" },
 });
 
 const mdStyle = css({
@@ -47,9 +47,7 @@ const sizeStyleBySize = {
 
 const primaryToneStyle = css({});
 
-const secondaryToneStyle = css({
-  border: `1px solid ${theme.colors.action.secondary.border}`,
-});
+const secondaryToneStyle = css({});
 
 const dangerToneStyle = css({});
 
