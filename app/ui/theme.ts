@@ -94,10 +94,10 @@ export const AppTheme = createTheme({
     },
     action: {
       primary: {
-        background: "oklch(0.573242 0.153125 50)",
+        background: "oklch(0.93 0.04 190)",
         backgroundHover: "oklch(0.523242 0.153125 50)",
         backgroundActive: "oklch(0.473242 0.153125 50)",
-        foreground: "oklch(1 0 0)",
+        foreground: "oklch(0.54 0.175 190)",
         border: "oklch(0.573242 0.153125 50)",
       },
       secondary: {
