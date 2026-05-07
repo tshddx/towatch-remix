@@ -51,7 +51,7 @@ export const AppTheme = createTheme({
     normal: "400",
     medium: "700",
     semibold: "700",
-    bold: "700",
+    bold: "800",
   },
   control: {
     height: {
@@ -76,9 +76,9 @@ export const AppTheme = createTheme({
   },
   colors: {
     text: {
-      primary: "oklch(0.1 0 0)",
-      secondary: "oklch(0.3 0 0)",
-      muted: "oklch(0.5 0 0)",
+      primary: "oklch(0.2 0 0)",
+      secondary: "oklch(0.6 0 0)",
+      muted: "oklch(0.9 0 0)",
       link: "oklch(0.65625 0.175 50)",
     },
     border: {
@@ -97,7 +97,7 @@ export const AppTheme = createTheme({
         background: "oklch(0.93 0.04 190)",
         backgroundHover: "oklch(0.523242 0.153125 50)",
         backgroundActive: "oklch(0.473242 0.153125 50)",
-        foreground: "oklch(0.54 0.175 190)",
+        foreground: "oklch(0.52 0.175 190)",
         border: "oklch(0.573242 0.153125 50)",
       },
       secondary: {

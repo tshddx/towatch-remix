@@ -4,7 +4,7 @@ import { theme } from "./theme.ts";
 
 const COLUMN_GAP = "1ch";
 const ROW_GAP = 0;
-const HEADER_BORDER = `1px solid ${theme.colors.border.strong}`;
+const HEADER_BORDER = `1px solid ${theme.colors.border.subtle}`;
 
 const TRUNCATE_CELL = {
   maxWidth: "30ch",
@@ -65,7 +65,10 @@ export function DataGridHeader() {
         overflow: "visible",
         textOverflow: "clip",
         whiteSpace: "normal",
-        "& > div": TRUNCATE_CELL,
+        "& > div": {
+          ...TRUNCATE_CELL,
+          color: theme.colors.text.secondary,
+        },
       })}
     >
       {children}

@@ -12,6 +12,7 @@ import { Heading } from "../../ui/heading.tsx";
 import { InlineLink } from "../../ui/inline-link.tsx";
 import { Layout } from "../../ui/layout.tsx";
 import { PaginationControls } from "../../ui/pagination-controls.tsx";
+import { theme } from "../../ui/theme.ts";
 import { loadCurrentUser, type CurrentUser } from "../../utils/current-user.ts";
 import { formatYear } from "../../utils/date.ts";
 import { parsePageParam, PAGE_SIZE } from "../../utils/pagination.ts";
@@ -203,7 +204,7 @@ function PersonMetadataTable() {
       <DataGrid columns={2}>
         {entries.map(([key, value]) => (
           <Fragment key={key}>
-            <div>{key}</div>
+            <div mix={css({ color: theme.colors.text.secondary })}>{key}</div>
             <div>{value}</div>
           </Fragment>
         ))}
