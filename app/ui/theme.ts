@@ -31,15 +31,15 @@ export const AppTheme = createTheme({
     xxs: "0px",
     xs: "0px",
     sm: "0px",
-    md: "14px",
-    lg: "0px",
+    md: "0.8125rem", // 13px
+    lg: "1.625rem", // 26px
     xl: "0px",
     xxl: "0px",
   },
   lineHeight: {
     tight: "1.25",
-    normal: "2ch",
-    relaxed: "1.65",
+    normal: "1rem", // for use with fontSize.md
+    relaxed: "2rem", // for use with fontSize.lg
   },
   letterSpacing: {
     tight: "-0.02em",

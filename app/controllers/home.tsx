@@ -119,7 +119,7 @@ function HomePage() {
 function RecentlyWatchedTable() {
   return ({ rows }: { rows: RecentlyWatched[] }) => (
     <section
-      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+      mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
     >
       <Heading level={2}>Recently watched</Heading>
       {rows.length === 0 ? (
@@ -171,7 +171,7 @@ function RecentlyWatchedRow() {
 function MostWatchedTable() {
   return ({ rows }: { rows: MostWatched[] }) => (
     <section
-      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+      mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
     >
       <Heading level={2}>Most watched all time</Heading>
       {rows.length === 0 ? (

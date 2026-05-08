@@ -83,7 +83,13 @@ function Sidebar() {
               <InlineLink href={routes.home.href()}>Towatch</InlineLink>
             </Heading>
           </li>
-          <li mix={css({ marginLeft: "auto" })}>
+          <li
+            mix={css({
+              [NARROW]: {
+                marginLeft: "auto",
+              },
+            })}
+          >
             <Link href={routes.movies.index.href()}>Movies</Link>
           </li>
           <li>

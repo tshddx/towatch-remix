@@ -15,9 +15,11 @@ export function Heading() {
       <Tag
         mix={css({
           margin: 0,
-          fontSize: "inherit",
-          fontWeight: theme.fontWeight.bold,
-          lineHeight: theme.lineHeight.normal,
+          fontSize: level === 2 ? theme.fontSize.lg : "inherit",
+          fontWeight:
+            level === 2 ? theme.fontWeight.normal : theme.fontWeight.bold,
+          lineHeight:
+            level === 2 ? theme.lineHeight.relaxed : theme.lineHeight.normal,
           textTransform: "uppercase",
           color:
             level === 2
