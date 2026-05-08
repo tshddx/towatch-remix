@@ -17,6 +17,7 @@ const server = serve(
     }
   },
   {
+    listenHost: "0.0.0.0",
     port,
   },
 );

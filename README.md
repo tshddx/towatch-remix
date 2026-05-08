@@ -23,5 +23,18 @@ A minimal Remix application starter with a home page and an auth page.
 npm i
 npm run start
 npm test
-npm run typecheck
+npm run lint:fix
 ```
+
+## Deploying To Fly.io
+
+This app uses SQLite and filesystem sessions, so deploy it with a persistent Fly volume mounted at `/data`.
+
+```sh
+fly apps create <app-name>
+fly volumes create data --size 1 --region iad -a <app-name>
+fly secrets set SESSION_SECRET="$(openssl rand -base64 32)" -a <app-name>
+fly deploy -a <app-name>
+```
+
+Change `primary_region` in `fly.toml` and the `--region` value above if you want the app hosted somewhere other than IAD.
