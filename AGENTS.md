@@ -62,6 +62,15 @@ Refer to ./agents/skills/remix/SKILL.md
 - Use `npm test` and `npm run lint:fix` for fast, deterministic feedback. `lint:fix` includes type checking via oxlint's type-aware mode.
 - If runtime verification is essential, ask the user to exercise the change and report back rather than booting the server yourself.
 
+## Fly.io Deployments
+
+- Production runs on Fly.io app `towatch-remix` with a persistent volume mounted at `/data`.
+- `server.ts` must bind to `0.0.0.0` so `fly-proxy` can reach the app. If Fly warns that the app is only listening on `127.0.0.1`, check the `listenHost` option passed to `serve()`.
+- Deploy with `fly deploy --app towatch-remix` after running the normal local verification loop.
+- Check live status with `fly status --app towatch-remix` and recent logs with `fly logs --app towatch-remix --no-tail`.
+- Verify public reachability with `curl -fsS -I "https://towatch-remix.fly.dev/"`. A healthy app should return `200`.
+- To inspect the volume or runtime env, use `fly ssh console --app towatch-remix --command "sh -lc 'env | sort; ls -lh /data'"`.
+
 ## Linting and Formatting
 
 - [`oxlint`](https://oxc.rs) handles linting (configured in `.oxlintrc.json` with type-aware mode); [`oxfmt`](https://oxc.rs) handles formatting with default configuration.
