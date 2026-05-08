@@ -143,13 +143,15 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Headings</Heading>
           <p mix={css({ margin: 0 })}>
-            Every level of <code>Heading</code> renders with the same visual
-            styling. The <code>level</code> prop only changes the underlying tag
-            for document outline.
+            <code>Heading</code> levels 1 and 2 use the large page-heading
+            scale, while level 3 is the smaller bold heading used by compact
+            labels like the sidebar brand.
           </p>
           <div
             mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
           >
+            <Heading level={1}>Heading level 1</Heading>
+            <Heading level={2}>Heading level 2</Heading>
             <Heading level={3}>Heading level 3</Heading>
             <Heading level={4}>Heading level 4</Heading>
             <Heading level={5}>Heading level 5</Heading>

@@ -195,7 +195,7 @@ function MovieListPage() {
         ) : (
           <DataGrid columns={2}>
             <DataGridHeader>
-              <div>Movie</div>
+              <div>Title</div>
               <div>Director</div>
             </DataGridHeader>
             {rows.map((row) => (
@@ -254,7 +254,7 @@ function MovieMetadataTable() {
   return ({ movie }: { movie: MovieDetail }) => {
     let entries: Array<[string, RemixNode]> = [];
     let releaseDate = formatDate(movie.release_date);
-    if (releaseDate) entries.push(["Release date", releaseDate]);
+    if (releaseDate) entries.push(["Released", releaseDate]);
     if (movie.runtime !== null)
       entries.push(["Runtime", `${movie.runtime} min`]);
     if (movie.director_id !== null && movie.director_name !== null) {
