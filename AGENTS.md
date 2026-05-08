@@ -50,6 +50,12 @@ Refer to ./agents/skills/remix/SKILL.md
 - Don't use `theme.space.*`. The contract requires those slots, but the codebase has settled on `ch`/`lh` as the unit system because they tie spacing to the monospace font's character grid and line height.
 - Hardcoded `px` values are fine for hairline borders (`1px solid …`).
 
+## Colors
+
+- Use `colors` from `app/ui/colors.ts` for app color values instead of hardcoded color literals in component styles.
+- Add or adjust color tokens through `AppColors` / `createColorTheme` in `app/ui/colors.ts`; `Document` installs the generated CSS variables with `<AppColors.Style />`.
+- Keep semantic usage aligned with the contract: `body.primary`, `body.secondary`, `solid.*`, and `light.*` are the current groups.
+
 ## Verifying Changes
 
 - Don't manually start the dev server (`npm run dev` / `npm run start`) to verify changes — the user may already have one running, and it pollutes local state.
