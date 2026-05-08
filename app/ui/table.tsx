@@ -2,6 +2,7 @@ import { css } from "remix/ui";
 
 import { colors } from "./colors.ts";
 import { InlineLink } from "./inline-link.tsx";
+import { computeTableColumnWidths } from "./table-widths.ts";
 import { theme } from "./theme.ts";
 
 const COLUMN_GAP_CH = 1;
@@ -25,8 +26,9 @@ export interface TableProps<Id extends string = string> {
 
 export function Table<Id extends string>() {
   return ({ width, columns, data }: TableProps<Id>) => {
-    let gridWidth = columns.reduce(
-      (total, column) => total + column.width,
+    let columnWidths = getColumnWidths(columns, data);
+    let gridWidth = columnWidths.reduce(
+      (total, columnWidth) => total + columnWidth,
       Math.max(0, columns.length - 1) * COLUMN_GAP_CH,
     );
 
@@ -42,8 +44,8 @@ export function Table<Id extends string>() {
           mix={css({
             columnGap: COLUMN_GAP,
             display: "grid",
-            gridTemplateColumns: columns
-              .map((column) => `${column.width}ch`)
+            gridTemplateColumns: columnWidths
+              .map((columnWidth) => `${columnWidth}ch`)
               .join(" "),
             justifyContent: "start",
             rowGap: ROW_GAP,
@@ -58,21 +60,21 @@ export function Table<Id extends string>() {
               gridTemplateColumns: "subgrid",
             })}
           >
-            {columns.map((column) => (
+            {columns.map((column, columnIndex) => (
               <TableCellView
                 key={column.id}
                 color={colors.body.secondary.foreground}
                 value={column.label}
-                width={column.width}
+                width={columnWidths[columnIndex]}
               />
             ))}
           </div>
           {data.map((row, rowIndex) =>
-            columns.map((column) => (
+            columns.map((column, columnIndex) => (
               <TableCellView
                 key={`${rowIndex}:${column.id}`}
                 value={row[column.id]}
-                width={column.width}
+                width={columnWidths[columnIndex]}
               />
             )),
           )}
@@ -80,6 +82,26 @@ export function Table<Id extends string>() {
       </div>
     );
   };
+}
+
+function getColumnWidths<Id extends string>(
+  columns: Column<Id>[],
+  data: Array<Record<Id, TableCell>>,
+): number[] {
+  return computeTableColumnWidths(
+    columns.map((column) => {
+      let widestValue = column.label.length;
+      for (let row of data) {
+        widestValue = Math.max(widestValue, getCellText(row[column.id]).length);
+      }
+
+      return { declaredWidth: column.width, widestValue };
+    }),
+  ).map((column) => column.computedWidth);
+}
+
+function getCellText(value: TableCell): string {
+  return typeof value === "string" ? value : value.text;
 }
 
 interface TableCellViewProps {
