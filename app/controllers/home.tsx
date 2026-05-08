@@ -127,7 +127,7 @@ function RecentlyWatchedTable() {
       ) : (
         <DataGrid columns={2}>
           <DataGridHeader>
-            <div>Movie</div>
+            <div>Title</div>
             <div>Director</div>
           </DataGridHeader>
           {rows.map((row) => (
@@ -179,7 +179,7 @@ function MostWatchedTable() {
       ) : (
         <DataGrid columns={2}>
           <DataGridHeader>
-            <div>Movie</div>
+            <div>Title</div>
             <div>Viewings</div>
           </DataGridHeader>
           {rows.map((row) => (

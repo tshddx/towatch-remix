@@ -32,6 +32,10 @@ export function Layout() {
           mix={css({
             flex: 1,
             padding: "1lh 1ch",
+            paddingRight: "max(1ch, env(safe-area-inset-right))",
+            [NARROW]: {
+              paddingLeft: "max(1ch, env(safe-area-inset-left))",
+            },
           })}
         >
           {children}
@@ -45,9 +49,10 @@ function Sidebar() {
   return ({ currentUser }: { currentUser: CurrentUser | null }) => (
     <aside
       mix={css({
-        flex: "0 0 25ch",
-        width: "25ch",
+        flex: "0 0 18ch",
+        width: "18ch",
         padding: "1lh 1ch",
+        paddingLeft: "max(1ch, env(safe-area-inset-left))",
         background: colors.body.secondary.background,
         display: "flex",
         flexDirection: "column",
@@ -55,6 +60,7 @@ function Sidebar() {
         [NARROW]: {
           flex: "0 0 auto",
           width: "100%",
+          paddingRight: "max(1ch, env(safe-area-inset-right))",
         },
       })}
     >

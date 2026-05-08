@@ -244,7 +244,7 @@ function DirectedTable() {
       ) : (
         <DataGrid columns={2}>
           <DataGridHeader>
-            <div>Movie</div>
+            <div>Title</div>
             <div>Year</div>
           </DataGridHeader>
           {directed.map((movie) => (
