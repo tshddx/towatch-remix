@@ -1,4 +1,7 @@
-import { Button as RemixButton, type ButtonProps as RemixButtonProps } from "remix/ui/button";
+import {
+  Button as RemixButton,
+  type ButtonProps as RemixButtonProps,
+} from "remix/ui/button";
 import { css } from "remix/ui";
 
 import { theme } from "./theme.ts";
@@ -22,8 +25,16 @@ const baseStyle = css({
   border: "none !important",
   boxShadow: "none",
   backgroundImage: "none",
-  "&:hover": { border: "none !important", backgroundImage: "none", boxShadow: "none" },
-  "&:active": { border: "none !important", backgroundImage: "none", boxShadow: "none" },
+  "&:hover": {
+    border: "none !important",
+    backgroundImage: "none",
+    boxShadow: "none",
+  },
+  "&:active": {
+    border: "none !important",
+    backgroundImage: "none",
+    boxShadow: "none",
+  },
 });
 
 const mdStyle = css({

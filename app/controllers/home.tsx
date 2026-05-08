@@ -11,7 +11,6 @@ import { DataGrid, DataGridHeader } from "../ui/data-grid.tsx";
 import { Heading } from "../ui/heading.tsx";
 import { InlineLink } from "../ui/inline-link.tsx";
 import { Layout } from "../ui/layout.tsx";
-import { Link } from "../ui/link.tsx";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
 import { render } from "../utils/render.tsx";
 
@@ -109,12 +108,7 @@ function HomePage() {
           <p mix={css({ margin: 0 })}>
             Signed in as <strong>{currentUser.username}</strong>.
           </p>
-        ) : (
-          <p mix={css({ margin: 0 })}>
-            Not signed in. <Link href={routes.auth.signup.index.href()}>Sign up</Link> to get
-            started.
-          </p>
-        )}
+        ) : null}
         <RecentlyWatchedTable rows={recentlyWatched} />
         <MostWatchedTable rows={mostWatched} />
       </div>
@@ -124,7 +118,9 @@ function HomePage() {
 
 function RecentlyWatchedTable() {
   return ({ rows }: { rows: RecentlyWatched[] }) => (
-    <section mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}>
+    <section
+      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+    >
       <Heading level={2}>Recently watched</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
@@ -150,7 +146,9 @@ function RecentlyWatchedRow() {
         {row.movieId === null ? (
           row.movieTitle
         ) : (
-          <InlineLink href={routes.movies.show.href({ movieId: String(row.movieId) })}>
+          <InlineLink
+            href={routes.movies.show.href({ movieId: String(row.movieId) })}
+          >
             {row.movieTitle}
           </InlineLink>
         )}
@@ -159,7 +157,9 @@ function RecentlyWatchedRow() {
         {row.directorId === null || row.directorName === null ? (
           (row.directorName ?? "\u2014")
         ) : (
-          <InlineLink href={routes.people.show.href({ personId: String(row.directorId) })}>
+          <InlineLink
+            href={routes.people.show.href({ personId: String(row.directorId) })}
+          >
             {row.directorName}
           </InlineLink>
         )}
@@ -170,7 +170,9 @@ function RecentlyWatchedRow() {
 
 function MostWatchedTable() {
   return ({ rows }: { rows: MostWatched[] }) => (
-    <section mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}>
+    <section
+      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+    >
       <Heading level={2}>Most watched all time</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
@@ -193,7 +195,9 @@ function MostWatchedRow() {
   return ({ row }: { row: MostWatched }) => (
     <>
       <div>
-        <InlineLink href={routes.movies.show.href({ movieId: String(row.movieId) })}>
+        <InlineLink
+          href={routes.movies.show.href({ movieId: String(row.movieId) })}
+        >
           {row.movieTitle}
         </InlineLink>
       </div>

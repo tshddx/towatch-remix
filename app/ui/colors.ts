@@ -27,6 +27,8 @@ const variableNames = {
     orange: {
       background: "--app-light-orange-background",
       foreground: "--app-light-orange-foreground",
+      borderPrimary: "--app-light-orange-border-primary",
+      borderSecondary: "--app-light-orange-border-secondary",
       backgroundHover: "--app-light-orange-background-hover",
     },
     red: {
@@ -41,7 +43,9 @@ interface VariableTree {
   [key: string]: string | VariableTree;
 }
 
-type MapLeaves<T, L> = T extends string ? L : { [K in keyof T]: MapLeaves<T[K], L> };
+type MapLeaves<T, L> = T extends string
+  ? L
+  : { [K in keyof T]: MapLeaves<T[K], L> };
 
 export type ColorValues = MapLeaves<typeof variableNames, string>;
 export type ColorTokens = MapLeaves<typeof variableNames, string>;
@@ -72,7 +76,9 @@ function collectVars(
       out[node] = String(value);
     } else {
       if (typeof value !== "object" || value === null) {
-        throw new TypeError(`Expected color group at "${nextPath.join(".")}" to be an object`);
+        throw new TypeError(
+          `Expected color group at "${nextPath.join(".")}" to be an object`,
+        );
       }
       collectVars(node, value, nextPath, out);
     }
@@ -94,7 +100,10 @@ function escapeStyleText(cssText: string): string {
 
 export const colors = mapLeavesToVar(variableNames) as ColorTokens;
 
-export function createColorTheme(values: ColorValues, options: CreateColorThemeOptions = {}) {
+export function createColorTheme(
+  values: ColorValues,
+  options: CreateColorThemeOptions = {},
+) {
   let selector = options.selector ?? ":root";
   let vars = Object.freeze(collectVars(variableNames, values));
   let lines = Object.entries(vars)
@@ -147,12 +156,14 @@ export const AppColors = createColorTheme({
     },
     orange: {
       background: "oklch(0.96 0.03 50)",
-      foreground: "oklch(0.52 0.175 50)",
+      foreground: "oklch(0.7 0.2 50)",
+      borderPrimary: "oklch(0.7 0.2 50)",
+      borderSecondary: "oklch(0.9 0.1 50)",
       backgroundHover: "oklch(0.93 0.04 50)",
     },
     red: {
       background: "oklch(0.96 0.04 25)",
-      foreground: "oklch(0.668945 0.275 25)",
+      foreground: "oklch(0.67 0.275 25)",
       backgroundHover: "oklch(0.93 0.06 25)",
     },
   },

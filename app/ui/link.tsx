@@ -1,5 +1,6 @@
 import { css, link, type RemixNode } from "remix/ui";
 
+import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
 
 export interface LinkProps {
@@ -13,11 +14,15 @@ export function Link() {
       mix={[
         link(href),
         css({
-          color: theme.colors.text.link,
+          color: colors.light.orange.foreground,
           fontWeight: theme.fontWeight.bold,
-          textDecoration: "underline",
-          textDecorationSkipInk: "none",
-          textUnderlineOffset: "0.24ch",
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "underline",
+            textDecorationColor: colors.light.orange.borderPrimary,
+            textDecorationSkipInk: "none",
+            textUnderlineOffset: "0.24ch",
+          },
         }),
       ]}
     >

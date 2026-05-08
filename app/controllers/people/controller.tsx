@@ -93,14 +93,21 @@ export const personController = {
       if (!person) return new Response("Not Found", { status: 404 });
 
       return render(
-        <PersonDetailPage currentUser={currentUser} person={person} directed={directed} />,
+        <PersonDetailPage
+          currentUser={currentUser}
+          person={person}
+          directed={directed}
+        />,
         request,
       );
     },
   },
 } satisfies Controller<typeof routes.people, AppContext>;
 
-async function loadPersonList(db: Database, page: number): Promise<PersonListRow[]> {
+async function loadPersonList(
+  db: Database,
+  page: number,
+): Promise<PersonListRow[]> {
   return await db
     .query(people)
     .select({
@@ -114,7 +121,10 @@ async function loadPersonList(db: Database, page: number): Promise<PersonListRow
     .all();
 }
 
-async function loadPerson(db: Database, id: number): Promise<PersonDetail | null> {
+async function loadPerson(
+  db: Database,
+  id: number,
+): Promise<PersonDetail | null> {
   let row = await db
     .query(people)
     .select({
@@ -128,7 +138,10 @@ async function loadPerson(db: Database, id: number): Promise<PersonDetail | null
   return row ?? null;
 }
 
-async function loadDirected(db: Database, personId: number): Promise<DirectedMovie[]> {
+async function loadDirected(
+  db: Database,
+  personId: number,
+): Promise<DirectedMovie[]> {
   return await db
     .query(movies)
     .select({
@@ -143,7 +156,12 @@ async function loadDirected(db: Database, personId: number): Promise<DirectedMov
 }
 
 function PersonListPage() {
-  return ({ currentUser, people: rows, page, hasNextPage }: PersonListPageProps) => (
+  return ({
+    currentUser,
+    people: rows,
+    page,
+    hasNextPage,
+  }: PersonListPageProps) => (
     <Layout title="People" currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>People</Heading>
@@ -204,7 +222,9 @@ function PersonMetadataTable() {
       <DataGrid columns={2}>
         {entries.map(([key, value]) => (
           <Fragment key={key}>
-            <div mix={css({ color: colors.body.secondary.foreground })}>{key}</div>
+            <div mix={css({ color: colors.body.secondary.foreground })}>
+              {key}
+            </div>
             <div>{value}</div>
           </Fragment>
         ))}
@@ -215,7 +235,9 @@ function PersonMetadataTable() {
 
 function DirectedTable() {
   return ({ directed }: { directed: DirectedMovie[] }) => (
-    <section mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}>
+    <section
+      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+    >
       <Heading level={2}>Movies directed</Heading>
       {directed.length === 0 ? (
         <p mix={css({ margin: 0 })}>No movies.</p>
@@ -238,7 +260,9 @@ function DirectedRow() {
   return ({ movie }: { movie: DirectedMovie }) => (
     <>
       <div>
-        <InlineLink href={routes.movies.show.href({ movieId: String(movie.id) })}>
+        <InlineLink
+          href={routes.movies.show.href({ movieId: String(movie.id) })}
+        >
           {movie.title}
         </InlineLink>
       </div>

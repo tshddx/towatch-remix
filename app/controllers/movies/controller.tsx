@@ -106,14 +106,21 @@ export const movieController = {
       if (!movie) return new Response("Not Found", { status: 404 });
 
       return render(
-        <MovieDetailPage currentUser={currentUser} movie={movie} viewings={movieViewings} />,
+        <MovieDetailPage
+          currentUser={currentUser}
+          movie={movie}
+          viewings={movieViewings}
+        />,
         request,
       );
     },
   },
 } satisfies Controller<typeof routes.movies, AppContext>;
 
-async function loadMovieList(db: Database, page: number): Promise<MovieListRow[]> {
+async function loadMovieList(
+  db: Database,
+  page: number,
+): Promise<MovieListRow[]> {
   return await db
     .query(movies)
     .leftJoin(people, eq("movies.director_id", "people.id"))
@@ -130,7 +137,10 @@ async function loadMovieList(db: Database, page: number): Promise<MovieListRow[]
     .all();
 }
 
-async function loadMovie(db: Database, id: number): Promise<MovieDetail | null> {
+async function loadMovie(
+  db: Database,
+  id: number,
+): Promise<MovieDetail | null> {
   let row = await db
     .query(movies)
     .leftJoin(people, eq("movies.director_id", "people.id"))
@@ -153,7 +163,10 @@ async function loadMovie(db: Database, id: number): Promise<MovieDetail | null> 
   return row ?? null;
 }
 
-async function loadMovieViewings(db: Database, movieId: number): Promise<MovieViewing[]> {
+async function loadMovieViewings(
+  db: Database,
+  movieId: number,
+): Promise<MovieViewing[]> {
   return await db
     .query(viewings)
     .select({
@@ -168,7 +181,12 @@ async function loadMovieViewings(db: Database, movieId: number): Promise<MovieVi
 }
 
 function MovieListPage() {
-  return ({ currentUser, movies: rows, page, hasNextPage }: MovieListPageProps) => (
+  return ({
+    currentUser,
+    movies: rows,
+    page,
+    hasNextPage,
+  }: MovieListPageProps) => (
     <Layout title="Movies" currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>Movies</Heading>
@@ -207,7 +225,11 @@ function MovieListRow() {
         {row.director_id === null || row.director_name === null ? (
           "\u2014"
         ) : (
-          <InlineLink href={routes.people.show.href({ personId: String(row.director_id) })}>
+          <InlineLink
+            href={routes.people.show.href({
+              personId: String(row.director_id),
+            })}
+          >
             {row.director_name}
           </InlineLink>
         )}
@@ -233,18 +255,24 @@ function MovieMetadataTable() {
     let entries: Array<[string, RemixNode]> = [];
     let releaseDate = formatDate(movie.release_date);
     if (releaseDate) entries.push(["Release date", releaseDate]);
-    if (movie.runtime !== null) entries.push(["Runtime", `${movie.runtime} min`]);
+    if (movie.runtime !== null)
+      entries.push(["Runtime", `${movie.runtime} min`]);
     if (movie.director_id !== null && movie.director_name !== null) {
       entries.push([
         "Director",
-        <InlineLink href={routes.people.show.href({ personId: String(movie.director_id) })}>
+        <InlineLink
+          href={routes.people.show.href({
+            personId: String(movie.director_id),
+          })}
+        >
           {movie.director_name}
         </InlineLink>,
       ]);
     }
     if (movie.nationality) entries.push(["Nationality", movie.nationality]);
     if (movie.comments) entries.push(["Comments", movie.comments]);
-    if (movie.recommended_by) entries.push(["Recommended by", movie.recommended_by]);
+    if (movie.recommended_by)
+      entries.push(["Recommended by", movie.recommended_by]);
     if (movie.recommend_comments) {
       entries.push(["Recommend comments", movie.recommend_comments]);
     }
@@ -258,7 +286,9 @@ function MovieMetadataTable() {
       <DataGrid columns={2}>
         {entries.map(([key, value]) => (
           <Fragment key={key}>
-            <div mix={css({ color: colors.body.secondary.foreground })}>{key}</div>
+            <div mix={css({ color: colors.body.secondary.foreground })}>
+              {key}
+            </div>
             <div>{value}</div>
           </Fragment>
         ))}
@@ -269,7 +299,9 @@ function MovieMetadataTable() {
 
 function ViewingsTable() {
   return ({ viewings }: { viewings: MovieViewing[] }) => (
-    <section mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}>
+    <section
+      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
+    >
       <Heading level={2}>Viewings</Heading>
       {viewings.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>

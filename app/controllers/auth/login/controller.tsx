@@ -16,7 +16,10 @@ import { Form } from "../../../ui/form.tsx";
 import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
 import { TextField } from "../../../ui/text-field.tsx";
-import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
+import {
+  loadCurrentUser,
+  type CurrentUser,
+} from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
 
 const loginSchema = f.object({
@@ -56,8 +59,13 @@ export const login = {
 
       let usernameLower = parsed.value.username.toLowerCase();
       let db = get(Database);
-      let user = await db.findOne(users, { where: { username_lower: usernameLower } });
-      if (!user || !(await verifyPassword(parsed.value.password, user.password_hash))) {
+      let user = await db.findOne(users, {
+        where: { username_lower: usernameLower },
+      });
+      if (
+        !user ||
+        !(await verifyPassword(parsed.value.password, user.password_hash))
+      ) {
         return render(
           <LoginPage
             currentUser={currentUser}
@@ -85,7 +93,9 @@ function readLoginValues(formData: FormData): LoginPageProps["values"] {
   };
 }
 
-function stringOrUndefined(value: FormDataEntryValue | null): string | undefined {
+function stringOrUndefined(
+  value: FormDataEntryValue | null,
+): string | undefined {
   return typeof value === "string" ? value : undefined;
 }
 

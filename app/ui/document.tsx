@@ -35,7 +35,9 @@ export function Document() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{title ? `${title} · ${APP_DISPLAY_NAME}` : APP_DISPLAY_NAME}</title>
+        <title>
+          {title ? `${title} · ${APP_DISPLAY_NAME}` : APP_DISPLAY_NAME}
+        </title>
         <style>{COMMIT_MONO_FACES}</style>
         <AppTheme.Style />
         <AppColors.Style />
@@ -61,7 +63,10 @@ export function Document() {
         })}
       >
         {children}
-        <script type="module" src={routes.assets.href({ path: "app/assets/entry.ts" })}></script>
+        <script
+          type="module"
+          src={routes.assets.href({ path: "app/assets/entry.ts" })}
+        ></script>
       </body>
     </html>
   );

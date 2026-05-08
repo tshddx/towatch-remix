@@ -19,7 +19,11 @@ interface DesignGuidePageProps {
   currentUser: CurrentUser | null;
 }
 
-export const designGuide: BuildAction<"GET", typeof routes.designGuide, AppContext> = {
+export const designGuide: BuildAction<
+  "GET",
+  typeof routes.designGuide,
+  AppContext
+> = {
   async handler({ get, request }) {
     let currentUser = await loadCurrentUser(get(Database), get(Session));
     return render(<DesignGuidePage currentUser={currentUser} />, request);
@@ -96,7 +100,8 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading>Design Guide</Heading>
           <p mix={css({ margin: 0 })}>
-            Every color token in the theme and every shared component currently in use.
+            Every color token in the theme and every shared component currently
+            in use.
           </p>
         </section>
 
@@ -138,10 +143,13 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Headings</Heading>
           <p mix={css({ margin: 0 })}>
-            Every level of <code>Heading</code> renders with the same visual styling. The{" "}
-            <code>level</code> prop only changes the underlying tag for document outline.
+            Every level of <code>Heading</code> renders with the same visual
+            styling. The <code>level</code> prop only changes the underlying tag
+            for document outline.
           </p>
-          <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+          <div
+            mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
+          >
             <Heading level={3}>Heading level 3</Heading>
             <Heading level={4}>Heading level 4</Heading>
             <Heading level={5}>Heading level 5</Heading>
@@ -151,18 +159,27 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Links</Heading>
           <p mix={css({ margin: 0 })}>
-            A paragraph with a <Link href={routes.home.href()}>link to home</Link> in the middle of
-            it, plus a <Link href={routes.designGuide.href()}>link back to this page</Link>.
+            A paragraph with a{" "}
+            <Link href={routes.home.href()}>link to home</Link> in the middle of
+            it, plus a{" "}
+            <Link href={routes.designGuide.href()}>link back to this page</Link>
+            .
           </p>
         </section>
 
         <section mix={sectionStyle}>
           <Heading level={2}>Buttons</Heading>
-          <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+          <div
+            mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
+          >
             {actionTones.map((tone) => (
               <div
                 key={tone.name}
-                mix={css({ display: "flex", gap: "1ch", alignItems: "flex-start" })}
+                mix={css({
+                  display: "flex",
+                  gap: "1ch",
+                  alignItems: "flex-start",
+                })}
               >
                 <Button tone={tone.name}>{tone.name} md</Button>
                 <Button tone={tone.name} size="lg">
@@ -176,9 +193,10 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Form</Heading>
           <p mix={css({ margin: 0 })}>
-            <code>Form</code> arranges its children in a flex column with a 1lh gap. Each{" "}
-            <code>TextField</code> reserves a 1lh row under the input for an error message, so
-            adding or removing an error doesn't shift the form's layout.
+            <code>Form</code> arranges its children in a flex column with a 1lh
+            gap. Each <code>TextField</code> reserves a 1lh row under the input
+            for an error message, so adding or removing an error doesn't shift
+            the form's layout.
           </p>
           <Form>
             <TextField label="Plain field" name="example_plain" type="text" />
@@ -198,8 +216,9 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Validation alert</Heading>
           <p mix={css({ margin: 0 })}>
-            <code>TextField</code> uses this style for its inline errors. Form-level alerts (e.g. a
-            login that failed because of a bad password) use the same style.
+            <code>TextField</code> uses this style for its inline errors.
+            Form-level alerts (e.g. a login that failed because of a bad
+            password) use the same style.
           </p>
           <p role="alert" mix={css({ margin: 0 })}>
             This is what a validation error looks like.
@@ -284,7 +303,9 @@ function ActionToneCard() {
           border: `1px solid ${theme.colors.border.default}`,
         })}
       >
-        <code mix={css({ fontFamily: theme.fontFamily.mono })}>action.{tone.name}</code>
+        <code mix={css({ fontFamily: theme.fontFamily.mono })}>
+          action.{tone.name}
+        </code>
       </div>
       <div mix={css({ display: "flex", gap: "1ch", alignItems: "flex-start" })}>
         <ActionStateChip label="hover" color={tone.backgroundHover} />
@@ -311,7 +332,12 @@ function ActionStateChip() {
           border: `1px solid ${theme.colors.border.default}`,
         })}
       />
-      <code mix={css({ fontFamily: theme.fontFamily.mono, color: theme.colors.text.muted })}>
+      <code
+        mix={css({
+          fontFamily: theme.fontFamily.mono,
+          color: theme.colors.text.muted,
+        })}
+      >
         {label}
       </code>
     </div>

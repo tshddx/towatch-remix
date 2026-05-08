@@ -15,4 +15,6 @@ export const sessionCookie = createCookie("session", {
   path: "/",
 });
 
-export const sessionStorage = createFsSessionStorage(process.env.SESSION_PATH ?? "./tmp/sessions");
+export const sessionStorage = createFsSessionStorage(
+  process.env.SESSION_PATH ?? "./tmp/sessions",
+);

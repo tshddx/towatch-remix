@@ -16,7 +16,10 @@ import { Form } from "../../../ui/form.tsx";
 import { Heading } from "../../../ui/heading.tsx";
 import { Layout } from "../../../ui/layout.tsx";
 import { TextField } from "../../../ui/text-field.tsx";
-import { loadCurrentUser, type CurrentUser } from "../../../utils/current-user.ts";
+import {
+  loadCurrentUser,
+  type CurrentUser,
+} from "../../../utils/current-user.ts";
 import { render } from "../../../utils/render.tsx";
 
 const USERNAME_PATTERN = /^[A-Za-z0-9](?:-?[A-Za-z0-9])*$/;
@@ -86,7 +89,9 @@ export const signup = {
       let usernameLower = parsed.value.username.toLowerCase();
 
       let db = get(Database);
-      let existing = await db.findOne(users, { where: { username_lower: usernameLower } });
+      let existing = await db.findOne(users, {
+        where: { username_lower: usernameLower },
+      });
       if (existing) {
         return render(
           <SignupPage
@@ -126,7 +131,9 @@ function readSignupValues(formData: FormData): SignupPageProps["values"] {
   };
 }
 
-function stringOrUndefined(value: FormDataEntryValue | null): string | undefined {
+function stringOrUndefined(
+  value: FormDataEntryValue | null,
+): string | undefined {
   return typeof value === "string" ? value : undefined;
 }
 
@@ -134,7 +141,11 @@ function collectFieldErrors(issues: ReadonlyArray<s.Issue>): SignupFieldErrors {
   let errors: SignupFieldErrors = {};
   for (let issue of issues) {
     let key = issue.path?.[0];
-    if (key === "username" || key === "password" || key === "password_confirm") {
+    if (
+      key === "username" ||
+      key === "password" ||
+      key === "password_confirm"
+    ) {
       errors[key] ??= issue.message;
     } else {
       errors.form ??= issue.message;

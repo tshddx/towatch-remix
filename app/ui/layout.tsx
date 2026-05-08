@@ -4,6 +4,7 @@ import { routes } from "../routes.ts";
 import type { CurrentUser } from "../utils/current-user.ts";
 import { Document } from "./document.tsx";
 import { Heading } from "./heading.tsx";
+import { InlineLink } from "./inline-link.tsx";
 import { Link } from "./link.tsx";
 import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
@@ -51,11 +52,17 @@ function Sidebar() {
         display: "flex",
         flexDirection: "column",
         gap: "1lh",
-        [NARROW]: { flex: "0 0 auto", width: "100%" },
+        [NARROW]: {
+          flex: "0 0 auto",
+          width: "100%",
+        },
       })}
     >
-      <Heading>Towatch</Heading>
-      <nav>
+      <nav
+        mix={css({
+          [NARROW]: { width: "100%" },
+        })}
+      >
         <ul
           mix={css({
             listStyle: "none",
@@ -64,19 +71,23 @@ function Sidebar() {
             display: "flex",
             flexDirection: "column",
             gap: "1lh",
+            [NARROW]: {
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: "1lh 3ch",
+            },
           })}
         >
           <li>
-            <Link href={routes.home.href()}>Home</Link>
+            <Heading>
+              <InlineLink href={routes.home.href()}>Towatch</InlineLink>
+            </Heading>
           </li>
-          <li>
+          <li mix={css({ marginLeft: "auto" })}>
             <Link href={routes.movies.index.href()}>Movies</Link>
           </li>
           <li>
             <Link href={routes.people.index.href()}>People</Link>
-          </li>
-          <li>
-            <Link href={routes.designGuide.href()}>Design guide</Link>
           </li>
           {currentUser ? (
             <li>
@@ -100,20 +111,28 @@ function Sidebar() {
 
 function SignOutButton() {
   return () => (
-    <form method="post" action={routes.auth.signout.href()} mix={css({ margin: 0 })}>
+    <form
+      method="post"
+      action={routes.auth.signout.href()}
+      mix={css({ margin: 0 })}
+    >
       <button
         type="submit"
         mix={css({
           padding: 0,
           border: "none",
           background: "transparent",
-          color: theme.colors.text.link,
+          color: colors.light.orange.foreground,
           cursor: "pointer",
           font: "inherit",
           fontWeight: theme.fontWeight.bold,
-          textDecoration: "underline",
-          textDecorationSkipInk: "none",
-          textUnderlineOffset: "0.24ch",
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "underline",
+            textDecorationColor: colors.light.orange.borderPrimary,
+            textDecorationSkipInk: "none",
+            textUnderlineOffset: "0.24ch",
+          },
         })}
       >
         Sign out

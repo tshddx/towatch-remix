@@ -1,4 +1,5 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": [".claude/skills/remix"]
+  "ignorePatterns": [".claude/skills/remix"],
+  "printWidth": 80
 }

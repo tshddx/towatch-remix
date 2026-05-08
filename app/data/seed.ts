@@ -23,7 +23,9 @@ type SeedFile = {
   }>;
 };
 
-const seedPath = fileURLToPath(new URL("../../db/seed/watchlist-2010.json", import.meta.url));
+const seedPath = fileURLToPath(
+  new URL("../../db/seed/watchlist-2010.json", import.meta.url),
+);
 const seed = JSON.parse(readFileSync(seedPath, "utf8")) as SeedFile;
 
 async function main(): Promise<void> {
@@ -39,7 +41,9 @@ async function main(): Promise<void> {
     console.error(
       `Seed aborted: tables are not empty (people=${peopleCount}, movies=${movieCount}, viewings=${viewingCount}).`,
     );
-    console.error("Drop db/app.db (or clear those tables) before running `npm run seed`.");
+    console.error(
+      "Drop db/app.db (or clear those tables) before running `npm run seed`.",
+    );
     process.exit(1);
   }
 
@@ -57,9 +61,12 @@ async function main(): Promise<void> {
 
   const movieIds: number[] = [];
   for (const m of seed.movies) {
-    const directorId = m.director_index === null ? null : personIds[m.director_index];
+    const directorId =
+      m.director_index === null ? null : personIds[m.director_index];
     if (m.director_index !== null && directorId === undefined) {
-      throw new Error(`Movie "${m.title}" references unknown director_index ${m.director_index}`);
+      throw new Error(
+        `Movie "${m.title}" references unknown director_index ${m.director_index}`,
+      );
     }
     const row = await db.create(
       movies,
@@ -83,7 +90,9 @@ async function main(): Promise<void> {
   for (const v of seed.viewings) {
     const movieId = movieIds[v.movie_index];
     if (movieId === undefined) {
-      throw new Error(`Viewing references unknown movie_index ${v.movie_index}`);
+      throw new Error(
+        `Viewing references unknown movie_index ${v.movie_index}`,
+      );
     }
     await db.create(viewings, {
       movie_id: movieId,

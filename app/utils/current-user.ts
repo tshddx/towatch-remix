@@ -8,7 +8,10 @@ export interface CurrentUser {
   username: string;
 }
 
-export async function loadCurrentUser(db: Database, session: Session): Promise<CurrentUser | null> {
+export async function loadCurrentUser(
+  db: Database,
+  session: Session,
+): Promise<CurrentUser | null> {
   let userIdValue = session.get("userId");
   if (typeof userIdValue !== "number") return null;
 

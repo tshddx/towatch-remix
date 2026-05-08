@@ -20,8 +20,12 @@ export function PaginationControls() {
     if (!hasPrevPage && !hasNextPage) return null;
     return (
       <nav mix={css({ display: "flex", gap: "2ch" })}>
-        {hasPrevPage ? <Link href={pageHref(basePath, page - 1)}>Previous</Link> : null}
-        {hasNextPage ? <Link href={pageHref(basePath, page + 1)}>Next</Link> : null}
+        {hasPrevPage ? (
+          <Link href={pageHref(basePath, page - 1)}>Previous</Link>
+        ) : null}
+        {hasNextPage ? (
+          <Link href={pageHref(basePath, page + 1)}>Next</Link>
+        ) : null}
       </nav>
     );
   };

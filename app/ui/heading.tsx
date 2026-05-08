@@ -19,7 +19,10 @@ export function Heading() {
           fontWeight: theme.fontWeight.bold,
           lineHeight: theme.lineHeight.normal,
           textTransform: "uppercase",
-          color: level === 2 ? colors.light.teal.foreground : colors.body.primary.foreground,
+          color:
+            level === 2
+              ? colors.light.teal.foreground
+              : colors.body.primary.foreground,
         })}
       >
         {children}
