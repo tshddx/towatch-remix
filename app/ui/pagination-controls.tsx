@@ -2,6 +2,7 @@ import { css } from "remix/ui";
 
 import { pageHref } from "../utils/pagination.ts";
 import { Link } from "./link.tsx";
+import { theme } from "./theme.ts";
 
 export interface PaginationControlsProps {
   basePath: string;
@@ -10,22 +11,25 @@ export interface PaginationControlsProps {
 }
 
 /**
- * Renders Previous/Next links for a paginated list. Page 1 links use the
- * bare `basePath`; later pages use `?page=N`. If neither direction is
- * available the component renders nothing.
+ * Renders Previous/Next controls for a paginated list. Page 1 links use the
+ * bare `basePath`; later pages use `?page=N`. Unavailable directions render
+ * as muted text instead of links.
  */
 export function PaginationControls() {
   return ({ basePath, page, hasNextPage }: PaginationControlsProps) => {
     let hasPrevPage = page > 1;
-    if (!hasPrevPage && !hasNextPage) return null;
     return (
       <nav mix={css({ display: "flex", gap: "2ch" })}>
         {hasPrevPage ? (
           <Link href={pageHref(basePath, page - 1)}>Previous</Link>
-        ) : null}
+        ) : (
+          <span mix={css({ color: theme.colors.text.muted })}>Previous</span>
+        )}
         {hasNextPage ? (
           <Link href={pageHref(basePath, page + 1)}>Next</Link>
-        ) : null}
+        ) : (
+          <span mix={css({ color: theme.colors.text.muted })}>Next</span>
+        )}
       </nav>
     );
   };
