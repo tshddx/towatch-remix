@@ -52,6 +52,27 @@ export function Document() {
             color: colors.light.red.foreground,
             fontWeight: theme.fontWeight.bold,
           },
+          "& dl": {
+            display: "grid",
+            gridTemplateColumns: "repeat(2, auto)",
+            justifyContent: "start",
+            columnGap: "1ch",
+            rowGap: 0,
+            margin: 0,
+          },
+          "& dt, & dd": {
+            maxWidth: "30ch",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            width: "fit-content",
+          },
+          "& dt": {
+            color: colors.body.secondary.foreground,
+          },
+          "& dd": {
+            margin: 0,
+          },
           margin: 0,
           minHeight: "100vh",
           background: colors.body.primary.background,

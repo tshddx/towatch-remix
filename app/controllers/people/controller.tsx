@@ -7,8 +7,6 @@ import { css, Fragment, type RemixNode } from "remix/ui";
 import { movies, people } from "../../data/schema.ts";
 import type { AppContext } from "../../router.ts";
 import { routes } from "../../routes.ts";
-import { colors } from "../../ui/colors.ts";
-import { DataGrid } from "../../ui/data-grid.tsx";
 import { Heading } from "../../ui/heading.tsx";
 import { Layout } from "../../ui/layout.tsx";
 import { PaginationControls } from "../../ui/pagination-controls.tsx";
@@ -211,16 +209,14 @@ function PersonMetadataTable() {
     }
 
     return (
-      <DataGrid columns={2}>
+      <dl>
         {entries.map(([key, value]) => (
           <Fragment key={key}>
-            <div mix={css({ color: colors.body.secondary.foreground })}>
-              {key}
-            </div>
-            <div>{value}</div>
+            <dt>{key}</dt>
+            <dd>{value}</dd>
           </Fragment>
         ))}
-      </DataGrid>
+      </dl>
     );
   };
 }
