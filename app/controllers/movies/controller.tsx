@@ -284,9 +284,7 @@ function MovieMetadataTable() {
 
 function ViewingsTable() {
   return ({ viewings }: { viewings: MovieViewing[] }) => (
-    <section
-      mix={css({ display: "flex", flexDirection: "column", gap: "0.5lh" })}
-    >
+    <section>
       <Heading level={2}>Viewings</Heading>
       {viewings.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>

@@ -102,7 +102,7 @@ async function loadMostWatched(db: Database): Promise<MostWatched[]> {
 function HomePage() {
   return ({ currentUser, recentlyWatched, mostWatched }: HomePageProps) => (
     <Layout title="Home" currentUser={currentUser}>
-      <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
+      <div mix={css({ display: "flex", flexWrap: "wrap", gap: "1lh" })}>
         <RecentlyWatchedTable rows={recentlyWatched} />
         <MostWatchedTable rows={mostWatched} />
       </div>
@@ -112,9 +112,7 @@ function HomePage() {
 
 function RecentlyWatchedTable() {
   return ({ rows }: { rows: RecentlyWatched[] }) => (
-    <section
-      mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
-    >
+    <section>
       <Heading level={2}>Recently watched</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
@@ -153,9 +151,7 @@ function RecentlyWatchedTable() {
 
 function MostWatchedTable() {
   return ({ rows }: { rows: MostWatched[] }) => (
-    <section
-      mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
-    >
+    <section>
       <Heading level={2}>Most watched all time</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
