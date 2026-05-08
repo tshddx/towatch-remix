@@ -103,11 +103,6 @@ function HomePage() {
   return ({ currentUser, recentlyWatched, mostWatched }: HomePageProps) => (
     <Layout title="Home" currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
-        {currentUser ? (
-          <p mix={css({ margin: 0 })}>
-            Signed in as <strong>{currentUser.username}</strong>.
-          </p>
-        ) : null}
         <RecentlyWatchedTable rows={recentlyWatched} />
         <MostWatchedTable rows={mostWatched} />
       </div>
