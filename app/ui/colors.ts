@@ -138,7 +138,7 @@ export const AppColors = createColorTheme({
     },
     secondary: {
       foreground: "oklch(0.6 0 0)",
-      background: "oklch(0.96 0 0)",
+      background: "oklch(0.975 0 0)",
     },
   },
   solid: {
