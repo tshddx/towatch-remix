@@ -1,6 +1,7 @@
 import { css, type RemixNode } from "remix/ui";
 
 import { routes } from "../routes.ts";
+import { AppColors, colors } from "./colors.ts";
 import { AppTheme, theme } from "./theme.ts";
 
 const APP_DISPLAY_NAME = decodeURIComponent("Towatch%20Remix");
@@ -37,18 +38,19 @@ export function Document() {
         <title>{title ? `${title} · ${APP_DISPLAY_NAME}` : APP_DISPLAY_NAME}</title>
         <style>{COMMIT_MONO_FACES}</style>
         <AppTheme.Style />
+        <AppColors.Style />
       </head>
       <body
         mix={css({
           "& *, & *::before, & *::after": { boxSizing: "border-box" },
           '& [role="alert"]': {
-            color: theme.colors.action.danger.foreground,
+            color: colors.light.red.foreground,
             fontWeight: theme.fontWeight.bold,
           },
           margin: 0,
           minHeight: "100vh",
-          background: theme.surface.lvl0,
-          color: theme.colors.text.primary,
+          background: colors.body.primary.background,
+          color: colors.body.primary.foreground,
           fontFamily: theme.fontFamily.mono,
           fontSize: theme.fontSize.md,
           fontFeatureSettings:

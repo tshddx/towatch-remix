@@ -1,5 +1,6 @@
 import { css, type RemixNode } from "remix/ui";
 
+import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
 
 const COLUMN_GAP = "1ch";
@@ -68,7 +69,7 @@ export function DataGridHeader() {
         whiteSpace: "normal",
         "& > div": {
           ...TRUNCATE_CELL,
-          color: theme.colors.text.secondary,
+          color: colors.body.secondary.foreground,
         },
       })}
     >

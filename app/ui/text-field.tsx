@@ -1,5 +1,6 @@
 import { css, type Handle, type Props } from "remix/ui";
 
+import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
 
 export type TextFieldProps = Props<"input"> & {
@@ -15,7 +16,7 @@ const fieldStyle = css({
 const inputStyle = css({
   font: "inherit",
   color: "inherit",
-  background: theme.surface.lvl1,
+  background: colors.body.secondary.background,
   border: "none",
   borderBottom: `1px solid ${theme.colors.border.strong}`,
   borderRadius: 0,

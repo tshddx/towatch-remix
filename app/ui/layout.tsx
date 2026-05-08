@@ -5,6 +5,7 @@ import type { CurrentUser } from "../utils/current-user.ts";
 import { Document } from "./document.tsx";
 import { Heading } from "./heading.tsx";
 import { Link } from "./link.tsx";
+import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
 
 export interface LayoutProps {
@@ -46,7 +47,7 @@ function Sidebar() {
         flex: "0 0 25ch",
         width: "25ch",
         padding: "1lh 1ch",
-        background: theme.surface.lvl1,
+        background: colors.body.secondary.background,
         display: "flex",
         flexDirection: "column",
         gap: "1lh",
