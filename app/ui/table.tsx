@@ -5,8 +5,6 @@ import { InlineLink } from "./inline-link.tsx";
 import { computeTableColumnWidths } from "./table-widths.ts";
 import { theme } from "./theme.ts";
 
-const COLUMN_GAP_CH = 1;
-const COLUMN_GAP = `${COLUMN_GAP_CH}ch`;
 const ROW_GAP = 0;
 const HEADER_BORDER = `1px solid ${theme.colors.border.subtle}`;
 
@@ -27,9 +25,12 @@ export interface TableProps<Id extends string = string> {
 export function Table<Id extends string>() {
   return ({ width, columns, data }: TableProps<Id>) => {
     let columnWidths = getColumnWidths(columns, data);
-    let gridWidth = columnWidths.reduce(
+    let gridColumnWidths = columnWidths.map(
+      (columnWidth, index) => columnWidth + (index < columns.length - 1 ? 1 : 0),
+    );
+    let gridWidth = gridColumnWidths.reduce(
       (total, columnWidth) => total + columnWidth,
-      Math.max(0, columns.length - 1) * COLUMN_GAP_CH,
+      0,
     );
 
     return (
@@ -42,9 +43,8 @@ export function Table<Id extends string>() {
       >
         <div
           mix={css({
-            columnGap: COLUMN_GAP,
             display: "grid",
-            gridTemplateColumns: columnWidths
+            gridTemplateColumns: gridColumnWidths
               .map((columnWidth) => `${columnWidth}ch`)
               .join(" "),
             justifyContent: "start",
@@ -65,7 +65,8 @@ export function Table<Id extends string>() {
                 key={column.id}
                 color={colors.body.secondary.foreground}
                 value={column.label}
-                width={columnWidths[columnIndex]}
+                valueWidth={columnWidths[columnIndex]}
+                width={gridColumnWidths[columnIndex]}
               />
             ))}
           </div>
@@ -73,8 +74,10 @@ export function Table<Id extends string>() {
             columns.map((column, columnIndex) => (
               <TableCellView
                 key={`${rowIndex}:${column.id}`}
+                fill={columnIndex < columns.length - 1}
                 value={row[column.id]}
-                width={columnWidths[columnIndex]}
+                valueWidth={columnWidths[columnIndex]}
+                width={gridColumnWidths[columnIndex]}
               />
             )),
           )}
@@ -106,26 +109,65 @@ function getCellText(value: TableCell): string {
 
 interface TableCellViewProps {
   color?: string;
+  fill?: boolean;
   value: TableCell;
+  valueWidth: number;
   width: number;
 }
 
 function TableCellView() {
-  return ({ color, value, width }: TableCellViewProps) => (
-    <div
-      mix={css({
-        color,
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        width: `${width}ch`,
-      })}
-    >
-      {typeof value === "string" ? (
-        value
-      ) : (
-        <InlineLink href={value.href}>{value.text}</InlineLink>
-      )}
-    </div>
-  );
+  return ({
+    color,
+    fill = false,
+    value,
+    valueWidth,
+    width,
+  }: TableCellViewProps) => {
+    let fillCount = fill ? getFillCount(width, valueWidth, getCellText(value)) : 0;
+
+    return (
+      <div
+        mix={css({
+          display: "flex",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          width: `${width}ch`,
+        })}
+      >
+        <span
+          mix={css({
+            color,
+            display: "inline-block",
+            flex: "0 0 auto",
+            maxWidth: `${valueWidth}ch`,
+            minWidth: 0,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          })}
+        >
+          {typeof value === "string" ? (
+            value
+          ) : (
+            <InlineLink href={value.href}>{value.text}</InlineLink>
+          )}
+        </span>
+        {fillCount > 0 ? (
+          <span
+            mix={css({
+              color: theme.colors.text.muted,
+              flex: "none",
+            })}
+          >
+            {".".repeat(fillCount)}
+          </span>
+        ) : null}
+      </div>
+    );
+  };
+}
+
+function getFillCount(width: number, valueWidth: number, text: string): number {
+  if (width <= 0) return 0;
+  return Math.max(1, width - Math.min(text.length, valueWidth));
 }
