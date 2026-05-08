@@ -37,6 +37,26 @@ describe("computeTableColumnWidths", () => {
     );
   });
 
+  it("allocates extra width to columns that can use it", () => {
+    assert.deepEqual(
+      computeTableColumnWidths([
+        { declaredWidth: 10, widestValue: 8 },
+        { declaredWidth: 10, widestValue: 15 },
+      ]),
+      [{ computedWidth: 8 }, { computedWidth: 12 }],
+    );
+  });
+
+  it("caps demand-based allocation at the widest value", () => {
+    assert.deepEqual(
+      computeTableColumnWidths([
+        { declaredWidth: 10, widestValue: 8 },
+        { declaredWidth: 10, widestValue: 11 },
+      ]),
+      [{ computedWidth: 9 }, { computedWidth: 11 }],
+    );
+  });
+
   it("uses largest-remainder rounding when multiple columns have fractional allocations", () => {
     assert.deepEqual(
       computeTableColumnWidths([
@@ -44,7 +64,7 @@ describe("computeTableColumnWidths", () => {
         { declaredWidth: 3, widestValue: 2 },
         { declaredWidth: 2, widestValue: 1 },
       ]),
-      [{ computedWidth: 6 }, { computedWidth: 2 }, { computedWidth: 2 }],
+      [{ computedWidth: 5 }, { computedWidth: 3 }, { computedWidth: 2 }],
     );
   });
 
