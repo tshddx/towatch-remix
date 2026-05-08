@@ -8,12 +8,13 @@ import { css, Fragment, type RemixNode } from "remix/ui";
 import { movies, people, viewings } from "../../data/schema.ts";
 import type { AppContext } from "../../router.ts";
 import { routes } from "../../routes.ts";
-import { DataGrid, DataGridHeader } from "../../ui/data-grid.tsx";
+import { colors } from "../../ui/colors.ts";
+import { DataGrid } from "../../ui/data-grid.tsx";
 import { Heading } from "../../ui/heading.tsx";
 import { InlineLink } from "../../ui/inline-link.tsx";
 import { Layout } from "../../ui/layout.tsx";
 import { PaginationControls } from "../../ui/pagination-controls.tsx";
-import { colors } from "../../ui/colors.ts";
+import { Table } from "../../ui/table.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../utils/current-user.ts";
 import { formatDate } from "../../utils/date.ts";
 import { parsePageParam, PAGE_SIZE } from "../../utils/pagination.ts";
@@ -193,15 +194,28 @@ function MovieListPage() {
         {rows.length === 0 ? (
           <p mix={css({ margin: 0 })}>No movies on this page.</p>
         ) : (
-          <DataGrid columns={2}>
-            <DataGridHeader>
-              <div>Title</div>
-              <div>Director</div>
-            </DataGridHeader>
-            {rows.map((row) => (
-              <MovieListRow key={row.id} row={row} />
-            ))}
-          </DataGrid>
+          <Table
+            width={48}
+            columns={[
+              { id: "title", label: "Title", width: 24 },
+              { id: "director", label: "Director", width: 23 },
+            ]}
+            data={rows.map((row) => ({
+              title: {
+                href: routes.movies.show.href({ movieId: String(row.id) }),
+                text: row.title,
+              },
+              director:
+                row.director_id === null || row.director_name === null
+                  ? "\u2014"
+                  : {
+                      href: routes.people.show.href({
+                        personId: String(row.director_id),
+                      }),
+                      text: row.director_name,
+                    },
+            }))}
+          />
         )}
         <PaginationControls
           basePath={routes.movies.index.href()}
@@ -210,31 +224,6 @@ function MovieListPage() {
         />
       </div>
     </Layout>
-  );
-}
-
-function MovieListRow() {
-  return ({ row }: { row: MovieListRow }) => (
-    <>
-      <div>
-        <InlineLink href={routes.movies.show.href({ movieId: String(row.id) })}>
-          {row.title}
-        </InlineLink>
-      </div>
-      <div>
-        {row.director_id === null || row.director_name === null ? (
-          "\u2014"
-        ) : (
-          <InlineLink
-            href={routes.people.show.href({
-              personId: String(row.director_id),
-            })}
-          >
-            {row.director_name}
-          </InlineLink>
-        )}
-      </div>
-    </>
   );
 }
 
@@ -306,25 +295,18 @@ function ViewingsTable() {
       {viewings.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
-        <DataGrid columns={2}>
-          <DataGridHeader>
-            <div>Date</div>
-            <div>Notes</div>
-          </DataGridHeader>
-          {viewings.map((viewing) => (
-            <ViewingRow key={viewing.id} viewing={viewing} />
-          ))}
-        </DataGrid>
+        <Table
+          width={72}
+          columns={[
+            { id: "date", label: "Date", width: 12 },
+            { id: "notes", label: "Notes", width: 59 },
+          ]}
+          data={viewings.map((viewing) => ({
+            date: formatDate(viewing.date) ?? "\u2014",
+            notes: viewing.notes ?? "\u2014",
+          }))}
+        />
       )}
     </section>
-  );
-}
-
-function ViewingRow() {
-  return ({ viewing }: { viewing: MovieViewing }) => (
-    <>
-      <div>{formatDate(viewing.date) ?? "\u2014"}</div>
-      <div>{viewing.notes ?? "\u2014"}</div>
-    </>
   );
 }

@@ -7,12 +7,12 @@ import { css, Fragment, type RemixNode } from "remix/ui";
 import { movies, people } from "../../data/schema.ts";
 import type { AppContext } from "../../router.ts";
 import { routes } from "../../routes.ts";
-import { DataGrid, DataGridHeader } from "../../ui/data-grid.tsx";
+import { colors } from "../../ui/colors.ts";
+import { DataGrid } from "../../ui/data-grid.tsx";
 import { Heading } from "../../ui/heading.tsx";
-import { InlineLink } from "../../ui/inline-link.tsx";
 import { Layout } from "../../ui/layout.tsx";
 import { PaginationControls } from "../../ui/pagination-controls.tsx";
-import { colors } from "../../ui/colors.ts";
+import { Table } from "../../ui/table.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../utils/current-user.ts";
 import { formatYear } from "../../utils/date.ts";
 import { parsePageParam, PAGE_SIZE } from "../../utils/pagination.ts";
@@ -168,14 +168,16 @@ function PersonListPage() {
         {rows.length === 0 ? (
           <p mix={css({ margin: 0 })}>No people on this page.</p>
         ) : (
-          <DataGrid columns={1}>
-            <DataGridHeader>
-              <div>Name</div>
-            </DataGridHeader>
-            {rows.map((row) => (
-              <PersonListRow key={row.id} row={row} />
-            ))}
-          </DataGrid>
+          <Table
+            width={48}
+            columns={[{ id: "name", label: "Name", width: 48 }]}
+            data={rows.map((row) => ({
+              name: {
+                href: routes.people.show.href({ personId: String(row.id) }),
+                text: row.name,
+              },
+            }))}
+          />
         )}
         <PaginationControls
           basePath={routes.people.index.href()}
@@ -184,16 +186,6 @@ function PersonListPage() {
         />
       </div>
     </Layout>
-  );
-}
-
-function PersonListRow() {
-  return ({ row }: { row: PersonListRow }) => (
-    <div>
-      <InlineLink href={routes.people.show.href({ personId: String(row.id) })}>
-        {row.name}
-      </InlineLink>
-    </div>
   );
 }
 
@@ -242,31 +234,21 @@ function DirectedTable() {
       {directed.length === 0 ? (
         <p mix={css({ margin: 0 })}>No movies.</p>
       ) : (
-        <DataGrid columns={2}>
-          <DataGridHeader>
-            <div>Title</div>
-            <div>Year</div>
-          </DataGridHeader>
-          {directed.map((movie) => (
-            <DirectedRow key={movie.id} movie={movie} />
-          ))}
-        </DataGrid>
+        <Table
+          width={52}
+          columns={[
+            { id: "title", label: "Title", width: 43 },
+            { id: "year", label: "Year", width: 8 },
+          ]}
+          data={directed.map((movie) => ({
+            title: {
+              href: routes.movies.show.href({ movieId: String(movie.id) }),
+              text: movie.title,
+            },
+            year: formatYear(movie.release_date) ?? "\u2014",
+          }))}
+        />
       )}
     </section>
-  );
-}
-
-function DirectedRow() {
-  return ({ movie }: { movie: DirectedMovie }) => (
-    <>
-      <div>
-        <InlineLink
-          href={routes.movies.show.href({ movieId: String(movie.id) })}
-        >
-          {movie.title}
-        </InlineLink>
-      </div>
-      <div>{formatYear(movie.release_date) ?? "\u2014"}</div>
-    </>
   );
 }

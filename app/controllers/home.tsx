@@ -7,10 +7,9 @@ import { css } from "remix/ui";
 import { movies, people, viewings } from "../data/schema.ts";
 import type { AppContext } from "../router.ts";
 import { routes } from "../routes.ts";
-import { DataGrid, DataGridHeader } from "../ui/data-grid.tsx";
 import { Heading } from "../ui/heading.tsx";
-import { InlineLink } from "../ui/inline-link.tsx";
 import { Layout } from "../ui/layout.tsx";
+import { Table } from "../ui/table.tsx";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
 import { render } from "../utils/render.tsx";
 
@@ -125,46 +124,35 @@ function RecentlyWatchedTable() {
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
-        <DataGrid columns={2}>
-          <DataGridHeader>
-            <div>Title</div>
-            <div>Director</div>
-          </DataGridHeader>
-          {rows.map((row) => (
-            <RecentlyWatchedRow key={row.viewingId} row={row} />
-          ))}
-        </DataGrid>
+        <Table
+          width={48}
+          columns={[
+            { id: "title", label: "Title", width: 24 },
+            { id: "director", label: "Director", width: 23 },
+          ]}
+          data={rows.map((row) => ({
+            title:
+              row.movieId === null
+                ? row.movieTitle
+                : {
+                    href: routes.movies.show.href({
+                      movieId: String(row.movieId),
+                    }),
+                    text: row.movieTitle,
+                  },
+            director:
+              row.directorId === null || row.directorName === null
+                ? (row.directorName ?? "\u2014")
+                : {
+                    href: routes.people.show.href({
+                      personId: String(row.directorId),
+                    }),
+                    text: row.directorName,
+                  },
+          }))}
+        />
       )}
     </section>
-  );
-}
-
-function RecentlyWatchedRow() {
-  return ({ row }: { row: RecentlyWatched }) => (
-    <>
-      <div>
-        {row.movieId === null ? (
-          row.movieTitle
-        ) : (
-          <InlineLink
-            href={routes.movies.show.href({ movieId: String(row.movieId) })}
-          >
-            {row.movieTitle}
-          </InlineLink>
-        )}
-      </div>
-      <div>
-        {row.directorId === null || row.directorName === null ? (
-          (row.directorName ?? "\u2014")
-        ) : (
-          <InlineLink
-            href={routes.people.show.href({ personId: String(row.directorId) })}
-          >
-            {row.directorName}
-          </InlineLink>
-        )}
-      </div>
-    </>
   );
 }
 
@@ -177,31 +165,21 @@ function MostWatchedTable() {
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
-        <DataGrid columns={2}>
-          <DataGridHeader>
-            <div>Title</div>
-            <div>Viewings</div>
-          </DataGridHeader>
-          {rows.map((row) => (
-            <MostWatchedRow key={row.movieId} row={row} />
-          ))}
-        </DataGrid>
+        <Table
+          width={48}
+          columns={[
+            { id: "title", label: "Title", width: 39 },
+            { id: "viewings", label: "Viewings", width: 8 },
+          ]}
+          data={rows.map((row) => ({
+            title: {
+              href: routes.movies.show.href({ movieId: String(row.movieId) }),
+              text: row.movieTitle,
+            },
+            viewings: String(row.viewings),
+          }))}
+        />
       )}
     </section>
-  );
-}
-
-function MostWatchedRow() {
-  return ({ row }: { row: MostWatched }) => (
-    <>
-      <div>
-        <InlineLink
-          href={routes.movies.show.href({ movieId: String(row.movieId) })}
-        >
-          {row.movieTitle}
-        </InlineLink>
-      </div>
-      <div>{row.viewings}</div>
-    </>
   );
 }
