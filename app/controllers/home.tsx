@@ -118,7 +118,6 @@ function RecentlyWatchedTable() {
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
         <Table
-          width={48}
           columns={[
             { id: "title", label: "Title", width: 24 },
             { id: "director", label: "Director", width: 23 },
@@ -157,10 +156,9 @@ function MostWatchedTable() {
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
         <Table
-          width={48}
           columns={[
             { id: "title", label: "Title", width: 39 },
-            { id: "viewings", label: "Viewings", width: 8 },
+            { align: "right", id: "viewings", label: "Viewings", width: 8 },
           ]}
           data={rows.map((row) => ({
             title: {

@@ -193,7 +193,6 @@ function MovieListPage() {
           <p mix={css({ margin: 0 })}>No movies on this page.</p>
         ) : (
           <Table
-            width={48}
             columns={[
               { id: "title", label: "Title", width: 24 },
               { id: "director", label: "Director", width: 23 },
@@ -290,7 +289,6 @@ function ViewingsTable() {
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
         <Table
-          width={72}
           columns={[
             { id: "date", label: "Date", width: 12 },
             { id: "notes", label: "Notes", width: 59 },

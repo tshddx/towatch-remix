@@ -167,7 +167,6 @@ function PersonListPage() {
           <p mix={css({ margin: 0 })}>No people on this page.</p>
         ) : (
           <Table
-            width={48}
             columns={[{ id: "name", label: "Name", width: 48 }]}
             data={rows.map((row) => ({
               name: {
@@ -229,10 +228,9 @@ function DirectedTable() {
         <p mix={css({ margin: 0 })}>No movies.</p>
       ) : (
         <Table
-          width={52}
           columns={[
             { id: "title", label: "Title", width: 43 },
-            { id: "year", label: "Year", width: 8 },
+            { align: "right", id: "year", label: "Year", width: 8 },
           ]}
           data={directed.map((movie) => ({
             title: {

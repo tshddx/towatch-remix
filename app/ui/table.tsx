@@ -9,6 +9,7 @@ const ROW_GAP = 0;
 const HEADER_BORDER = `1px solid ${theme.colors.border.subtle}`;
 
 export interface Column<Id extends string = string> {
+  align?: "left" | "right";
   id: Id;
   label: string;
   width: number;
@@ -17,39 +18,28 @@ export interface Column<Id extends string = string> {
 export type TableCell = string | { href: string; text: string };
 
 export interface TableProps<Id extends string = string> {
-  width: number;
   columns: Column<Id>[];
   data: Array<Record<Id, TableCell>>;
 }
 
 export function Table<Id extends string>() {
-  return ({ width, columns, data }: TableProps<Id>) => {
+  return ({ columns, data }: TableProps<Id>) => {
     let columnWidths = getColumnWidths(columns, data);
-    let gridColumnWidths = columnWidths.map(
-      (columnWidth, index) => columnWidth + (index < columns.length - 1 ? 1 : 0),
-    );
-    let gridWidth = gridColumnWidths.reduce(
-      (total, columnWidth) => total + columnWidth,
-      0,
-    );
+    let columnAlignments = columns.map((column) => column.align ?? "left");
 
     return (
       <div
         mix={css({
           maxWidth: "100%",
           overflowX: "auto",
-          width: `${width}ch`,
         })}
       >
         <div
           mix={css({
             display: "grid",
-            gridTemplateColumns: gridColumnWidths
-              .map((columnWidth) => `${columnWidth}ch`)
-              .join(" "),
+            gridTemplateColumns: `repeat(${columns.length}, auto)`,
             justifyContent: "start",
             rowGap: ROW_GAP,
-            width: `${gridWidth}ch`,
           })}
         >
           <div
@@ -63,10 +53,10 @@ export function Table<Id extends string>() {
             {columns.map((column, columnIndex) => (
               <TableCellView
                 key={column.id}
+                align={columnAlignments[columnIndex]}
                 color={colors.body.secondary.foreground}
                 value={column.label}
-                valueWidth={columnWidths[columnIndex]}
-                width={gridColumnWidths[columnIndex]}
+                maxLength={columnWidths[columnIndex]}
               />
             ))}
           </div>
@@ -74,10 +64,11 @@ export function Table<Id extends string>() {
             columns.map((column, columnIndex) => (
               <TableCellView
                 key={`${rowIndex}:${column.id}`}
-                fill={columnIndex < columns.length - 1}
+                align={columnAlignments[columnIndex]}
+                isFirstColumn={columnIndex === 0}
+                isLastColumn={columnIndex === columns.length - 1}
+                maxLength={columnWidths[columnIndex]}
                 value={row[column.id]}
-                valueWidth={columnWidths[columnIndex]}
-                width={gridColumnWidths[columnIndex]}
               />
             )),
           )}
@@ -108,66 +99,108 @@ function getCellText(value: TableCell): string {
 }
 
 interface TableCellViewProps {
+  align?: "left" | "right";
   color?: string;
-  fill?: boolean;
+  isFirstColumn?: boolean;
+  isLastColumn?: boolean;
+  maxLength: number;
   value: TableCell;
-  valueWidth: number;
-  width: number;
 }
 
 function TableCellView() {
   return ({
+    align = "left",
     color,
-    fill = false,
+    isFirstColumn = true,
+    isLastColumn = true,
+    maxLength,
     value,
-    valueWidth,
-    width,
   }: TableCellViewProps) => {
-    let fillCount = fill ? getFillCount(width, valueWidth, getCellText(value)) : 0;
+    let text = getCellText(value);
+    let truncated = truncateText(text, maxLength);
+    let fillCount = getFillCount(maxLength, truncated.text.length);
+    let leadingFillCount = align === "right" && !isFirstColumn ? fillCount : 0;
+    let leadingSpaceCount =
+      align === "right" && leadingFillCount === 0
+        ? getPaddingCount(maxLength, truncated.text.length)
+        : 0;
+    let trailingFillCount = !isLastColumn ? fillCount : 0;
 
     return (
-      <div
-        mix={css({
-          display: "flex",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          width: `${width}ch`,
-        })}
-      >
-        <span
-          mix={css({
-            color,
-            display: "inline-block",
-            flex: "0 0 auto",
-            maxWidth: `${valueWidth}ch`,
-            minWidth: 0,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          })}
-        >
-          {typeof value === "string" ? (
-            value
-          ) : (
-            <InlineLink href={value.href}>{value.text}</InlineLink>
-          )}
-        </span>
-        {fillCount > 0 ? (
-          <span
-            mix={css({
-              color: theme.colors.text.muted,
-              flex: "none",
-            })}
-          >
-            {".".repeat(fillCount)}
-          </span>
+      <div mix={css({ whiteSpace: "nowrap" })}>
+        {leadingFillCount > 0 ? <PeriodFill count={leadingFillCount} /> : null}
+        {leadingSpaceCount > 0 ? <SpaceFill count={leadingSpaceCount} /> : null}
+        <TableCellText
+          color={color}
+          fullText={text}
+          text={truncated.text}
+          value={value}
+        />
+        {trailingFillCount > 0 ? (
+          <PeriodFill count={trailingFillCount} />
         ) : null}
       </div>
     );
   };
 }
 
-function getFillCount(width: number, valueWidth: number, text: string): number {
-  if (width <= 0) return 0;
-  return Math.max(1, width - Math.min(text.length, valueWidth));
+interface TableCellTextProps {
+  color?: string;
+  fullText: string;
+  text: string;
+  value: TableCell;
+}
+
+function TableCellText() {
+  return ({ color, fullText, text, value }: TableCellTextProps) => {
+    let content =
+      typeof value === "string" ? (
+        text
+      ) : (
+        <InlineLink href={value.href}>{text}</InlineLink>
+      );
+    if (text === fullText) return <span mix={css({ color })}>{content}</span>;
+
+    return (
+      <span aria-label={fullText} mix={css({ color })}>
+        {content}
+      </span>
+    );
+  };
+}
+
+function PeriodFill() {
+  return ({ count }: { count: number }) => (
+    <span
+      mix={css({
+        color: theme.colors.text.muted,
+        flex: "none",
+      })}
+    >
+      {".".repeat(count)}
+    </span>
+  );
+}
+
+function SpaceFill() {
+  return ({ count }: { count: number }) => (
+    <span>{"\u00A0".repeat(count)}</span>
+  );
+}
+
+function truncateText(text: string, maxLength: number): { text: string } {
+  if (text.length <= maxLength) return { text };
+  if (maxLength <= 0) return { text: "" };
+  if (maxLength === 1) return { text: "\u2026" };
+  return { text: `${text.slice(0, maxLength - 1)}\u2026` };
+}
+
+function getFillCount(maxLength: number, visibleTextWidth: number): number {
+  if (maxLength <= 0) return 0;
+  return Math.max(1, maxLength - visibleTextWidth + 1);
+}
+
+function getPaddingCount(maxLength: number, visibleTextWidth: number): number {
+  if (maxLength <= 0) return 0;
+  return Math.max(0, maxLength - visibleTextWidth);
 }

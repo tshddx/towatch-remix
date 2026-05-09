@@ -15,7 +15,8 @@ export function computeTableColumnWidths(
   );
 
   let extraWidth = columns.reduce(
-    (total, column, index) => total + column.declaredWidth - contentWidths[index],
+    (total, column, index) =>
+      total + column.declaredWidth - contentWidths[index],
     0,
   );
 
@@ -26,7 +27,11 @@ export function computeTableColumnWidths(
   let demandWidths = columns.map((column, index) =>
     Math.max(0, column.widestValue - contentWidths[index]),
   );
-  let distributedWidths = distributeWidth(extraWidth, demandWidths, demandWidths);
+  let distributedWidths = distributeWidth(
+    extraWidth,
+    demandWidths,
+    demandWidths,
+  );
   let distributedWidth = distributedWidths.reduce(
     (total, width) => total + width,
     0,
@@ -89,7 +94,8 @@ function distributeWidth(
     for (let share of shares
       .filter((share) => allocations[share.index] < capacities[share.index])
       .sort(
-        (a, b) => b.remainder - a.remainder || weights[b.index] - weights[a.index],
+        (a, b) =>
+          b.remainder - a.remainder || weights[b.index] - weights[a.index],
       )) {
       if (remainingWidth <= 0) break;
       allocations[share.index]++;
