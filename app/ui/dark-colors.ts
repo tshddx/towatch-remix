@@ -27,20 +27,20 @@ export const darkColorValues = {
   },
   solid: {
     orange: {
-      background: "oklch(0.426758 0.153125 50)",
+      background: "oklch(0.625 0.198 50)",
       foreground: "oklch(0 0 0)",
-      backgroundHover: "oklch(0.476758 0.153125 50)",
+      backgroundHover: "oklch(0.65 0.19 50)",
     },
   },
   light: {
     teal: {
       background: "oklch(0.04 0.03 190)",
-      foreground: "oklch(0.5 0.14 190)",
+      foreground: "oklch(0.47 0.1099 190)",
       backgroundHover: "oklch(0.07 0.04 190)",
     },
     orange: {
       background: "oklch(0.04 0.03 50)",
-      foreground: "oklch(0.55 0.21 50)",
+      foreground: "oklch(0.62 0.186 50)",
       borderPrimary: "oklch(0.3 0.2 50)",
       borderSecondary: "oklch(0.1 0.1 50)",
       backgroundHover: "oklch(0.07 0.04 50)",
