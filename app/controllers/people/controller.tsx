@@ -229,8 +229,8 @@ function DirectedTable() {
       ) : (
         <Table
           columns={[
-            { id: "title", label: "Title", width: 43 },
-            { align: "right", id: "year", label: "Year", width: 8 },
+            { id: "title", label: "Title", width: 41 },
+            { align: "right", id: "year", label: "Year", width: 6 },
           ]}
           data={directed.map((movie) => ({
             title: {
