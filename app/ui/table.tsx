@@ -187,11 +187,18 @@ function SpaceFill() {
   );
 }
 
-function truncateText(text: string, maxLength: number): { text: string } {
+export function truncateText(
+  text: string,
+  maxLength: number,
+): { text: string } {
   if (text.length <= maxLength) return { text };
   if (maxLength <= 0) return { text: "" };
   if (maxLength === 1) return { text: "\u2026" };
-  return { text: `${text.slice(0, maxLength - 1)}\u2026` };
+
+  let prefix = text.slice(0, maxLength - 1);
+  if (/\s$/.test(prefix)) prefix = prefix.slice(0, -1);
+
+  return { text: `${prefix}\u2026` };
 }
 
 function getFillCount(maxLength: number, visibleTextWidth: number): number {

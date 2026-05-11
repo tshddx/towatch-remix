@@ -23,14 +23,14 @@ export function PaginationControls() {
         {hasPrevPage ? (
           <Link href={pageHref(basePath, page - 1)}>Previous</Link>
         ) : (
-          <span mix={css({ color: colors.body.secondary.foreground })}>
+          <span mix={css({ color: colors.body.tertiary.foreground })}>
             Previous
           </span>
         )}
         {hasNextPage ? (
           <Link href={pageHref(basePath, page + 1)}>Next</Link>
         ) : (
-          <span mix={css({ color: colors.body.secondary.foreground })}>
+          <span mix={css({ color: colors.body.tertiary.foreground })}>
             Next
           </span>
         )}

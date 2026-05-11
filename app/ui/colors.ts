@@ -173,7 +173,7 @@ export const lightColorValues = {
       background: "oklch(0.975 0 0)",
     },
     tertiary: {
-      foreground: "oklch(0.75 0 0)",
+      foreground: "oklch(0.85 0 0)",
     },
   },
   border: {
