@@ -61,37 +61,51 @@ const miscTokens: ColorToken[] = [
   { label: "overlay.scrim", value: colors.overlay.scrim },
 ];
 
-interface ActionTone {
-  name: ButtonTone;
-  background: string;
-  backgroundHover: string;
-  backgroundActive: string;
-  foreground: string;
-}
-
-const actionTones: ActionTone[] = [
+const solidOrangeTokens: ColorToken[] = [
+  { label: "solid.orange.background", value: colors.solid.orange.background },
+  { label: "solid.orange.foreground", value: colors.solid.orange.foreground },
   {
-    name: "primary",
-    background: colors.solid.orange.background,
-    backgroundHover: colors.solid.orange.backgroundHover,
-    backgroundActive: colors.light.orange.foreground,
-    foreground: colors.solid.orange.foreground,
-  },
-  {
-    name: "secondary",
-    background: colors.light.teal.background,
-    backgroundHover: colors.light.teal.backgroundHover,
-    backgroundActive: colors.light.teal.foreground,
-    foreground: colors.light.teal.foreground,
-  },
-  {
-    name: "danger",
-    background: colors.light.red.background,
-    backgroundHover: colors.light.red.backgroundHover,
-    backgroundActive: colors.light.red.foreground,
-    foreground: colors.light.red.foreground,
+    label: "solid.orange.backgroundHover",
+    value: colors.solid.orange.backgroundHover,
   },
 ];
+
+const lightTealTokens: ColorToken[] = [
+  { label: "light.teal.background", value: colors.light.teal.background },
+  { label: "light.teal.foreground", value: colors.light.teal.foreground },
+  {
+    label: "light.teal.backgroundHover",
+    value: colors.light.teal.backgroundHover,
+  },
+];
+
+const lightOrangeTokens: ColorToken[] = [
+  { label: "light.orange.background", value: colors.light.orange.background },
+  { label: "light.orange.foreground", value: colors.light.orange.foreground },
+  {
+    label: "light.orange.borderPrimary",
+    value: colors.light.orange.borderPrimary,
+  },
+  {
+    label: "light.orange.borderSecondary",
+    value: colors.light.orange.borderSecondary,
+  },
+  {
+    label: "light.orange.backgroundHover",
+    value: colors.light.orange.backgroundHover,
+  },
+];
+
+const lightRedTokens: ColorToken[] = [
+  { label: "light.red.background", value: colors.light.red.background },
+  { label: "light.red.foreground", value: colors.light.red.foreground },
+  {
+    label: "light.red.backgroundHover",
+    value: colors.light.red.backgroundHover,
+  },
+];
+
+const buttonTones: ButtonTone[] = ["primary", "secondary", "danger"];
 
 function DesignGuidePage() {
   return ({ currentUser }: DesignGuidePageProps) => (
@@ -100,8 +114,8 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading>Design Guide</Heading>
           <p mix={css({ margin: 0 })}>
-            Every color token in the theme and every shared component currently
-            in use.
+            Every app color token currently in use, plus shared component
+            examples.
           </p>
         </section>
 
@@ -121,18 +135,23 @@ function DesignGuidePage() {
         </section>
 
         <section mix={sectionStyle}>
-          <Heading level={2}>Actions</Heading>
-          <div
-            mix={css({
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(32ch, 1fr))",
-              gap: "1lh 2ch",
-            })}
-          >
-            {actionTones.map((tone) => (
-              <ActionToneCard key={tone.name} tone={tone} />
-            ))}
-          </div>
+          <Heading level={2}>Solid Orange</Heading>
+          <SwatchGrid tokens={solidOrangeTokens} />
+        </section>
+
+        <section mix={sectionStyle}>
+          <Heading level={2}>Light Teal</Heading>
+          <SwatchGrid tokens={lightTealTokens} />
+        </section>
+
+        <section mix={sectionStyle}>
+          <Heading level={2}>Light Orange</Heading>
+          <SwatchGrid tokens={lightOrangeTokens} />
+        </section>
+
+        <section mix={sectionStyle}>
+          <Heading level={2}>Light Red</Heading>
+          <SwatchGrid tokens={lightRedTokens} />
         </section>
 
         <section mix={sectionStyle}>
@@ -169,18 +188,18 @@ function DesignGuidePage() {
           <div
             mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
           >
-            {actionTones.map((tone) => (
+            {buttonTones.map((tone) => (
               <div
-                key={tone.name}
+                key={tone}
                 mix={css({
                   display: "flex",
                   gap: "1ch",
                   alignItems: "flex-start",
                 })}
               >
-                <Button tone={tone.name}>{tone.name} md</Button>
-                <Button tone={tone.name} size="lg">
-                  {tone.name} lg
+                <Button tone={tone}>{tone} md</Button>
+                <Button tone={tone} size="lg">
+                  {tone} lg
                 </Button>
               </div>
             ))}
@@ -281,62 +300,6 @@ function Swatch() {
           {value}
         </code>
       </div>
-    </div>
-  );
-}
-
-interface ActionToneCardProps {
-  tone: ActionTone;
-}
-
-function ActionToneCard() {
-  return ({ tone }: ActionToneCardProps) => (
-    <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
-      <div
-        mix={css({
-          padding: "1lh 1ch",
-          background: tone.background,
-          color: tone.foreground,
-          border: `1px solid ${colors.border.default}`,
-        })}
-      >
-        <code mix={css({ fontFamily: theme.fontFamily.mono })}>
-          action.{tone.name}
-        </code>
-      </div>
-      <div mix={css({ display: "flex", gap: "1ch", alignItems: "flex-start" })}>
-        <ActionStateChip label="hover" color={tone.backgroundHover} />
-        <ActionStateChip label="active" color={tone.backgroundActive} />
-      </div>
-    </div>
-  );
-}
-
-interface ActionStateChipProps {
-  label: string;
-  color: string;
-}
-
-function ActionStateChip() {
-  return ({ label, color }: ActionStateChipProps) => (
-    <div mix={css({ display: "flex", gap: "1ch", alignItems: "center" })}>
-      <div
-        mix={css({
-          flex: "0 0 auto",
-          width: "2ch",
-          height: "1lh",
-          background: color,
-          border: `1px solid ${colors.border.default}`,
-        })}
-      />
-      <code
-        mix={css({
-          fontFamily: theme.fontFamily.mono,
-          color: colors.body.secondary.foreground,
-        })}
-      >
-        {label}
-      </code>
     </div>
   );
 }
