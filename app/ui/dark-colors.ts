@@ -7,11 +7,11 @@ export const darkColorValues = {
       background: "oklch(0.075 0.03 190)",
     },
     secondary: {
-      foreground: "oklch(0.5 0.025 190)",
-      background: "oklch(0.14 0.02 190)",
+      foreground: "oklch(0.5 0.02 190)",
+      background: "oklch(0.15 0.01 190)",
     },
     tertiary: {
-      foreground: "oklch(0.25 0.03 190)",
+      foreground: "oklch(0.25 0.02 190)",
     },
   },
   border: {

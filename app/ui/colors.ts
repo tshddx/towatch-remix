@@ -171,11 +171,11 @@ export const lightColorValues = {
   body: {
     primary: {
       foreground: "oklch(0.2 0.0489 190)",
-      background: "oklch(0.985 0.01 190)",
+      background: "oklch(0.985 0.006 190)",
     },
     secondary: {
       foreground: "oklch(0.6 0.01 190)",
-      background: "oklch(0.945 0.008 190)",
+      background: "oklch(0.945 0.006 190)",
     },
     tertiary: {
       foreground: "oklch(0.85 0.01 190)",
