@@ -33,6 +33,11 @@ const variableNames = {
       foreground: "--app-solid-orange-foreground",
       backgroundHover: "--app-solid-orange-background-hover",
     },
+    teal: {
+      background: "--app-solid-teal-background",
+      foreground: "--app-solid-teal-foreground",
+      backgroundHover: "--app-solid-teal-background-hover",
+    },
   },
   light: {
     teal: {
@@ -193,22 +198,27 @@ export const lightColorValues = {
       foreground: "oklch(1 0 0)",
       backgroundHover: "oklch(0.523242 0.153125 50)",
     },
+    teal: {
+      background: "oklch(0.58 0.135 190)",
+      foreground: "oklch(1 0 0)",
+      backgroundHover: "oklch(0.53 0.135 190)",
+    },
   },
   light: {
     teal: {
-      background: "oklch(0.96 0.03 190)",
+      background: "oklch(0.935 0.03 190)",
       foreground: "oklch(0.6 0.14 190)",
-      backgroundHover: "oklch(0.93 0.04 190)",
+      backgroundHover: "oklch(0.92 0.04 190)",
     },
     orange: {
-      background: "oklch(0.96 0.03 50)",
+      background: "oklch(0.94 0.03 50)",
       foreground: "oklch(0.7 0.21 50)",
       borderPrimary: "oklch(0.7 0.2 50)",
       borderSecondary: "oklch(0.9 0.1 50)",
-      backgroundHover: "oklch(0.93 0.04 50)",
+      backgroundHover: "oklch(0.92 0.03 50)",
     },
     red: {
-      background: "oklch(0.96 0.04 25)",
+      background: "oklch(0.945 0.04 25)",
       foreground: "oklch(0.67 0.275 25)",
       backgroundHover: "oklch(0.93 0.06 25)",
     },

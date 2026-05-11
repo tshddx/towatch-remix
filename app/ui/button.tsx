@@ -4,15 +4,21 @@ import {
 } from "remix/ui/button";
 import { css } from "remix/ui";
 
+import { colors } from "./colors.ts";
 import { theme } from "./theme.ts";
 
 export type ButtonSize = "md" | "lg";
 
-export type ButtonTone = "primary" | "secondary" | "danger";
+export type ButtonColor =
+  | "solidOrange"
+  | "solidTeal"
+  | "lightTeal"
+  | "lightOrange"
+  | "lightRed";
 
 export type ButtonProps = Omit<RemixButtonProps, "tone"> & {
+  color?: ButtonColor;
   size?: ButtonSize;
-  tone?: ButtonTone;
 };
 
 const baseStyle = css({
@@ -56,24 +62,83 @@ const sizeStyleBySize = {
   lg: lgStyle,
 };
 
-const primaryToneStyle = css({});
+const solidOrangeStyle = css({
+  background: colors.solid.orange.background,
+  color: colors.solid.orange.foreground,
+  "&:hover": {
+    background: colors.solid.orange.backgroundHover,
+  },
+  "&:active": {
+    background: colors.light.orange.foreground,
+  },
+});
 
-const secondaryToneStyle = css({});
+const solidTealStyle = css({
+  background: colors.solid.teal.background,
+  color: colors.solid.teal.foreground,
+  "&:hover": {
+    background: colors.solid.teal.backgroundHover,
+  },
+  "&:active": {
+    background: colors.light.teal.foreground,
+  },
+});
 
-const dangerToneStyle = css({});
+const lightTealStyle = css({
+  background: colors.light.teal.background,
+  color: colors.light.teal.foreground,
+  "&:hover": {
+    background: colors.light.teal.backgroundHover,
+  },
+  "&:active": {
+    background: colors.light.teal.foreground,
+    color: colors.light.teal.background,
+  },
+});
 
-const toneStyleByTone = {
-  primary: primaryToneStyle,
-  secondary: secondaryToneStyle,
-  danger: dangerToneStyle,
+const lightOrangeStyle = css({
+  background: colors.light.orange.background,
+  color: colors.light.orange.foreground,
+  "&:hover": {
+    background: colors.light.orange.backgroundHover,
+  },
+  "&:active": {
+    background: colors.light.orange.foreground,
+    color: colors.light.orange.background,
+  },
+});
+
+const lightRedStyle = css({
+  background: colors.light.red.background,
+  color: colors.light.red.foreground,
+  "&:hover": {
+    background: colors.light.red.backgroundHover,
+  },
+  "&:active": {
+    background: colors.light.red.foreground,
+    color: colors.light.red.background,
+  },
+});
+
+const colorStyleByColor = {
+  solidOrange: solidOrangeStyle,
+  solidTeal: solidTealStyle,
+  lightTeal: lightTealStyle,
+  lightOrange: lightOrangeStyle,
+  lightRed: lightRedStyle,
 };
 
 export function Button() {
-  return ({ size = "md", tone = "primary", mix, ...props }: ButtonProps) => (
+  return ({
+    color = "solidOrange",
+    size = "md",
+    mix,
+    ...props
+  }: ButtonProps) => (
     <RemixButton
       {...props}
-      tone={tone}
-      mix={[baseStyle, sizeStyleBySize[size], toneStyleByTone[tone], mix]}
+      tone="primary"
+      mix={[baseStyle, sizeStyleBySize[size], colorStyleByColor[color], mix]}
     />
   );
 }

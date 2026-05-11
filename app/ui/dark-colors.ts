@@ -31,19 +31,24 @@ export const darkColorValues = {
       foreground: "oklch(0 0 0)",
       backgroundHover: "oklch(0.65 0.19 50)",
     },
+    teal: {
+      background: "oklch(0.62 0.135 190)",
+      foreground: "oklch(0 0 0)",
+      backgroundHover: "oklch(0.65 0.13 190)",
+    },
   },
   light: {
     teal: {
-      background: "oklch(0.04 0.03 190)",
-      foreground: "oklch(0.47 0.1099 190)",
-      backgroundHover: "oklch(0.07 0.04 190)",
+      background: "oklch(0.16 0.0413 190)",
+      foreground: "oklch(0.55 0.1273 190)",
+      backgroundHover: "oklch(0.20 0.0413 190)",
     },
     orange: {
-      background: "oklch(0.04 0.03 50)",
+      background: "oklch(0.1525 0.0576 50)",
       foreground: "oklch(0.62 0.186 50)",
       borderPrimary: "oklch(0.3 0.2 50)",
       borderSecondary: "oklch(0.1 0.1 50)",
-      backgroundHover: "oklch(0.07 0.04 50)",
+      backgroundHover: "oklch(0.175 0.0576 50)",
     },
     red: {
       background: "oklch(0.04 0.04 25)",

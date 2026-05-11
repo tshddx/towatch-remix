@@ -5,7 +5,7 @@ import { css } from "remix/ui";
 
 import type { AppContext } from "../router.ts";
 import { routes } from "../routes.ts";
-import { Button, type ButtonTone } from "../ui/button.tsx";
+import { Button, type ButtonColor } from "../ui/button.tsx";
 import { Form } from "../ui/form.tsx";
 import { Heading } from "../ui/heading.tsx";
 import { Layout } from "../ui/layout.tsx";
@@ -70,6 +70,15 @@ const solidOrangeTokens: ColorToken[] = [
   },
 ];
 
+const solidTealTokens: ColorToken[] = [
+  { label: "solid.teal.background", value: colors.solid.teal.background },
+  { label: "solid.teal.foreground", value: colors.solid.teal.foreground },
+  {
+    label: "solid.teal.backgroundHover",
+    value: colors.solid.teal.backgroundHover,
+  },
+];
+
 const lightTealTokens: ColorToken[] = [
   { label: "light.teal.background", value: colors.light.teal.background },
   { label: "light.teal.foreground", value: colors.light.teal.foreground },
@@ -105,7 +114,13 @@ const lightRedTokens: ColorToken[] = [
   },
 ];
 
-const buttonTones: ButtonTone[] = ["primary", "secondary", "danger"];
+const buttonColors: ButtonColor[] = [
+  "solidOrange",
+  "solidTeal",
+  "lightTeal",
+  "lightOrange",
+  "lightRed",
+];
 
 function DesignGuidePage() {
   return ({ currentUser }: DesignGuidePageProps) => (
@@ -137,6 +152,11 @@ function DesignGuidePage() {
         <section mix={sectionStyle}>
           <Heading level={2}>Solid Orange</Heading>
           <SwatchGrid tokens={solidOrangeTokens} />
+        </section>
+
+        <section mix={sectionStyle}>
+          <Heading level={2}>Solid Teal</Heading>
+          <SwatchGrid tokens={solidTealTokens} />
         </section>
 
         <section mix={sectionStyle}>
@@ -188,18 +208,18 @@ function DesignGuidePage() {
           <div
             mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
           >
-            {buttonTones.map((tone) => (
+            {buttonColors.map((color) => (
               <div
-                key={tone}
+                key={color}
                 mix={css({
                   display: "flex",
                   gap: "1ch",
                   alignItems: "flex-start",
                 })}
               >
-                <Button tone={tone}>{tone} md</Button>
-                <Button tone={tone} size="lg">
-                  {tone} lg
+                <Button color={color}>{color} md</Button>
+                <Button color={color} size="lg">
+                  {color} lg
                 </Button>
               </div>
             ))}
