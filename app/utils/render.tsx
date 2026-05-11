@@ -1,6 +1,9 @@
 import type { RemixNode } from "remix/ui";
 import { renderToStream } from "remix/ui/server";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+import { assets } from "../assets.ts";
 import { router } from "../router.ts";
 
 export function render(node: RemixNode, request: Request, init?: ResponseInit) {
@@ -16,6 +19,14 @@ export function render(node: RemixNode, request: Request, init?: ResponseInit) {
         new Request(new URL(src, request.url), { headers }),
       );
       return response.body ?? response.text();
+    },
+    async resolveClientEntry(entryId, component) {
+      let [moduleUrl, exportName = component.name] = entryId.split("#");
+      let filePath = path.relative(process.cwd(), fileURLToPath(moduleUrl));
+      return {
+        href: await assets.getHref(filePath),
+        exportName,
+      };
     },
   });
 

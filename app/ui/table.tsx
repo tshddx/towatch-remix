@@ -1,4 +1,10 @@
-import { css } from "remix/ui";
+import {
+  clientEntry,
+  css,
+  on,
+  type SerializableObject,
+  type SerializableProps,
+} from "remix/ui";
 
 import { colors } from "./colors.ts";
 import { InlineLink } from "./inline-link.tsx";
@@ -7,31 +13,42 @@ import { computeTableColumnWidths } from "./table-widths.ts";
 const ROW_GAP = 0;
 const HEADER_BORDER = `1px solid ${colors.border.subtle}`;
 
-export interface Column<Id extends string = string> {
+export interface Column extends SerializableObject {
   align?: "left" | "right";
-  id: Id;
+  id: string;
   label: string;
   width: number;
 }
 
-export type TableCell = string | { href: string; text: string };
-
-export interface TableProps<Id extends string = string> {
-  columns: Column<Id>[];
-  data: Array<Record<Id, TableCell>>;
+interface TableCellLink extends SerializableObject {
+  href: string;
+  text: string;
 }
 
-export function Table<Id extends string>() {
-  return ({ columns, data }: TableProps<Id>) => {
+export type TableCell = string | TableCellLink;
+
+export interface TableProps extends SerializableProps {
+  columns: Column[];
+  data: Array<Record<string, TableCell>>;
+}
+
+export const Table = clientEntry<TableProps>(import.meta.url, function Table() {
+  return ({ columns, data }: TableProps) => {
     let columnWidths = getColumnWidths(columns, data);
     let columnAlignments = columns.map((column) => column.align ?? "left");
 
     return (
       <div
-        mix={css({
-          maxWidth: "100%",
-          overflowX: "auto",
-        })}
+        mix={[
+          css({
+            maxWidth: "100%",
+            overflowX: "auto",
+          }),
+          on("click", () => {
+            console.log("columns", columns);
+            console.log("data", data);
+          }),
+        ]}
       >
         <div
           mix={css({
@@ -78,11 +95,11 @@ export function Table<Id extends string>() {
       </div>
     );
   };
-}
+});
 
-function getColumnWidths<Id extends string>(
-  columns: Column<Id>[],
-  data: Array<Record<Id, TableCell>>,
+function getColumnWidths(
+  columns: Column[],
+  data: Array<Record<string, TableCell>>,
 ): number[] {
   return computeTableColumnWidths(
     columns.map((column) => {
@@ -141,9 +158,7 @@ function TableCellView() {
           text={truncated.text}
           value={value}
         />
-        {trailingFillCount > 0 ? (
-          <Fill count={trailingFillCount} />
-        ) : null}
+        {trailingFillCount > 0 ? <Fill count={trailingFillCount} /> : null}
       </div>
     );
   };
