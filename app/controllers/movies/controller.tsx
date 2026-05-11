@@ -47,10 +47,10 @@ interface MovieDetail {
 }
 
 interface MovieViewing {
-  id: number;
   date: number;
-  notes: string | null;
 }
+
+const VIEWING_USER_PLACEHOLDER = "\u2014";
 
 interface MovieDetailPageProps {
   currentUser: CurrentUser | null;
@@ -169,13 +169,12 @@ async function loadMovieViewings(
   return await db
     .query(viewings)
     .select({
-      id: "viewings.id",
       date: "viewings.date",
-      notes: "viewings.notes",
     })
     .where({ "viewings.movie_id": movieId })
     .orderBy("viewings.date", "desc")
     .orderBy("viewings.id", "desc")
+    .limit(PAGE_SIZE)
     .all();
 }
 
@@ -230,7 +229,7 @@ function MovieDetailPage() {
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>{movie.title}</Heading>
         <MovieMetadataTable movie={movie} />
-        <ViewingsTable viewings={viewings} />
+        <ViewingsTable movie={movie} viewings={viewings} />
       </div>
     </Layout>
   );
@@ -282,20 +281,31 @@ function MovieMetadataTable() {
 }
 
 function ViewingsTable() {
-  return ({ viewings }: { viewings: MovieViewing[] }) => (
+  return ({
+    movie,
+    viewings,
+  }: {
+    movie: MovieDetail;
+    viewings: MovieViewing[];
+  }) => (
     <section>
-      <Heading level={2}>Viewings</Heading>
+      <Heading level={3}>Recent Viewings</Heading>
       {viewings.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
         <Table
           columns={[
-            { id: "date", label: "Date", width: 12 },
-            { id: "notes", label: "Notes", width: 59 },
+            { id: "title", label: "Title", width: 20 },
+            { id: "user", label: "User", width: 7 },
+            { align: "right", id: "date", label: "Date", width: 10 },
           ]}
           data={viewings.map((viewing) => ({
+            title: {
+              href: routes.movies.show.href({ movieId: String(movie.id) }),
+              text: movie.title,
+            },
+            user: VIEWING_USER_PLACEHOLDER,
             date: formatDate(viewing.date) ?? "\u2014",
-            notes: viewing.notes ?? "\u2014",
           }))}
         />
       )}

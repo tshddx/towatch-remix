@@ -4,21 +4,22 @@ import type { BuildAction } from "remix/fetch-router";
 import { Session } from "remix/session";
 import { css } from "remix/ui";
 
-import { movies, people, viewings } from "../data/schema.ts";
+import { movies, viewings } from "../data/schema.ts";
 import type { AppContext } from "../router.ts";
 import { routes } from "../routes.ts";
 import { Heading } from "../ui/heading.tsx";
 import { Layout } from "../ui/layout.tsx";
 import { Table } from "../ui/table.tsx";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
+import { formatDate } from "../utils/date.ts";
 import { render } from "../utils/render.tsx";
 
+const VIEWING_USER_PLACEHOLDER = "\u2014";
+
 interface RecentlyWatched {
-  viewingId: number;
   movieId: number | null;
   movieTitle: string;
-  directorId: number | null;
-  directorName: string | null;
+  date: number;
 }
 
 interface MostWatched {
@@ -56,13 +57,10 @@ async function loadRecentlyWatched(db: Database): Promise<RecentlyWatched[]> {
   let rows = await db
     .query(viewings)
     .leftJoin(movies, eq("viewings.movie_id", "movies.id"))
-    .leftJoin(people, eq("movies.director_id", "people.id"))
     .select({
-      viewingId: "viewings.id",
       movieId: "movies.id",
       movieTitle: "movies.title",
-      directorId: "people.id",
-      directorName: "people.name",
+      date: "viewings.date",
     })
     .orderBy("viewings.date", "desc")
     .orderBy("viewings.id", "desc")
@@ -70,11 +68,9 @@ async function loadRecentlyWatched(db: Database): Promise<RecentlyWatched[]> {
     .all();
 
   return rows.map((row) => ({
-    viewingId: row.viewingId,
     movieId: row.movieId,
     movieTitle: row.movieTitle ?? "(unknown)",
-    directorId: row.directorId,
-    directorName: row.directorName,
+    date: row.date,
   }));
 }
 
@@ -119,8 +115,9 @@ function RecentlyWatchedTable() {
       ) : (
         <Table
           columns={[
-            { id: "title", label: "Title", width: 24 },
-            { id: "director", label: "Director", width: 23 },
+            { id: "title", label: "Title", width: 27 },
+            { id: "user", label: "User", width: 9 },
+            { align: "right", id: "date", label: "Date", width: 10 },
           ]}
           data={rows.map((row) => ({
             title:
@@ -132,15 +129,8 @@ function RecentlyWatchedTable() {
                     }),
                     text: row.movieTitle,
                   },
-            director:
-              row.directorId === null || row.directorName === null
-                ? (row.directorName ?? "\u2014")
-                : {
-                    href: routes.people.show.href({
-                      personId: String(row.directorId),
-                    }),
-                    text: row.directorName,
-                  },
+            user: VIEWING_USER_PLACEHOLDER,
+            date: formatDate(row.date) ?? "\u2014",
           }))}
         />
       )}

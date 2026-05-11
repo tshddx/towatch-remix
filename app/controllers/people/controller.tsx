@@ -1,10 +1,11 @@
 import { Database } from "remix/data-table";
+import { eq } from "remix/data-table/operators";
 import type { Controller } from "remix/fetch-router";
 import { redirect } from "remix/response/redirect";
 import { Session } from "remix/session";
 import { css, Fragment, type RemixNode } from "remix/ui";
 
-import { movies, people } from "../../data/schema.ts";
+import { movies, people, viewings } from "../../data/schema.ts";
 import type { AppContext } from "../../router.ts";
 import { routes } from "../../routes.ts";
 import { Heading } from "../../ui/heading.tsx";
@@ -12,7 +13,7 @@ import { Layout } from "../../ui/layout.tsx";
 import { PaginationControls } from "../../ui/pagination-controls.tsx";
 import { Table } from "../../ui/table.tsx";
 import { loadCurrentUser, type CurrentUser } from "../../utils/current-user.ts";
-import { formatYear } from "../../utils/date.ts";
+import { formatDate, formatYear } from "../../utils/date.ts";
 import { parsePageParam, PAGE_SIZE } from "../../utils/pagination.ts";
 import { render } from "../../utils/render.tsx";
 
@@ -40,10 +41,19 @@ interface DirectedMovie {
   release_date: number | null;
 }
 
+interface RecentViewing {
+  movieId: number | null;
+  movieTitle: string;
+  date: number;
+}
+
+const VIEWING_USER_PLACEHOLDER = "\u2014";
+
 interface PersonDetailPageProps {
   currentUser: CurrentUser | null;
   person: PersonDetail;
   directed: DirectedMovie[];
+  recentViewings: RecentViewing[];
 }
 
 export const personController = {
@@ -82,10 +92,11 @@ export const personController = {
       }
 
       let db = get(Database);
-      let [currentUser, person, directed] = await Promise.all([
+      let [currentUser, person, directed, recentViewings] = await Promise.all([
         loadCurrentUser(db, get(Session)),
         loadPerson(db, personId),
         loadDirected(db, personId),
+        loadRecentViewings(db, personId),
       ]);
 
       if (!person) return new Response("Not Found", { status: 404 });
@@ -95,6 +106,7 @@ export const personController = {
           currentUser={currentUser}
           person={person}
           directed={directed}
+          recentViewings={recentViewings}
         />,
         request,
       );
@@ -153,6 +165,31 @@ async function loadDirected(
     .all();
 }
 
+async function loadRecentViewings(
+  db: Database,
+  personId: number,
+): Promise<RecentViewing[]> {
+  let rows = await db
+    .query(viewings)
+    .leftJoin(movies, eq("viewings.movie_id", "movies.id"))
+    .select({
+      movieId: "movies.id",
+      movieTitle: "movies.title",
+      date: "viewings.date",
+    })
+    .where({ "movies.director_id": personId })
+    .orderBy("viewings.date", "desc")
+    .orderBy("viewings.id", "desc")
+    .limit(PAGE_SIZE)
+    .all();
+
+  return rows.map((row) => ({
+    movieId: row.movieId,
+    movieTitle: row.movieTitle ?? "(unknown)",
+    date: row.date,
+  }));
+}
+
 function PersonListPage() {
   return ({
     currentUser,
@@ -187,12 +224,20 @@ function PersonListPage() {
 }
 
 function PersonDetailPage() {
-  return ({ currentUser, person, directed }: PersonDetailPageProps) => (
+  return ({
+    currentUser,
+    person,
+    directed,
+    recentViewings,
+  }: PersonDetailPageProps) => (
     <Layout title={person.name} currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>{person.name}</Heading>
         <PersonMetadataTable person={person} />
-        <DirectedTable directed={directed} />
+        <div mix={css({ display: "flex", flexWrap: "wrap", gap: "1lh" })}>
+          <DirectedTable directed={directed} />
+          <RecentViewingsTable rows={recentViewings} />
+        </div>
       </div>
     </Layout>
   );
@@ -223,7 +268,7 @@ function PersonMetadataTable() {
 function DirectedTable() {
   return ({ directed }: { directed: DirectedMovie[] }) => (
     <section>
-      <Heading level={2}>Movies Directed</Heading>
+      <Heading level={3}>Movies Directed</Heading>
       {directed.length === 0 ? (
         <p mix={css({ margin: 0 })}>No movies.</p>
       ) : (
@@ -238,6 +283,38 @@ function DirectedTable() {
               text: movie.title,
             },
             year: formatYear(movie.release_date) ?? "\u2014",
+          }))}
+        />
+      )}
+    </section>
+  );
+}
+
+function RecentViewingsTable() {
+  return ({ rows }: { rows: RecentViewing[] }) => (
+    <section>
+      <Heading level={3}>Recent Viewings</Heading>
+      {rows.length === 0 ? (
+        <p mix={css({ margin: 0 })}>No viewings yet.</p>
+      ) : (
+        <Table
+          columns={[
+            { id: "title", label: "Title", width: 27 },
+            { id: "user", label: "User", width: 9 },
+            { align: "right", id: "date", label: "Date", width: 10 },
+          ]}
+          data={rows.map((row) => ({
+            title:
+              row.movieId === null
+                ? row.movieTitle
+                : {
+                    href: routes.movies.show.href({
+                      movieId: String(row.movieId),
+                    }),
+                    text: row.movieTitle,
+                  },
+            user: VIEWING_USER_PLACEHOLDER,
+            date: formatDate(row.date) ?? "\u2014",
           }))}
         />
       )}

@@ -24,6 +24,28 @@ const COMMIT_MONO_FACES = `
 }
 `;
 
+const APP_RESET = `
+@layer app-reset, rmx;
+
+@layer app-reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, figure, blockquote) {
+    margin: 0;
+  }
+
+  :where(img, svg) {
+    display: block;
+  }
+}
+`;
+
 export interface DocumentProps {
   children?: RemixNode;
   title?: string;
@@ -42,6 +64,7 @@ export function Document() {
           {title ? `${title} · ${APP_DISPLAY_NAME}` : APP_DISPLAY_NAME}
         </title>
         <style>{COMMIT_MONO_FACES}</style>
+        <style>{APP_RESET}</style>
         <AppTheme.Style />
         <AppColors.Style />
       </head>

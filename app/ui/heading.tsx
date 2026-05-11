@@ -23,10 +23,17 @@ export function Heading() {
           lineHeight: isLargeHeading
             ? theme.lineHeight.relaxed
             : theme.lineHeight.normal,
+          marginLeft: level === 3 ? "-1ch" : undefined,
+          paddingLeft: level === 3 ? "1ch" : undefined,
+          paddingRight: level === 3 ? "1ch" : undefined,
+          width: level === 3 ? "fit-content" : undefined,
+          background: level === 3 ? colors.solid.teal.background : undefined,
           color:
-            level === 2
-              ? colors.light.teal.foreground
-              : colors.body.primary.foreground,
+            level === 3
+              ? colors.solid.teal.foreground
+              : level === 2
+                ? colors.light.teal.foreground
+                : colors.body.primary.foreground,
         })}
       >
         {children}
