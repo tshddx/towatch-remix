@@ -3,15 +3,15 @@ import type { ColorValues } from "./colors.ts";
 export const darkColorValues = {
   body: {
     primary: {
-      foreground: "oklch(0.85 0 0)",
-      background: "oklch(0 0 0)",
+      foreground: "oklch(0.85 0.02 190)",
+      background: "oklch(0.075 0.03 190)",
     },
     secondary: {
-      foreground: "oklch(0.5 0 0)",
-      background: "oklch(0.025 0 0)",
+      foreground: "oklch(0.5 0.025 190)",
+      background: "oklch(0.14 0.02 190)",
     },
     tertiary: {
-      foreground: "oklch(0.25 0 0)",
+      foreground: "oklch(0.25 0.03 190)",
     },
   },
   border: {
