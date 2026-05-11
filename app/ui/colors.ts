@@ -151,12 +151,12 @@ export const AppColors = createColorTheme({
   light: {
     teal: {
       background: "oklch(0.96 0.03 190)",
-      foreground: "oklch(0.52 0.175 190)",
+      foreground: "oklch(0.6 0.14 190)",
       backgroundHover: "oklch(0.93 0.04 190)",
     },
     orange: {
       background: "oklch(0.96 0.03 50)",
-      foreground: "oklch(0.7 0.2 50)",
+      foreground: "oklch(0.7 0.21 50)",
       borderPrimary: "oklch(0.7 0.2 50)",
       borderSecondary: "oklch(0.9 0.1 50)",
       backgroundHover: "oklch(0.93 0.04 50)",

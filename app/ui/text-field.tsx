@@ -22,7 +22,7 @@ const inputStyle = css({
   borderRadius: 0,
   padding: 0,
   margin: 0,
-  width: "40ch",
+  width: "25ch",
   "&:focus": { outline: "none" },
   "&:focus-visible": { outline: "none" },
 });

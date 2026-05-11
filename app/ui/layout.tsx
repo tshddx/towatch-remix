@@ -86,7 +86,7 @@ function Sidebar() {
         >
           <li>
             <Heading level={3}>
-              <InlineLink href={routes.home.href()}>Towatch</InlineLink>
+              <InlineLink href={routes.home.href()}>TOWATCH</InlineLink>
             </Heading>
           </li>
           <li
