@@ -158,7 +158,7 @@ function SignupPage() {
   return ({ currentUser, values = {}, errors = {} }: SignupPageProps) => (
     <Layout title="Sign up" currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
-        <Heading>Create your account</Heading>
+        <Heading>Create Your Account</Heading>
         {errors.form ? <p role="alert">{errors.form}</p> : null}
         <Form method="post" action={routes.auth.signup.action.href()}>
           <TextField

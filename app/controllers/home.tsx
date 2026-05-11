@@ -113,7 +113,7 @@ function HomePage() {
 function RecentlyWatchedTable() {
   return ({ rows }: { rows: RecentlyWatched[] }) => (
     <section>
-      <Heading level={2}>Recently watched</Heading>
+      <Heading level={2}>Recently Watched</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (
@@ -151,7 +151,7 @@ function RecentlyWatchedTable() {
 function MostWatchedTable() {
   return ({ rows }: { rows: MostWatched[] }) => (
     <section>
-      <Heading level={2}>Most watched all time</Heading>
+      <Heading level={2}>Most Watched All Time</Heading>
       {rows.length === 0 ? (
         <p mix={css({ margin: 0 })}>No viewings yet.</p>
       ) : (

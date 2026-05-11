@@ -121,7 +121,7 @@ function DesignGuidePage() {
         </section>
 
         <section mix={sectionStyle}>
-          <Heading level={2}>Focus &amp; overlay</Heading>
+          <Heading level={2}>Focus &amp; Overlay</Heading>
           <SwatchGrid tokens={miscTokens} />
         </section>
 
@@ -150,11 +150,11 @@ function DesignGuidePage() {
           <div
             mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}
           >
-            <Heading level={1}>Heading level 1</Heading>
-            <Heading level={2}>Heading level 2</Heading>
-            <Heading level={3}>Heading level 3</Heading>
-            <Heading level={4}>Heading level 4</Heading>
-            <Heading level={5}>Heading level 5</Heading>
+            <Heading level={1}>Heading Level 1</Heading>
+            <Heading level={2}>Heading Level 2</Heading>
+            <Heading level={3}>Heading Level 3</Heading>
+            <Heading level={4}>Heading Level 4</Heading>
+            <Heading level={5}>Heading Level 5</Heading>
           </div>
         </section>
 
@@ -216,7 +216,7 @@ function DesignGuidePage() {
         </section>
 
         <section mix={sectionStyle}>
-          <Heading level={2}>Validation alert</Heading>
+          <Heading level={2}>Validation Alert</Heading>
           <p mix={css({ margin: 0 })}>
             <code>TextField</code> uses this style for its inline errors.
             Form-level alerts (e.g. a login that failed because of a bad

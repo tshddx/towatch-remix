@@ -103,7 +103,7 @@ function LoginPage() {
   return ({ currentUser, values = {}, error }: LoginPageProps) => (
     <Layout title="Log in" currentUser={currentUser}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
-        <Heading>Log in</Heading>
+        <Heading>Log In</Heading>
         {error ? <p role="alert">{error}</p> : null}
         <Form method="post" action={routes.auth.login.action.href()}>
           <TextField

@@ -108,10 +108,10 @@ function Sidebar() {
           ) : (
             <>
               <li>
-                <Link href={routes.auth.login.index.href()}>Log in</Link>
+                <Link href={routes.auth.login.index.href()}>Log In</Link>
               </li>
               <li>
-                <Link href={routes.auth.signup.index.href()}>Sign up</Link>
+                <Link href={routes.auth.signup.index.href()}>Sign Up</Link>
               </li>
             </>
           )}
@@ -147,7 +147,7 @@ function SignOutButton() {
           },
         })}
       >
-        Sign out
+        Sign Out
       </button>
     </form>
   );

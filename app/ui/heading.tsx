@@ -23,7 +23,6 @@ export function Heading() {
           lineHeight: isLargeHeading
             ? theme.lineHeight.relaxed
             : theme.lineHeight.normal,
-          textTransform: "uppercase",
           color:
             level === 2
               ? colors.light.teal.foreground

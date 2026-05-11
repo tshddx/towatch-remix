@@ -223,7 +223,7 @@ function PersonMetadataTable() {
 function DirectedTable() {
   return ({ directed }: { directed: DirectedMovie[] }) => (
     <section>
-      <Heading level={2}>Movies directed</Heading>
+      <Heading level={2}>Movies Directed</Heading>
       {directed.length === 0 ? (
         <p mix={css({ margin: 0 })}>No movies.</p>
       ) : (
