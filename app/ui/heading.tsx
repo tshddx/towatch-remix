@@ -26,7 +26,7 @@ export function Heading() {
           color:
             level === 2
               ? colors.light.teal.foreground
-              : theme.colors.text.primary,
+              : colors.body.primary.foreground,
         })}
       >
         {children}

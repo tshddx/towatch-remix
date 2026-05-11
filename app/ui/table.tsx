@@ -3,10 +3,9 @@ import { css } from "remix/ui";
 import { colors } from "./colors.ts";
 import { InlineLink } from "./inline-link.tsx";
 import { computeTableColumnWidths } from "./table-widths.ts";
-import { theme } from "./theme.ts";
 
 const ROW_GAP = 0;
-const HEADER_BORDER = `1px solid ${theme.colors.border.subtle}`;
+const HEADER_BORDER = `1px solid ${colors.border.subtle}`;
 
 export interface Column<Id extends string = string> {
   align?: "left" | "right";
@@ -173,7 +172,7 @@ function PeriodFill() {
   return ({ count }: { count: number }) => (
     <span
       mix={css({
-        color: theme.colors.text.muted,
+        color: colors.body.tertiary.foreground,
         flex: "none",
       })}
     >

@@ -1,5 +1,7 @@
 import { createTheme, theme } from "remix/ui/theme";
 
+import { colors } from "./colors.ts";
+
 const COMMIT_MONO_STACK =
   '"CommitMono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 
@@ -61,11 +63,11 @@ export const AppTheme = createTheme({
     },
   },
   surface: {
-    lvl0: "oklch(1 0 0)",
-    lvl1: "oklch(0.96 0 0)",
-    lvl2: "oklch(0.92 0 0)",
-    lvl3: "oklch(0.88 0 0)",
-    lvl4: "oklch(0.84 0 0)",
+    lvl0: colors.body.primary.background,
+    lvl1: colors.body.secondary.background,
+    lvl2: colors.border.subtle,
+    lvl3: colors.border.default,
+    lvl4: colors.border.strong,
   },
   shadow: {
     xs: "0 1px 1px oklch(0 0 0 / 0.05)",
@@ -76,43 +78,43 @@ export const AppTheme = createTheme({
   },
   colors: {
     text: {
-      primary: "oklch(0.2 0 0)",
-      secondary: "oklch(0.6 0 0)",
-      muted: "oklch(0.9 0 0)",
-      link: "oklch(0.65625 0.175 50)",
+      primary: colors.body.primary.foreground,
+      secondary: colors.body.secondary.foreground,
+      muted: colors.body.secondary.foreground,
+      link: colors.light.orange.foreground,
     },
     border: {
-      subtle: "oklch(0.9 0 0)",
-      default: "oklch(0.75 0 0)",
-      strong: "oklch(0.5 0 0)",
+      subtle: colors.border.subtle,
+      default: colors.border.default,
+      strong: colors.border.strong,
     },
     focus: {
-      ring: "oklch(0.55 0.2 250)",
+      ring: colors.focus.ring,
     },
     overlay: {
-      scrim: "oklch(0 0 0 / 0.28)",
+      scrim: colors.overlay.scrim,
     },
     action: {
       primary: {
-        background: "oklch(0.573242 0.153125 50)",
-        backgroundHover: "oklch(0.523242 0.153125 50)",
-        backgroundActive: "oklch(0.473242 0.153125 50)",
-        foreground: "oklch(1 0 0)",
-        border: "oklch(0.523242 0.153125 50)",
+        background: colors.solid.orange.background,
+        backgroundHover: colors.solid.orange.backgroundHover,
+        backgroundActive: colors.light.orange.foreground,
+        foreground: colors.solid.orange.foreground,
+        border: colors.solid.orange.backgroundHover,
       },
       secondary: {
-        background: "oklch(0.96 0.03 190)",
-        backgroundHover: "oklch(0.93 0.04 190)",
-        backgroundActive: "oklch(0.9 0.05 190)",
-        foreground: "oklch(0.52 0.175 190)",
-        border: "oklch(0.93 0.04 190)",
+        background: colors.light.teal.background,
+        backgroundHover: colors.light.teal.backgroundHover,
+        backgroundActive: colors.light.teal.foreground,
+        foreground: colors.light.teal.foreground,
+        border: colors.light.teal.backgroundHover,
       },
       danger: {
-        background: "oklch(0.96 0.04 25)",
-        backgroundHover: "oklch(0.93 0.06 25)",
-        backgroundActive: "oklch(0.9 0.08 25)",
-        foreground: "oklch(0.668945 0.275 25)",
-        border: "oklch(0.93 0.06 25)",
+        background: colors.light.red.background,
+        backgroundHover: colors.light.red.backgroundHover,
+        backgroundActive: colors.light.red.foreground,
+        foreground: colors.light.red.foreground,
+        border: colors.light.red.backgroundHover,
       },
     },
   },

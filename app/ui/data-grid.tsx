@@ -1,11 +1,10 @@
 import { css, type RemixNode } from "remix/ui";
 
 import { colors } from "./colors.ts";
-import { theme } from "./theme.ts";
 
 const COLUMN_GAP = "1ch";
 const ROW_GAP = 0;
-const HEADER_BORDER = `1px solid ${theme.colors.border.subtle}`;
+const HEADER_BORDER = `1px solid ${colors.border.subtle}`;
 
 const TRUNCATE_CELL = {
   maxWidth: "30ch",

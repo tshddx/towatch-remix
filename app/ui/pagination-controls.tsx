@@ -2,7 +2,7 @@ import { css } from "remix/ui";
 
 import { pageHref } from "../utils/pagination.ts";
 import { Link } from "./link.tsx";
-import { theme } from "./theme.ts";
+import { colors } from "./colors.ts";
 
 export interface PaginationControlsProps {
   basePath: string;
@@ -23,12 +23,16 @@ export function PaginationControls() {
         {hasPrevPage ? (
           <Link href={pageHref(basePath, page - 1)}>Previous</Link>
         ) : (
-          <span mix={css({ color: theme.colors.text.muted })}>Previous</span>
+          <span mix={css({ color: colors.body.secondary.foreground })}>
+            Previous
+          </span>
         )}
         {hasNextPage ? (
           <Link href={pageHref(basePath, page + 1)}>Next</Link>
         ) : (
-          <span mix={css({ color: theme.colors.text.muted })}>Next</span>
+          <span mix={css({ color: colors.body.secondary.foreground })}>
+            Next
+          </span>
         )}
       </nav>
     );

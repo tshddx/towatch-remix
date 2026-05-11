@@ -1,5 +1,7 @@
 import { createElement, type Handle } from "remix/ui";
 
+import { darkColorValues } from "./dark-colors.ts";
+
 const variableNames = {
   body: {
     primary: {
@@ -10,6 +12,20 @@ const variableNames = {
       foreground: "--app-body-secondary-foreground",
       background: "--app-body-secondary-background",
     },
+    tertiary: {
+      foreground: "--app-body-tertiary-foreground",
+    },
+  },
+  border: {
+    subtle: "--app-border-subtle",
+    default: "--app-border-default",
+    strong: "--app-border-strong",
+  },
+  focus: {
+    ring: "--app-focus-ring",
+  },
+  overlay: {
+    scrim: "--app-overlay-scrim",
   },
   solid: {
     orange: {
@@ -51,6 +67,7 @@ export type ColorValues = MapLeaves<typeof variableNames, string>;
 export type ColorTokens = MapLeaves<typeof variableNames, string>;
 
 export interface CreateColorThemeOptions {
+  darkValues?: ColorValues;
   selector?: string;
 }
 
@@ -94,6 +111,12 @@ function mapLeavesToVar(tree: VariableTree): unknown {
   return out;
 }
 
+function formatVars(vars: Record<string, string>): string {
+  return Object.entries(vars)
+    .map(([name, value]) => `  ${name}: ${value};`)
+    .join("\n");
+}
+
 function escapeStyleText(cssText: string): string {
   return cssText.replace(/<\/style/gi, "<\\/style");
 }
@@ -106,10 +129,17 @@ export function createColorTheme(
 ) {
   let selector = options.selector ?? ":root";
   let vars = Object.freeze(collectVars(variableNames, values));
-  let lines = Object.entries(vars)
-    .map(([name, value]) => `  ${name}: ${value};`)
-    .join("\n");
-  let cssText = `${selector} {\n${lines}\n}`;
+  let darkValues = options.darkValues;
+  let darkVars =
+    darkValues == null
+      ? undefined
+      : Object.freeze(collectVars(variableNames, darkValues));
+  let colorScheme = darkVars == null ? "light" : "light dark";
+  let cssText = `${selector} {\n  color-scheme: ${colorScheme};\n${formatVars(vars)}\n}`;
+
+  if (darkVars != null) {
+    cssText += `\n\n@media (prefers-color-scheme: dark) {\n${selector} {\n${formatVars(darkVars)}\n}\n}`;
+  }
 
   function Style(handle: Handle<ColorThemeStyleProps>) {
     return () =>
@@ -126,11 +156,13 @@ export function createColorTheme(
     cssText,
     selector,
     values,
+    darkValues,
+    darkVars,
     vars,
   });
 }
 
-export const AppColors = createColorTheme({
+export const lightColorValues = {
   body: {
     primary: {
       foreground: "oklch(0.2 0 0)",
@@ -140,6 +172,20 @@ export const AppColors = createColorTheme({
       foreground: "oklch(0.6 0 0)",
       background: "oklch(0.975 0 0)",
     },
+    tertiary: {
+      foreground: "oklch(0.75 0 0)",
+    },
+  },
+  border: {
+    subtle: "oklch(0.9 0 0)",
+    default: "oklch(0.75 0 0)",
+    strong: "oklch(0.5 0 0)",
+  },
+  focus: {
+    ring: "oklch(0.55 0.2 250)",
+  },
+  overlay: {
+    scrim: "oklch(0 0 0 / 0.28)",
   },
   solid: {
     orange: {
@@ -167,4 +213,8 @@ export const AppColors = createColorTheme({
       backgroundHover: "oklch(0.93 0.06 25)",
     },
   },
+} satisfies ColorValues;
+
+export const AppColors = createColorTheme(lightColorValues, {
+  darkValues: darkColorValues,
 });

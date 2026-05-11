@@ -11,6 +11,7 @@ import { Heading } from "../ui/heading.tsx";
 import { Layout } from "../ui/layout.tsx";
 import { Link } from "../ui/link.tsx";
 import { TextField } from "../ui/text-field.tsx";
+import { colors } from "../ui/colors.ts";
 import { theme } from "../ui/theme.ts";
 import { loadCurrentUser, type CurrentUser } from "../utils/current-user.ts";
 import { render } from "../utils/render.tsx";
@@ -35,30 +36,29 @@ interface ColorToken {
   value: string;
 }
 
-const surfaceTokens: ColorToken[] = [
-  { label: "surface.lvl0", value: theme.surface.lvl0 },
-  { label: "surface.lvl1", value: theme.surface.lvl1 },
-  { label: "surface.lvl2", value: theme.surface.lvl2 },
-  { label: "surface.lvl3", value: theme.surface.lvl3 },
-  { label: "surface.lvl4", value: theme.surface.lvl4 },
-];
-
-const textTokens: ColorToken[] = [
-  { label: "colors.text.primary", value: theme.colors.text.primary },
-  { label: "colors.text.secondary", value: theme.colors.text.secondary },
-  { label: "colors.text.muted", value: theme.colors.text.muted },
-  { label: "colors.text.link", value: theme.colors.text.link },
+const bodyTokens: ColorToken[] = [
+  { label: "body.primary.foreground", value: colors.body.primary.foreground },
+  { label: "body.primary.background", value: colors.body.primary.background },
+  {
+    label: "body.secondary.foreground",
+    value: colors.body.secondary.foreground,
+  },
+  {
+    label: "body.secondary.background",
+    value: colors.body.secondary.background,
+  },
+  { label: "body.tertiary.foreground", value: colors.body.tertiary.foreground },
 ];
 
 const borderTokens: ColorToken[] = [
-  { label: "colors.border.subtle", value: theme.colors.border.subtle },
-  { label: "colors.border.default", value: theme.colors.border.default },
-  { label: "colors.border.strong", value: theme.colors.border.strong },
+  { label: "border.subtle", value: colors.border.subtle },
+  { label: "border.default", value: colors.border.default },
+  { label: "border.strong", value: colors.border.strong },
 ];
 
 const miscTokens: ColorToken[] = [
-  { label: "colors.focus.ring", value: theme.colors.focus.ring },
-  { label: "colors.overlay.scrim", value: theme.colors.overlay.scrim },
+  { label: "focus.ring", value: colors.focus.ring },
+  { label: "overlay.scrim", value: colors.overlay.scrim },
 ];
 
 interface ActionTone {
@@ -72,24 +72,24 @@ interface ActionTone {
 const actionTones: ActionTone[] = [
   {
     name: "primary",
-    background: theme.colors.action.primary.background,
-    backgroundHover: theme.colors.action.primary.backgroundHover,
-    backgroundActive: theme.colors.action.primary.backgroundActive,
-    foreground: theme.colors.action.primary.foreground,
+    background: colors.solid.orange.background,
+    backgroundHover: colors.solid.orange.backgroundHover,
+    backgroundActive: colors.light.orange.foreground,
+    foreground: colors.solid.orange.foreground,
   },
   {
     name: "secondary",
-    background: theme.colors.action.secondary.background,
-    backgroundHover: theme.colors.action.secondary.backgroundHover,
-    backgroundActive: theme.colors.action.secondary.backgroundActive,
-    foreground: theme.colors.action.secondary.foreground,
+    background: colors.light.teal.background,
+    backgroundHover: colors.light.teal.backgroundHover,
+    backgroundActive: colors.light.teal.foreground,
+    foreground: colors.light.teal.foreground,
   },
   {
     name: "danger",
-    background: theme.colors.action.danger.background,
-    backgroundHover: theme.colors.action.danger.backgroundHover,
-    backgroundActive: theme.colors.action.danger.backgroundActive,
-    foreground: theme.colors.action.danger.foreground,
+    background: colors.light.red.background,
+    backgroundHover: colors.light.red.backgroundHover,
+    backgroundActive: colors.light.red.foreground,
+    foreground: colors.light.red.foreground,
   },
 ];
 
@@ -106,13 +106,8 @@ function DesignGuidePage() {
         </section>
 
         <section mix={sectionStyle}>
-          <Heading level={2}>Surfaces</Heading>
-          <SwatchGrid tokens={surfaceTokens} />
-        </section>
-
-        <section mix={sectionStyle}>
-          <Heading level={2}>Text</Heading>
-          <SwatchGrid tokens={textTokens} />
+          <Heading level={2}>Body</Heading>
+          <SwatchGrid tokens={bodyTokens} />
         </section>
 
         <section mix={sectionStyle}>
@@ -271,7 +266,7 @@ function Swatch() {
           width: "3ch",
           height: "3lh",
           background: value,
-          border: `1px solid ${theme.colors.border.default}`,
+          border: `1px solid ${colors.border.default}`,
         })}
       />
       <div mix={css({ display: "flex", flexDirection: "column", minWidth: 0 })}>
@@ -279,7 +274,7 @@ function Swatch() {
         <code
           mix={css({
             fontFamily: theme.fontFamily.mono,
-            color: theme.colors.text.muted,
+            color: colors.body.secondary.foreground,
             wordBreak: "break-all",
           })}
         >
@@ -302,7 +297,7 @@ function ActionToneCard() {
           padding: "1lh 1ch",
           background: tone.background,
           color: tone.foreground,
-          border: `1px solid ${theme.colors.border.default}`,
+          border: `1px solid ${colors.border.default}`,
         })}
       >
         <code mix={css({ fontFamily: theme.fontFamily.mono })}>
@@ -331,13 +326,13 @@ function ActionStateChip() {
           width: "2ch",
           height: "1lh",
           background: color,
-          border: `1px solid ${theme.colors.border.default}`,
+          border: `1px solid ${colors.border.default}`,
         })}
       />
       <code
         mix={css({
           fontFamily: theme.fontFamily.mono,
-          color: theme.colors.text.muted,
+          color: colors.body.secondary.foreground,
         })}
       >
         {label}
