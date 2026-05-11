@@ -54,6 +54,9 @@ export function Table<Id extends string>() {
                 key={column.id}
                 align={columnAlignments[columnIndex]}
                 color={colors.body.secondary.foreground}
+                isFirstColumn={columnIndex === 0}
+                isLastColumn={columnIndex === columns.length - 1}
+                fill="space"
                 value={column.label}
                 maxLength={columnWidths[columnIndex]}
               />
@@ -100,6 +103,7 @@ function getCellText(value: TableCell): string {
 interface TableCellViewProps {
   align?: "left" | "right";
   color?: string;
+  fill?: "period" | "space";
   isFirstColumn?: boolean;
   isLastColumn?: boolean;
   maxLength: number;
@@ -110,6 +114,7 @@ function TableCellView() {
   return ({
     align = "left",
     color,
+    fill = "period",
     isFirstColumn = true,
     isLastColumn = true,
     maxLength,
@@ -124,10 +129,11 @@ function TableCellView() {
         ? getPaddingCount(maxLength, truncated.text.length)
         : 0;
     let trailingFillCount = !isLastColumn ? fillCount : 0;
+    let Fill = fill === "space" ? SpaceFill : PeriodFill;
 
     return (
       <div mix={css({ whiteSpace: "nowrap" })}>
-        {leadingFillCount > 0 ? <PeriodFill count={leadingFillCount} /> : null}
+        {leadingFillCount > 0 ? <Fill count={leadingFillCount} /> : null}
         {leadingSpaceCount > 0 ? <SpaceFill count={leadingSpaceCount} /> : null}
         <TableCellText
           color={color}
@@ -136,7 +142,7 @@ function TableCellView() {
           value={value}
         />
         {trailingFillCount > 0 ? (
-          <PeriodFill count={trailingFillCount} />
+          <Fill count={trailingFillCount} />
         ) : null}
       </div>
     );
