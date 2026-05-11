@@ -194,8 +194,8 @@ function MovieListPage() {
         ) : (
           <Table
             columns={[
-              { id: "title", label: "Title", width: 24 },
-              { id: "director", label: "Director", width: 23 },
+              { id: "title", label: "Title", width: 27 },
+              { id: "director", label: "Director", width: 20 },
             ]}
             data={rows.map((row) => ({
               title: {
