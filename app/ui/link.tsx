@@ -14,12 +14,12 @@ export function Link() {
       mix={[
         link(href),
         css({
-          color: colors.light.orange.foreground,
+          color: colors.lightOrangeText,
           fontWeight: theme.fontWeight.bold,
           textDecoration: "none",
           "&:hover": {
             textDecoration: "underline",
-            textDecorationColor: colors.light.orange.borderPrimary,
+            textDecorationColor: colors.lightOrangeBorder1,
             textDecorationSkipInk: "none",
             textUnderlineOffset: "0.24ch",
           },

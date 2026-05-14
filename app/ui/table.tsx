@@ -11,7 +11,7 @@ import { InlineLink } from "./inline-link.tsx";
 import { computeTableColumnWidths } from "./table-widths.ts";
 
 const ROW_GAP = 0;
-const HEADER_BORDER = `1px solid ${colors.border.subtle}`;
+const HEADER_BORDER = `1px solid ${colors.border1}`;
 
 export interface Column extends SerializableObject {
   align?: "left" | "right";
@@ -70,7 +70,7 @@ export const Table = clientEntry<TableProps>(import.meta.url, function Table() {
               <TableCellView
                 key={column.id}
                 align={columnAlignments[columnIndex]}
-                color={colors.body.secondary.foreground}
+                color={colors.bodyText2}
                 isFirstColumn={columnIndex === 0}
                 isLastColumn={columnIndex === columns.length - 1}
                 fill="space"
@@ -193,7 +193,7 @@ function PeriodFill() {
   return ({ count }: { count: number }) => (
     <span
       mix={css({
-        color: colors.body.tertiary.foreground,
+        color: colors.bodyText3,
         flex: "none",
       })}
     >

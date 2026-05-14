@@ -37,81 +37,54 @@ interface ColorToken {
 }
 
 const bodyTokens: ColorToken[] = [
-  { label: "body.primary.foreground", value: colors.body.primary.foreground },
-  { label: "body.primary.background", value: colors.body.primary.background },
-  {
-    label: "body.secondary.foreground",
-    value: colors.body.secondary.foreground,
-  },
-  {
-    label: "body.secondary.background",
-    value: colors.body.secondary.background,
-  },
-  { label: "body.tertiary.foreground", value: colors.body.tertiary.foreground },
+  { label: "bodyText1", value: colors.bodyText1 },
+  { label: "bodyText2", value: colors.bodyText2 },
+  { label: "bodyText3", value: colors.bodyText3 },
+  { label: "bodyBg1", value: colors.bodyBg1 },
+  { label: "bodyBg2", value: colors.bodyBg2 },
 ];
 
 const borderTokens: ColorToken[] = [
-  { label: "border.subtle", value: colors.border.subtle },
-  { label: "border.default", value: colors.border.default },
-  { label: "border.strong", value: colors.border.strong },
+  { label: "border1", value: colors.border1 },
+  { label: "border2", value: colors.border2 },
+  { label: "border3", value: colors.border3 },
 ];
 
 const miscTokens: ColorToken[] = [
-  { label: "focus.ring", value: colors.focus.ring },
-  { label: "overlay.scrim", value: colors.overlay.scrim },
+  { label: "focusRing", value: colors.focusRing },
+  { label: "overlayScrim", value: colors.overlayScrim },
 ];
 
 const solidOrangeTokens: ColorToken[] = [
-  { label: "solid.orange.background", value: colors.solid.orange.background },
-  { label: "solid.orange.foreground", value: colors.solid.orange.foreground },
-  {
-    label: "solid.orange.backgroundHover",
-    value: colors.solid.orange.backgroundHover,
-  },
+  { label: "solidOrangeBg1", value: colors.solidOrangeBg1 },
+  { label: "solidOrangeBg2", value: colors.solidOrangeBg2 },
+  { label: "solidOrangeText", value: colors.solidOrangeText },
 ];
 
 const solidTealTokens: ColorToken[] = [
-  { label: "solid.teal.background", value: colors.solid.teal.background },
-  { label: "solid.teal.foreground", value: colors.solid.teal.foreground },
-  {
-    label: "solid.teal.backgroundHover",
-    value: colors.solid.teal.backgroundHover,
-  },
+  { label: "solidTealBg1", value: colors.solidTealBg1 },
+  { label: "solidTealBg2", value: colors.solidTealBg2 },
+  { label: "solidTealText", value: colors.solidTealText },
 ];
 
 const lightTealTokens: ColorToken[] = [
-  { label: "light.teal.background", value: colors.light.teal.background },
-  { label: "light.teal.foreground", value: colors.light.teal.foreground },
-  {
-    label: "light.teal.backgroundHover",
-    value: colors.light.teal.backgroundHover,
-  },
+  { label: "lightTealBg1", value: colors.lightTealBg1 },
+  { label: "lightTealBg2", value: colors.lightTealBg2 },
+  { label: "lightTealText", value: colors.lightTealText },
 ];
 
 const lightOrangeTokens: ColorToken[] = [
-  { label: "light.orange.background", value: colors.light.orange.background },
-  { label: "light.orange.foreground", value: colors.light.orange.foreground },
-  {
-    label: "light.orange.borderPrimary",
-    value: colors.light.orange.borderPrimary,
-  },
-  {
-    label: "light.orange.borderSecondary",
-    value: colors.light.orange.borderSecondary,
-  },
-  {
-    label: "light.orange.backgroundHover",
-    value: colors.light.orange.backgroundHover,
-  },
+  { label: "lightOrangeBg1", value: colors.lightOrangeBg1 },
+  { label: "lightOrangeBg2", value: colors.lightOrangeBg2 },
+  { label: "lightOrangeText", value: colors.lightOrangeText },
+  { label: "lightOrangeBorder1", value: colors.lightOrangeBorder1 },
+  { label: "lightOrangeBorder2", value: colors.lightOrangeBorder2 },
 ];
 
 const lightRedTokens: ColorToken[] = [
-  { label: "light.red.background", value: colors.light.red.background },
-  { label: "light.red.foreground", value: colors.light.red.foreground },
-  {
-    label: "light.red.backgroundHover",
-    value: colors.light.red.backgroundHover,
-  },
+  { label: "lightRedBg1", value: colors.lightRedBg1 },
+  { label: "lightRedBg2", value: colors.lightRedBg2 },
+  { label: "lightRedText", value: colors.lightRedText },
 ];
 
 const buttonColors: ButtonColor[] = [
@@ -305,7 +278,7 @@ function Swatch() {
           width: "3ch",
           height: "3lh",
           background: value,
-          border: `1px solid ${colors.border.default}`,
+          border: `1px solid ${colors.border2}`,
         })}
       />
       <div mix={css({ display: "flex", flexDirection: "column", minWidth: 0 })}>
@@ -313,7 +286,7 @@ function Swatch() {
         <code
           mix={css({
             fontFamily: theme.fontFamily.mono,
-            color: colors.body.secondary.foreground,
+            color: colors.bodyText2,
             wordBreak: "break-all",
           })}
         >

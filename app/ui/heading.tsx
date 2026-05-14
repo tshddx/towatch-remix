@@ -27,13 +27,13 @@ export function Heading() {
           paddingLeft: level === 3 ? "1ch" : undefined,
           paddingRight: level === 3 ? "1ch" : undefined,
           width: level === 3 ? "fit-content" : undefined,
-          background: level === 3 ? colors.solid.teal.background : undefined,
+          background: level === 3 ? colors.solidTealBg1 : undefined,
           color:
             level === 3
-              ? colors.solid.teal.foreground
+              ? colors.solidTealText
               : level === 2
-                ? colors.light.teal.foreground
-                : colors.body.primary.foreground,
+                ? colors.lightTealText
+                : colors.bodyText1,
         })}
       >
         {children}

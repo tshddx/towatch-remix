@@ -63,60 +63,60 @@ const sizeStyleBySize = {
 };
 
 const solidOrangeStyle = css({
-  background: colors.solid.orange.background,
-  color: colors.solid.orange.foreground,
+  background: colors.solidOrangeBg1,
+  color: colors.solidOrangeText,
   "&:hover": {
-    background: colors.solid.orange.backgroundHover,
+    background: colors.solidOrangeBg2,
   },
   "&:active": {
-    background: colors.light.orange.foreground,
+    background: colors.lightOrangeText,
   },
 });
 
 const solidTealStyle = css({
-  background: colors.solid.teal.background,
-  color: colors.solid.teal.foreground,
+  background: colors.solidTealBg1,
+  color: colors.solidTealText,
   "&:hover": {
-    background: colors.solid.teal.backgroundHover,
+    background: colors.solidTealBg2,
   },
   "&:active": {
-    background: colors.light.teal.foreground,
+    background: colors.lightTealText,
   },
 });
 
 const lightTealStyle = css({
-  background: colors.light.teal.background,
-  color: colors.light.teal.foreground,
+  background: colors.lightTealBg1,
+  color: colors.lightTealText,
   "&:hover": {
-    background: colors.light.teal.backgroundHover,
+    background: colors.lightTealBg2,
   },
   "&:active": {
-    background: colors.light.teal.foreground,
-    color: colors.light.teal.background,
+    background: colors.lightTealText,
+    color: colors.lightTealBg1,
   },
 });
 
 const lightOrangeStyle = css({
-  background: colors.light.orange.background,
-  color: colors.light.orange.foreground,
+  background: colors.lightOrangeBg1,
+  color: colors.lightOrangeText,
   "&:hover": {
-    background: colors.light.orange.backgroundHover,
+    background: colors.lightOrangeBg2,
   },
   "&:active": {
-    background: colors.light.orange.foreground,
-    color: colors.light.orange.background,
+    background: colors.lightOrangeText,
+    color: colors.lightOrangeBg1,
   },
 });
 
 const lightRedStyle = css({
-  background: colors.light.red.background,
-  color: colors.light.red.foreground,
+  background: colors.lightRedBg1,
+  color: colors.lightRedText,
   "&:hover": {
-    background: colors.light.red.backgroundHover,
+    background: colors.lightRedBg2,
   },
   "&:active": {
-    background: colors.light.red.foreground,
-    color: colors.light.red.background,
+    background: colors.lightRedText,
+    color: colors.lightRedBg1,
   },
 });
 

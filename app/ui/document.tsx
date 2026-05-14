@@ -72,7 +72,7 @@ export function Document() {
         mix={css({
           "& *, & *::before, & *::after": { boxSizing: "border-box" },
           '& [role="alert"]': {
-            color: colors.light.red.foreground,
+            color: colors.lightRedText,
             fontWeight: theme.fontWeight.bold,
           },
           "& dl": {
@@ -91,15 +91,15 @@ export function Document() {
             width: "fit-content",
           },
           "& dt": {
-            color: colors.body.secondary.foreground,
+            color: colors.bodyText2,
           },
           "& dd": {
             margin: 0,
           },
           margin: 0,
           minHeight: "100vh",
-          background: colors.body.primary.background,
-          color: colors.body.primary.foreground,
+          background: colors.bodyBg1,
+          color: colors.bodyText1,
           fontFamily: theme.fontFamily.mono,
           fontSize: theme.fontSize.md,
           fontFeatureSettings:

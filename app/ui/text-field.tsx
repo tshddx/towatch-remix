@@ -15,9 +15,9 @@ const fieldStyle = css({
 const inputStyle = css({
   font: "inherit",
   color: "inherit",
-  background: colors.body.secondary.background,
+  background: colors.bodyBg2,
   border: "none",
-  borderBottom: `1px solid ${colors.border.strong}`,
+  borderBottom: `1px solid ${colors.border3}`,
   borderRadius: 0,
   padding: 0,
   margin: 0,

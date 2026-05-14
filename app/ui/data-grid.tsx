@@ -4,7 +4,7 @@ import { colors } from "./colors.ts";
 
 const COLUMN_GAP = "1ch";
 const ROW_GAP = 0;
-const HEADER_BORDER = `1px solid ${colors.border.subtle}`;
+const HEADER_BORDER = `1px solid ${colors.border1}`;
 
 const TRUNCATE_CELL = {
   maxWidth: "30ch",
@@ -68,7 +68,7 @@ export function DataGridHeader() {
         whiteSpace: "normal",
         "& > div": {
           ...TRUNCATE_CELL,
-          color: colors.body.secondary.foreground,
+          color: colors.bodyText2,
         },
       })}
     >
