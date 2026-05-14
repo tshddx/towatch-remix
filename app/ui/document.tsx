@@ -1,7 +1,7 @@
 import { css, type RemixNode } from "remix/ui";
 
 import { routes } from "../routes.ts";
-import { AppColors, colors } from "./colors.ts";
+import { AppColors, ColorOverrideStyle, colors } from "./colors.ts";
 import { AppTheme, theme } from "./theme.ts";
 
 const APP_DISPLAY_NAME = decodeURIComponent("Towatch%20Remix");
@@ -48,11 +48,12 @@ const APP_RESET = `
 
 export interface DocumentProps {
   children?: RemixNode;
+  requestUrl: string;
   title?: string;
 }
 
 export function Document() {
-  return ({ title, children }: DocumentProps) => (
+  return ({ title, children, requestUrl }: DocumentProps) => (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -67,6 +68,7 @@ export function Document() {
         <style>{APP_RESET}</style>
         <AppTheme.Style />
         <AppColors.Style />
+        <ColorOverrideStyle requestUrl={requestUrl} />
       </head>
       <body
         mix={css({

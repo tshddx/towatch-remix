@@ -32,6 +32,7 @@ interface HomePageProps {
   currentUser: CurrentUser | null;
   recentlyWatched: RecentlyWatched[];
   mostWatched: MostWatched[];
+  requestUrl: string;
 }
 
 export const home: BuildAction<"GET", typeof routes.home, AppContext> = {
@@ -47,6 +48,7 @@ export const home: BuildAction<"GET", typeof routes.home, AppContext> = {
         currentUser={currentUser}
         recentlyWatched={recentlyWatched}
         mostWatched={mostWatched}
+        requestUrl={request.url}
       />,
       request,
     );
@@ -96,8 +98,13 @@ async function loadMostWatched(db: Database): Promise<MostWatched[]> {
 }
 
 function HomePage() {
-  return ({ currentUser, recentlyWatched, mostWatched }: HomePageProps) => (
-    <Layout title="Home" currentUser={currentUser}>
+  return ({
+    currentUser,
+    recentlyWatched,
+    mostWatched,
+    requestUrl,
+  }: HomePageProps) => (
+    <Layout title="Home" currentUser={currentUser} requestUrl={requestUrl}>
       <div mix={css({ display: "flex", flexWrap: "wrap", gap: "1lh" })}>
         <RecentlyWatchedTable rows={recentlyWatched} />
         <MostWatchedTable rows={mostWatched} />

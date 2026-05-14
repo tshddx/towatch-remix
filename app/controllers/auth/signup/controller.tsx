@@ -46,6 +46,7 @@ type SignupFieldErrors = Partial<
 
 interface SignupPageProps {
   currentUser: CurrentUser | null;
+  requestUrl: string;
   values?: { username?: string };
   errors?: SignupFieldErrors;
 }
@@ -54,7 +55,10 @@ export const signup = {
   actions: {
     async index({ get, request }) {
       let currentUser = await loadCurrentUser(get(Database), get(Session));
-      return render(<SignupPage currentUser={currentUser} />, request);
+      return render(
+        <SignupPage currentUser={currentUser} requestUrl={request.url} />,
+        request,
+      );
     },
 
     async action({ get, request }) {
@@ -66,6 +70,7 @@ export const signup = {
         return render(
           <SignupPage
             currentUser={currentUser}
+            requestUrl={request.url}
             values={readSignupValues(formData)}
             errors={collectFieldErrors(parsed.issues)}
           />,
@@ -78,6 +83,7 @@ export const signup = {
         return render(
           <SignupPage
             currentUser={currentUser}
+            requestUrl={request.url}
             values={readSignupValues(formData)}
             errors={{ password_confirm: "Passwords do not match." }}
           />,
@@ -96,6 +102,7 @@ export const signup = {
         return render(
           <SignupPage
             currentUser={currentUser}
+            requestUrl={request.url}
             values={readSignupValues(formData)}
             errors={{ username: "That username is already taken." }}
           />,
@@ -155,8 +162,13 @@ function collectFieldErrors(issues: ReadonlyArray<s.Issue>): SignupFieldErrors {
 }
 
 function SignupPage() {
-  return ({ currentUser, values = {}, errors = {} }: SignupPageProps) => (
-    <Layout title="Sign up" currentUser={currentUser}>
+  return ({
+    currentUser,
+    requestUrl,
+    values = {},
+    errors = {},
+  }: SignupPageProps) => (
+    <Layout title="Sign up" currentUser={currentUser} requestUrl={requestUrl}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading>Create Your Account</Heading>
         {errors.form ? <p role="alert">{errors.form}</p> : null}

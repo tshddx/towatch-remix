@@ -2,7 +2,7 @@ import { createElement, type Handle } from "remix/ui";
 
 import { darkColorValues } from "./dark-colors.ts";
 
-const variableNames = {
+export const colorVariableNames = {
   bodyText1: "--app-body-text-1",
   bodyText2: "--app-body-text-2",
   bodyText3: "--app-body-text-3",
@@ -32,8 +32,8 @@ const variableNames = {
   lightRedText: "--app-light-red-text",
 } as const;
 
-export type ColorValues = { [K in keyof typeof variableNames]: string };
-export type ColorTokens = { [K in keyof typeof variableNames]: string };
+export type ColorValues = { [K in keyof typeof colorVariableNames]: string };
+export type ColorTokens = { [K in keyof typeof colorVariableNames]: string };
 
 export interface CreateColorThemeOptions {
   darkValues?: ColorValues;
@@ -44,9 +44,17 @@ export interface ColorThemeStyleProps {
   nonce?: string;
 }
 
+export interface ColorOverrideStyleProps {
+  nonce?: string;
+  requestUrl: string;
+}
+
+const OKLCH_QUERY_VALUE =
+  /^oklch\(\d+(?:\.\d+)?_\d+(?:\.\d+)?_\d+(?:\.\d+)?\)$/;
+
 function collectVars(values: ColorValues): Record<string, string> {
   let out: Record<string, string> = {};
-  for (let [key, variableName] of Object.entries(variableNames)) {
+  for (let [key, variableName] of Object.entries(colorVariableNames)) {
     let value = values[key as keyof ColorValues];
     if (typeof value !== "string" && typeof value !== "number") {
       throw new TypeError(
@@ -69,11 +77,38 @@ function escapeStyleText(cssText: string): string {
 }
 
 export const colors = Object.fromEntries(
-  Object.entries(variableNames).map(([key, variableName]) => [
+  Object.entries(colorVariableNames).map(([key, variableName]) => [
     key,
     `var(${variableName})`,
   ]),
 ) as ColorTokens;
+
+export function createColorOverrideCss(requestUrl: string): string | null {
+  let params = new URL(requestUrl).searchParams;
+  let vars: Record<string, string> = {};
+
+  for (let [key, variableName] of Object.entries(colorVariableNames)) {
+    let value = params.get(key);
+    if (value == null || !OKLCH_QUERY_VALUE.test(value)) continue;
+    vars[variableName] = value.replaceAll("_", " ");
+  }
+
+  if (Object.keys(vars).length === 0) return null;
+  return `:root {\n${formatVars(vars)}\n}`;
+}
+
+export function ColorOverrideStyle(handle: Handle<ColorOverrideStyleProps>) {
+  return () => {
+    let cssText = createColorOverrideCss(handle.props.requestUrl);
+    if (cssText == null) return null;
+
+    return createElement("style", {
+      nonce: handle.props.nonce,
+      "data-app-color-overrides": "",
+      innerHTML: escapeStyleText(cssText),
+    });
+  };
+}
 
 export function createColorTheme(
   values: ColorValues,

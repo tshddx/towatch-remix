@@ -27,6 +27,7 @@ interface PersonListPageProps {
   people: PersonListRow[];
   page: number;
   hasNextPage: boolean;
+  requestUrl: string;
 }
 
 interface PersonDetail {
@@ -54,6 +55,7 @@ interface PersonDetailPageProps {
   person: PersonDetail;
   directed: DirectedMovie[];
   recentViewings: RecentViewing[];
+  requestUrl: string;
 }
 
 export const personController = {
@@ -80,6 +82,7 @@ export const personController = {
           people={pageRows}
           page={parsed.page}
           hasNextPage={hasNextPage}
+          requestUrl={request.url}
         />,
         request,
       );
@@ -107,6 +110,7 @@ export const personController = {
           person={person}
           directed={directed}
           recentViewings={recentViewings}
+          requestUrl={request.url}
         />,
         request,
       );
@@ -196,8 +200,9 @@ function PersonListPage() {
     people: rows,
     page,
     hasNextPage,
+    requestUrl,
   }: PersonListPageProps) => (
-    <Layout title="People" currentUser={currentUser}>
+    <Layout title="People" currentUser={currentUser} requestUrl={requestUrl}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>People</Heading>
         {rows.length === 0 ? (
@@ -229,8 +234,13 @@ function PersonDetailPage() {
     person,
     directed,
     recentViewings,
+    requestUrl,
   }: PersonDetailPageProps) => (
-    <Layout title={person.name} currentUser={currentUser}>
+    <Layout
+      title={person.name}
+      currentUser={currentUser}
+      requestUrl={requestUrl}
+    >
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>{person.name}</Heading>
         <PersonMetadataTable person={person} />

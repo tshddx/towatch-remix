@@ -30,6 +30,7 @@ interface MovieListPageProps {
   movies: MovieListRow[];
   page: number;
   hasNextPage: boolean;
+  requestUrl: string;
 }
 
 interface MovieDetail {
@@ -56,6 +57,7 @@ interface MovieDetailPageProps {
   currentUser: CurrentUser | null;
   movie: MovieDetail;
   viewings: MovieViewing[];
+  requestUrl: string;
 }
 
 export const movieController = {
@@ -84,6 +86,7 @@ export const movieController = {
           movies={pageRows}
           page={parsed.page}
           hasNextPage={hasNextPage}
+          requestUrl={request.url}
         />,
         request,
       );
@@ -109,6 +112,7 @@ export const movieController = {
           currentUser={currentUser}
           movie={movie}
           viewings={movieViewings}
+          requestUrl={request.url}
         />,
         request,
       );
@@ -184,8 +188,9 @@ function MovieListPage() {
     movies: rows,
     page,
     hasNextPage,
+    requestUrl,
   }: MovieListPageProps) => (
-    <Layout title="Movies" currentUser={currentUser}>
+    <Layout title="Movies" currentUser={currentUser} requestUrl={requestUrl}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>Movies</Heading>
         {rows.length === 0 ? (
@@ -224,8 +229,17 @@ function MovieListPage() {
 }
 
 function MovieDetailPage() {
-  return ({ currentUser, movie, viewings }: MovieDetailPageProps) => (
-    <Layout title={movie.title} currentUser={currentUser}>
+  return ({
+    currentUser,
+    movie,
+    viewings,
+    requestUrl,
+  }: MovieDetailPageProps) => (
+    <Layout
+      title={movie.title}
+      currentUser={currentUser}
+      requestUrl={requestUrl}
+    >
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading level={1}>{movie.title}</Heading>
         <MovieMetadataTable movie={movie} />

@@ -29,6 +29,7 @@ const loginSchema = f.object({
 
 interface LoginPageProps {
   currentUser: CurrentUser | null;
+  requestUrl: string;
   values?: { username?: string };
   error?: string;
 }
@@ -37,7 +38,10 @@ export const login = {
   actions: {
     async index({ get, request }) {
       let currentUser = await loadCurrentUser(get(Database), get(Session));
-      return render(<LoginPage currentUser={currentUser} />, request);
+      return render(
+        <LoginPage currentUser={currentUser} requestUrl={request.url} />,
+        request,
+      );
     },
 
     async action({ get, request }) {
@@ -49,6 +53,7 @@ export const login = {
         return render(
           <LoginPage
             currentUser={currentUser}
+            requestUrl={request.url}
             values={readLoginValues(formData)}
             error="Username and password are required."
           />,
@@ -69,6 +74,7 @@ export const login = {
         return render(
           <LoginPage
             currentUser={currentUser}
+            requestUrl={request.url}
             values={readLoginValues(formData)}
             error="Invalid username or password."
           />,
@@ -100,8 +106,8 @@ function stringOrUndefined(
 }
 
 function LoginPage() {
-  return ({ currentUser, values = {}, error }: LoginPageProps) => (
-    <Layout title="Log in" currentUser={currentUser}>
+  return ({ currentUser, requestUrl, values = {}, error }: LoginPageProps) => (
+    <Layout title="Log in" currentUser={currentUser} requestUrl={requestUrl}>
       <div mix={css({ display: "flex", flexDirection: "column", gap: "1lh" })}>
         <Heading>Log In</Heading>
         {error ? <p role="alert">{error}</p> : null}

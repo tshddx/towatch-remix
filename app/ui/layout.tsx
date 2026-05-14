@@ -11,6 +11,7 @@ import { theme } from "./theme.ts";
 
 export interface LayoutProps {
   children?: RemixNode;
+  requestUrl: string;
   title?: string;
   currentUser?: CurrentUser | null;
 }
@@ -18,8 +19,8 @@ export interface LayoutProps {
 const NARROW = "@media (max-width: 720px)";
 
 export function Layout() {
-  return ({ title, children, currentUser = null }: LayoutProps) => (
-    <Document title={title}>
+  return ({ title, children, currentUser = null, requestUrl }: LayoutProps) => (
+    <Document title={title} requestUrl={requestUrl}>
       <div
         mix={css({
           display: "flex",

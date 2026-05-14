@@ -18,6 +18,7 @@ import { render } from "../utils/render.tsx";
 
 interface DesignGuidePageProps {
   currentUser: CurrentUser | null;
+  requestUrl: string;
 }
 
 export const designGuide: BuildAction<
@@ -27,7 +28,10 @@ export const designGuide: BuildAction<
 > = {
   async handler({ get, request }) {
     let currentUser = await loadCurrentUser(get(Database), get(Session));
-    return render(<DesignGuidePage currentUser={currentUser} />, request);
+    return render(
+      <DesignGuidePage currentUser={currentUser} requestUrl={request.url} />,
+      request,
+    );
   },
 };
 
@@ -96,8 +100,12 @@ const buttonColors: ButtonColor[] = [
 ];
 
 function DesignGuidePage() {
-  return ({ currentUser }: DesignGuidePageProps) => (
-    <Layout title="Design Guide" currentUser={currentUser}>
+  return ({ currentUser, requestUrl }: DesignGuidePageProps) => (
+    <Layout
+      title="Design Guide"
+      currentUser={currentUser}
+      requestUrl={requestUrl}
+    >
       <div mix={css({ display: "flex", flexDirection: "column", gap: "2lh" })}>
         <section mix={sectionStyle}>
           <Heading>Design Guide</Heading>
